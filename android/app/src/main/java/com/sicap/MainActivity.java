@@ -1,4 +1,4 @@
-package com.suninfo.sicap;
+package com.sicap;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
