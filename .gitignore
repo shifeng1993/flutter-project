@@ -64,7 +64,6 @@ build/
 **/ios/Flutter/flutter_assets/
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
-**/ios/Runner.xcworkspace
 **/ios/Podfile
 
 # Exceptions to above rules.
