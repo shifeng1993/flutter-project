@@ -1,6 +1,11 @@
-/******************* 顶级 *********************/
-export './SplashPage/splash_page.dart'; // 启动屏
+/******************* 应用顶级 *********************/
+// 启动屏
+export './SplashPage/splash_page.dart';
 
-export './HomePage/home_page.dart'; // 主页
-
-
+/******************* 路由栈顶级 *********************/
+// CMDB主页
+export './HomePage/CMDB_home_page.dart';
+// DevOps主页
+export './HomePage/DevOps_home_page.dart';
+// ITIL主页
+export './HomePage/ITIL_home_page.dart';

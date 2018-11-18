@@ -1,19 +1,20 @@
 import 'package:fluro/fluro.dart';
-import 'package:flutter/material.dart';
 
 // 引入handler
 import './RoutesHandler.dart';
 
 class Routes {
-  static String splash = "/";
-  static String home = "/home";
-
+  // 以下是观察者模式的路由配置
   static void configureRoutes(Router router) {
-    router.notFoundHandler = Handler(
-        handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      print("路由不存在！");
-    });
-    router.define(home, handler: homeHandler);
-    router.define(splash, handler: splashHandler);
+    // 容错页面
+    router.notFoundHandler = notFoundHandler;
+    // 闪屏页
+    router.define('/', handler: splashHandler);
+    // CMDB首页
+    router.define('/cmdbHome', handler: cmdbHomeHandler);
+    // DevOps首页
+    router.define("/devOpsHome", handler: devOpsHomeHandler);
+    // ITIL首页
+    router.define("/itilHome", handler: itilHomeHandler);
   }
 }

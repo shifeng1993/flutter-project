@@ -17,7 +17,7 @@ import './routes/Routes.dart';
 // 根组件
 class App extends StatelessWidget {
   final store = createStore();
-  final color = const Color(0xffd33b32);  
+  final color = const Color(0xff2C3144);  
 
   App() {
     final router = Router(); // 创建一个常量用来承载路由对象

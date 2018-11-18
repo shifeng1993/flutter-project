@@ -45,16 +45,28 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true                  # 使用 MD 的 icon 和 font
-
-  # 以下是静态资源
-  # assets:
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
-
-  # 以下是适配多种分辨率的写法
-  # .../my_icon.png
-  # .../2.0x/my_icon.png
-  # .../3.0x/my_icon.png
+  assets:                                     # 静态资源
+    # 以下是1倍像素
+    - assets/images/AssetMonitor_on.png
+    - assets/images/AssetMonitor.png
+    - assets/images/AssetMonitorEvent_on.png
+    - assets/images/AssetMonitorEvent.png
+    - assets/images/AssetMonitorHome_on.png
+    - assets/images/AssetMonitorHome.png
+    # 以下是2倍像素
+    - assets/images/2.0x/AssetMonitor_on.png
+    - assets/images/2.0x/AssetMonitor.png
+    - assets/images/2.0x/AssetMonitorEvent_on.png
+    - assets/images/2.0x/AssetMonitorEvent.png
+    - assets/images/2.0x/AssetMonitorHome_on.png
+    - assets/images/2.0x/AssetMonitorHome.png
+    # 以下是3倍像素
+    - assets/images/3.0x/AssetMonitor_on.png
+    - assets/images/3.0x/AssetMonitor.png
+    - assets/images/3.0x/AssetMonitorEvent_on.png
+    - assets/images/3.0x/AssetMonitorEvent.png
+    - assets/images/3.0x/AssetMonitorHome_on.png
+    - assets/images/3.0x/AssetMonitorHome.png
 
   # 自定义字体
   # fonts:
