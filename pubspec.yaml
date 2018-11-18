@@ -1,5 +1,5 @@
-name: sicap
-description: This is sicap mobile product.
+name: SiCAP   
+description: This is SiCAP mobile product.
 
 version: 1.0.0+1                              # 版本和内部版本 格式 “版本”+“内部版本”
 
