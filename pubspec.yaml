@@ -47,26 +47,11 @@ flutter:
   uses-material-design: true                  # 使用 MD 的 icon 和 font
   assets:                                     # 静态资源
     # 以下是1倍像素
-    - assets/images/AssetMonitor_on.png
-    - assets/images/AssetMonitor.png
-    - assets/images/AssetMonitorEvent_on.png
-    - assets/images/AssetMonitorEvent.png
-    - assets/images/AssetMonitorHome_on.png
-    - assets/images/AssetMonitorHome.png
+    - assets/images/
     # 以下是2倍像素
-    - assets/images/2.0x/AssetMonitor_on.png
-    - assets/images/2.0x/AssetMonitor.png
-    - assets/images/2.0x/AssetMonitorEvent_on.png
-    - assets/images/2.0x/AssetMonitorEvent.png
-    - assets/images/2.0x/AssetMonitorHome_on.png
-    - assets/images/2.0x/AssetMonitorHome.png
+    - assets/images/2.0x/
     # 以下是3倍像素
-    - assets/images/3.0x/AssetMonitor_on.png
-    - assets/images/3.0x/AssetMonitor.png
-    - assets/images/3.0x/AssetMonitorEvent_on.png
-    - assets/images/3.0x/AssetMonitorEvent.png
-    - assets/images/3.0x/AssetMonitorHome_on.png
-    - assets/images/3.0x/AssetMonitorHome.png
+    - assets/images/3.0x/
 
   # 自定义字体
   # fonts:
