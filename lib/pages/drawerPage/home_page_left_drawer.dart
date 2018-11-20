@@ -47,7 +47,7 @@ class HomePageLeftDrawer extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamedAndRemoveUntil(
-                    context, '/cmdbHome', ModalRoute.withName('/cmdbHome'));
+                    context, '/cmdbHome', ModalRoute.withName('/'));
               },
             ),
             ListTile(

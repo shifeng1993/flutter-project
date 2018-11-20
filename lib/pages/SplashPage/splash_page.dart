@@ -15,24 +15,21 @@ class SplashPage extends StatelessWidget {
               child: Text('点击跳转到cmdbHome'),
               onPressed: () {
                 // navigator.navigateTo(context, '/cmdbHome');
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/cmdbHome', ModalRoute.withName('/'));
+                Navigator.pushReplacementNamed(context, '/cmdbHome');
               },
             ),
             RaisedButton(
               child: Text('点击跳转到devOpsHome'),
               onPressed: () {
                 // navigator.navigateTo(context, '/devOpsHome');
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/devOpsHome', ModalRoute.withName('/'));
+                Navigator.pushReplacementNamed(context, '/devOpsHome');
               },
             ),
             RaisedButton(
               child: Text('点击跳转到itilHome'),
               onPressed: () {
                 // navigator.navigateTo(context, '/itilHome');
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/itilHome', ModalRoute.withName('/'));
+                Navigator.pushReplacementNamed(context, '/itilHome');
               },
             ),
           ],
