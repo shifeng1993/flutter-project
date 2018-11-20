@@ -48,10 +48,17 @@ flutter:
   assets:                                     # 静态资源
     # 以下是1倍像素
     - assets/images/
+    - assets/icons/
+    - assets/banner/
     # 以下是2倍像素
     - assets/images/2.0x/
+    - assets/icons/2.0x/
+    - assets/banner/2.0x/
     # 以下是3倍像素
     - assets/images/3.0x/
+    - assets/icons/3.0x/
+    - assets/banner/3.0x/
+    
 
   # 自定义字体
   # fonts:

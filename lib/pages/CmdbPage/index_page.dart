@@ -9,7 +9,7 @@ class CMDBIndexPage extends StatelessWidget {
     return Container(
       color: const Color(0xffffffff), // 设置背景颜色
       child: Center(
-        child: Text('首页'),
+        child: Text('cmdb首页'),
       ),
     );
   }
