@@ -14,10 +14,7 @@ class HomePageLeftDrawer extends StatelessWidget {
       child: Container(
         color: const Color(0xff2C3144),
         child: ListView(
-          ///edit start
           padding: EdgeInsets.zero,
-
-          ///edit end
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
@@ -50,7 +47,7 @@ class HomePageLeftDrawer extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamedAndRemoveUntil(
-                    context, '/cmdbHome', ModalRoute.withName('/'));
+                    context, '/cmdbHome', ModalRoute.withName('/cmdbHome'));
               },
             ),
             ListTile(
