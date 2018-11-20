@@ -31,7 +31,7 @@ class App extends StatelessWidget {
       store: store,
       child: MaterialApp(
         theme: ThemeData(
-          platform: TargetPlatform.iOS, // 使用ios的界面动画方式
+          platform: TargetPlatform.iOS, // 使用ios的md 控件
           primaryColor: color, // 应用主要部分的背景颜色（工具栏，标签栏等）
           accentColor: Colors.white, // 前景色：旋钮，文本，过度滚动边缘效果等
           pageTransitionsTheme: new PageTransitionsTheme(builders: const {
