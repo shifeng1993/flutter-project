@@ -1,7 +1,6 @@
 // cmdb资产/监控
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../../routes/AppNavigator.dart';
 
 class DevOpsMonitorPage extends StatelessWidget {
   @override

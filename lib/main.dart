@@ -2,28 +2,19 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fluro/fluro.dart';
 
 // 引入store
 import './store/index.dart';
 import './store/states/AppState.dart';
 
-// 引入AppNavigator实体类
-import './routes/AppNavigator.dart';
-
-// 引入Routes配置
-import './routes/Routes.dart';
+import './pages/index.dart';
 
 // 根组件
 class App extends StatelessWidget {
   final store = createStore();
   final color = const Color(0xff2C3144);
 
-  App() {
-    final router = Router(); // 创建一个常量用来承载路由对象
-    Routes.configureRoutes(router); // 使用配置来构造路由
-    AppRouter.set(router); // 构造完成添加到实体类内
-  }
+  App();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +30,9 @@ class App extends StatelessWidget {
           //   TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
           // }),
         ),
-        onGenerateRoute: AppRouter.get().generator, // 使用路由构建
+        routes: <String, WidgetBuilder>{
+          '/': (BuildContext context) => SplashPage(),
+        },
       ),
     );
   }

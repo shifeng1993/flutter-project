@@ -1,11 +1,17 @@
 // 三个homepage的抽屉
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../../routes/AppNavigator.dart';
+
+import '../HomePage/CMDB_home_page.dart';
+import '../HomePage/DevOps_home_page.dart';
+import '../HomePage/ITIL_home_page.dart';
 
 class HomePageLeftDrawer extends StatelessWidget {
   final iconSize = 24.0;
   final textSize = 15.0;
+
+  final Duration transitionDuration = new Duration(seconds: 2);
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -46,9 +52,25 @@ class HomePageLeftDrawer extends StatelessWidget {
               selected: true,
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushReplacementNamed(context, '/cmdbHome');
-                // Navigator.pushNamedAndRemoveUntil(
-                //     context, '/cmdbHome', ModalRoute.withName('/'));
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, _, __) {
+                      return CMDBHomePage();
+                    },
+                    transitionDuration: const Duration(milliseconds: 300),
+                    transitionsBuilder: (_, animation, __, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: FadeTransition(
+                          opacity:
+                              Tween(begin: 0.5, end: 1.0).animate(animation),
+                          child: child,
+                        ),
+                      );
+                    },
+                  ),
+                );
               },
             ),
             ListTile(
@@ -66,7 +88,25 @@ class HomePageLeftDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushReplacementNamed(context, '/devOpsHome');
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, _, __) {
+                      return DevOpsHomePage();
+                    },
+                    transitionDuration: const Duration(milliseconds: 300),
+                    transitionsBuilder: (_, animation, __, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: FadeTransition(
+                          opacity:
+                              Tween(begin: 0.5, end: 1.0).animate(animation),
+                          child: child,
+                        ),
+                      );
+                    },
+                  ),
+                );
               },
             ),
             ListTile(
@@ -84,9 +124,25 @@ class HomePageLeftDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushReplacementNamed(context, '/itilHome');
-                // Navigator.pushNamedAndRemoveUntil(
-                //     context, '/itilHome', ModalRoute.withName('/'));
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, _, __) {
+                      return ITILHomePage();
+                    },
+                    transitionDuration: const Duration(milliseconds: 300),
+                    transitionsBuilder: (_, animation, __, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: FadeTransition(
+                          opacity:
+                              Tween(begin: 0.5, end: 1.0).animate(animation),
+                          child: child,
+                        ),
+                      );
+                    },
+                  ),
+                );
               },
             )
           ],

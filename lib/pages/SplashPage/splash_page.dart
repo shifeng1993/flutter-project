@@ -1,7 +1,10 @@
 // My
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-// import '../../routes/AppNavigator.dart';
+
+import '../HomePage/CMDB_home_page.dart';
+import '../HomePage/DevOps_home_page.dart';
+import '../HomePage/ITIL_home_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage();
@@ -24,15 +27,27 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     controller = new AnimationController(
         duration: const Duration(milliseconds: 3000), vsync: this);
     //初始化动画
-    animation = new Tween(begin: 0.5, end: 1.0).animate(controller);
+    animation = new Tween(begin: 1.0, end: 1.0).animate(controller);
     animationStateListener = (status) {
       if (status == AnimationStatus.completed) {
-        // Navigator.of(context).pushAndRemoveUntil(
-        //     new MaterialPageRoute(builder: (context) => new HomeScreen()),
-        //     (route) => route == null);
-        Navigator.pushReplacementNamed(context, '/cmdbHome');
-        // Navigator.pushReplacementNamed(context, '/devOpsHome');
-        // Navigator.pushReplacementNamed(context, '/itilHome');
+        Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, _, __) {
+              return CMDBHomePage();
+            },
+            transitionDuration: const Duration(milliseconds: 300),
+            transitionsBuilder: (_, animation, __, child) {
+              return FadeTransition(
+                opacity: animation,
+                child: FadeTransition(
+                  opacity: Tween(begin: 0.5, end: 1.0).animate(animation),
+                  child: child,
+                ),
+              );
+            },
+          ),
+        );
       }
     };
     //注册动画观察者
