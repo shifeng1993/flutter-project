@@ -10,7 +10,6 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.2                     # ios的icon图标
-  fluro: ^1.3.7                               # 路由库
   shared_preferences: ^0.4.3                  # 键值对存储
   url_launcher: ^4.0.1                        # url启动，支持电话，短信，网站，邮件
   path_provider: ^0.4.1                       # 获取ios和android常用文件位置，例如app目录
