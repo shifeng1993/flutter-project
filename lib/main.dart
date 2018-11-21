@@ -34,10 +34,10 @@ class App extends StatelessWidget {
           platform: TargetPlatform.iOS, // 使用ios的md 控件
           primaryColor: color, // 应用主要部分的背景颜色（工具栏，标签栏等）
           accentColor: Colors.white, // 前景色：旋钮，文本，过度滚动边缘效果等
-          pageTransitionsTheme: new PageTransitionsTheme(builders: const {
-            TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-          }),
+          // pageTransitionsTheme: new PageTransitionsTheme(builders: const {
+          //   TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+          //   TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          // }),
         ),
         onGenerateRoute: AppRouter.get().generator, // 使用路由构建
       ),

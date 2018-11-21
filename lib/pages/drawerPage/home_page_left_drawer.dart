@@ -46,8 +46,9 @@ class HomePageLeftDrawer extends StatelessWidget {
               selected: true,
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/cmdbHome', ModalRoute.withName('/'));
+                Navigator.pushReplacementNamed(context, '/cmdbHome');
+                // Navigator.pushNamedAndRemoveUntil(
+                //     context, '/cmdbHome', ModalRoute.withName('/'));
               },
             ),
             ListTile(
@@ -65,8 +66,7 @@ class HomePageLeftDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/devOpsHome', ModalRoute.withName('/'));
+                Navigator.pushReplacementNamed(context, '/devOpsHome');
               },
             ),
             ListTile(
@@ -84,8 +84,9 @@ class HomePageLeftDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/itilHome', ModalRoute.withName('/'));
+                Navigator.pushReplacementNamed(context, '/itilHome');
+                // Navigator.pushNamedAndRemoveUntil(
+                //     context, '/itilHome', ModalRoute.withName('/'));
               },
             )
           ],

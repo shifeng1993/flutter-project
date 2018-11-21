@@ -3,38 +3,67 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 // import '../../routes/AppNavigator.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends StatefulWidget {
+  const SplashPage();
+
+  @override
+  _SplashPageState createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
+  // 动画
+  Animation animation;
+
+  AnimationController controller;
+
+  var animationStateListener;
+
+  initState() {
+    super.initState();
+    //初始化动画管理器
+    controller = new AnimationController(
+        duration: const Duration(milliseconds: 3000), vsync: this);
+    //初始化动画
+    animation = new Tween(begin: 0.5, end: 1.0).animate(controller);
+    animationStateListener = (status) {
+      if (status == AnimationStatus.completed) {
+        // Navigator.of(context).pushAndRemoveUntil(
+        //     new MaterialPageRoute(builder: (context) => new HomeScreen()),
+        //     (route) => route == null);
+        Navigator.pushReplacementNamed(context, '/cmdbHome');
+        // Navigator.pushReplacementNamed(context, '/devOpsHome');
+        // Navigator.pushReplacementNamed(context, '/itilHome');
+      }
+    };
+    //注册动画观察者
+    animation.addStatusListener((status) => animationStateListener(status));
+    //启动动画
+    controller.forward();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0xffffffff), // 设置背景颜色
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            RaisedButton(
-              child: Text('点击跳转到cmdbHome'),
-              onPressed: () {
-                // navigator.navigateTo(context, '/cmdbHome');
-                Navigator.pushReplacementNamed(context, '/cmdbHome');
-              },
-            ),
-            RaisedButton(
-              child: Text('点击跳转到devOpsHome'),
-              onPressed: () {
-                // navigator.navigateTo(context, '/devOpsHome');
-                Navigator.pushReplacementNamed(context, '/devOpsHome');
-              },
-            ),
-            RaisedButton(
-              child: Text('点击跳转到itilHome'),
-              onPressed: () {
-                // navigator.navigateTo(context, '/itilHome');
-                Navigator.pushReplacementNamed(context, '/itilHome');
-              },
-            ),
-          ],
+    return new FadeTransition(
+      opacity: animation,
+      child: Container(
+        width: 110.0,
+        height: 110.0,
+        color: const Color(0xffF0F2F5),
+        child: Center(
+          child: new Image.asset(
+            "assets/images/launch_screen.gif",
+            fit: BoxFit.cover,
+            width: 110.0,
+            height: 110.0,
+          ),
         ),
       ),
     );
+  }
+
+  dispose() {
+    controller.removeStatusListener(animationStateListener);
+    controller.dispose();
+    super.dispose();
   }
 }
