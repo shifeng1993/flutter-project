@@ -11,7 +11,8 @@ import './pages/index.dart';
 
 // 根组件
 class App extends StatelessWidget {
-  final store = createStore();
+  static final map = {'name': 'superadmin', 'org': '顶级机构'}; // redux内初始化假的用户数据
+  final store = createStore(map);
   final color = const Color(0xff2C3144);
 
   App();

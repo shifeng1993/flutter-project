@@ -148,11 +148,11 @@ class _DevOpsHomePageState extends State<DevOpsHomePage> {
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           activeIcon: ImageIcon(
-            AssetImage("assets/icons/cmdb_index_page_on.png"),
+            AssetImage("assets/icons/tabbar_home_on.png"),
             size: bottomNavBarIconSize,
           ),
           icon: ImageIcon(
-            AssetImage("assets/icons/cmdb_index_page.png"),
+            AssetImage("assets/icons/tabbar_home.png"),
             size: bottomNavBarIconSize,
           ),
           title: Text(
@@ -162,11 +162,11 @@ class _DevOpsHomePageState extends State<DevOpsHomePage> {
         ),
         BottomNavigationBarItem(
           activeIcon: ImageIcon(
-            AssetImage("assets/icons/cmdb_assets_page_on.png"),
+            AssetImage("assets/icons/tabbar_assets_on.png"),
             size: bottomNavBarIconSize,
           ),
           icon: ImageIcon(
-            AssetImage("assets/icons/cmdb_assets_page.png"),
+            AssetImage("assets/icons/tabbar_assets.png"),
             size: bottomNavBarIconSize,
           ),
           title: Text(
@@ -176,11 +176,11 @@ class _DevOpsHomePageState extends State<DevOpsHomePage> {
         ),
         BottomNavigationBarItem(
           activeIcon: ImageIcon(
-            AssetImage("assets/icons/cmdb_event_page_on.png"),
+            AssetImage("assets/icons/tabbar_event_on.png"),
             size: bottomNavBarIconSize,
           ),
           icon: ImageIcon(
-            AssetImage("assets/icons/cmdb_event_page.png"),
+            AssetImage("assets/icons/tabbar_event.png"),
             size: bottomNavBarIconSize,
           ),
           title: Text(

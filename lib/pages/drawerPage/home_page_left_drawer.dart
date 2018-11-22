@@ -1,19 +1,33 @@
 // 三个homepage的抽屉
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 
 import '../HomePage/CMDB_home_page.dart';
 import '../HomePage/DevOps_home_page.dart';
 import '../HomePage/ITIL_home_page.dart';
 
+import '../../store/states/AppState.dart';
+import '../../store/actions/index.dart';
+
 class HomePageLeftDrawer extends StatelessWidget {
   final iconSize = 24.0;
   final textSize = 15.0;
 
-  final Duration transitionDuration = new Duration(seconds: 2);
+  final Duration transitionDuration = Duration(seconds: 2);
 
   @override
   Widget build(BuildContext context) {
+    return StoreConnector<AppState, Map<String, dynamic>>(
+      builder: (BuildContext context, userInfo) {
+        return _drawer(context, userInfo);
+      },
+      converter: (store) => store.state.userInfo,
+    );
+  }
+
+  Widget _drawer(BuildContext context, Map<String, dynamic> userInfo) {
     return Drawer(
       elevation: 0.0, // 去掉阴影
       semanticLabel: '123',
@@ -22,20 +36,7 @@ class HomePageLeftDrawer extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.lightBlueAccent,
-              ),
-              child: Center(
-                child: SizedBox(
-                  width: 60.0,
-                  height: 60.0,
-                  child: CircleAvatar(
-                    child: Text('R'),
-                  ),
-                ),
-              ),
-            ),
+            _drawerHeader(context, userInfo),
             ListTile(
               leading: ImageIcon(
                 AssetImage("assets/icons/left_drawer_cmdb.png"),
@@ -49,7 +50,6 @@ class HomePageLeftDrawer extends StatelessWidget {
                   fontSize: textSize,
                 ),
               ),
-              selected: true,
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushReplacement(
@@ -148,6 +148,51 @@ class HomePageLeftDrawer extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _drawerHeader(BuildContext context, Map<String, dynamic> userInfo) {
+    return UserAccountsDrawerHeader(
+      accountName: GestureDetector(
+        onTap: () {
+          print(userInfo['name']);
+        },
+        child: Text(userInfo['name']),
+      ),
+      accountEmail: GestureDetector(
+        onTap: () {
+          print('个人信息');
+        },
+        child: Text(userInfo['org']),
+      ),
+      decoration: BoxDecoration(
+        color: const Color(0x00000000),
+        image: DecorationImage(
+          image: AssetImage('assets/images/drawer_navigator_background.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      currentAccountPicture: GestureDetector(
+        onTap: () {
+          print(userInfo['name']);
+        },
+        child: CircleAvatar(
+          backgroundImage: AssetImage('assets/images/user_default.png'),
+        ),
+      ),
+      otherAccountsPictures: <Widget>[
+        CircleAvatar(
+          child: Center(
+            child: Text('超'),
+          ),
+        ),
+        CircleAvatar(
+          child: Center(
+            child: Text('流'),
+          ),
+        ),
+      ],
+      // onDetailsPressed: () {},
     );
   }
 }

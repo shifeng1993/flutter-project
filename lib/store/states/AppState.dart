@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';  // 引入是为了获取ThemeData类
 @immutable
 class AppState {
   // 用户信息
-  final Map<String, String> userInfo;
+  final Map<String, dynamic> userInfo;
 
   // 全局通知列表
   final List<Map> notification;
@@ -12,7 +12,7 @@ class AppState {
   final ThemeData themeData;
 
   // 服务host
-  final Map<String, String> serviceHost;
+  final Map<String, dynamic> serviceHost;
 
   // 构造方法
   AppState(this.userInfo, this.notification, this.themeData, this.serviceHost);
