@@ -12,6 +12,7 @@ import '../../store/states/AppState.dart';
 class HomePageLeftDrawer extends StatelessWidget {
   final iconSize = 24.0;
   final textSize = 15.0;
+  final backgroundColor = const Color(0xff2C3144);
 
   final Duration transitionDuration = Duration(seconds: 2);
 
@@ -30,14 +31,16 @@ class HomePageLeftDrawer extends StatelessWidget {
       elevation: 0.0, // 去掉阴影
       semanticLabel: '123',
       child: Container(
-          color: const Color(0xff2C3144),
-          child: Stack(
-            children: <Widget>[
-              ListView(
-                padding: EdgeInsets.only(top: 20.0),
-                children: <Widget>[
-                  _drawerHeader(context, userInfo),
-                  ListTile(
+        color: backgroundColor,
+        child: Stack(
+          children: <Widget>[
+            ListView(
+              padding: EdgeInsets.only(top: 20.0),
+              children: <Widget>[
+                _drawerHeader(context, userInfo),
+                FlatButton(
+                  padding: EdgeInsets.zero,
+                  child: ListTile(
                     leading: ImageIcon(
                       AssetImage("assets/icons/left_drawer_cmdb.png"),
                       size: iconSize,
@@ -50,30 +53,33 @@ class HomePageLeftDrawer extends StatelessWidget {
                         fontSize: textSize,
                       ),
                     ),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (context, _, __) {
-                            return CMDBHomePage();
-                          },
-                          transitionDuration: const Duration(milliseconds: 300),
-                          transitionsBuilder: (_, animation, __, child) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: FadeTransition(
-                                opacity: Tween(begin: 0.5, end: 1.0)
-                                    .animate(animation),
-                                child: child,
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
                   ),
-                  ListTile(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, _, __) {
+                          return CMDBHomePage();
+                        },
+                        transitionDuration: const Duration(milliseconds: 300),
+                        transitionsBuilder: (_, animation, __, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: FadeTransition(
+                              opacity: Tween(begin: 0.5, end: 1.0)
+                                  .animate(animation),
+                              child: child,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+                FlatButton(
+                  padding: EdgeInsets.zero,
+                  child: ListTile(
                     leading: ImageIcon(
                       AssetImage("assets/icons/left_drawer_ops.png"),
                       size: iconSize,
@@ -86,30 +92,33 @@ class HomePageLeftDrawer extends StatelessWidget {
                         fontSize: textSize,
                       ),
                     ),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (context, _, __) {
-                            return DevOpsHomePage();
-                          },
-                          transitionDuration: const Duration(milliseconds: 300),
-                          transitionsBuilder: (_, animation, __, child) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: FadeTransition(
-                                opacity: Tween(begin: 0.5, end: 1.0)
-                                    .animate(animation),
-                                child: child,
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
                   ),
-                  ListTile(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, _, __) {
+                          return DevOpsHomePage();
+                        },
+                        transitionDuration: const Duration(milliseconds: 300),
+                        transitionsBuilder: (_, animation, __, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: FadeTransition(
+                              opacity: Tween(begin: 0.5, end: 1.0)
+                                  .animate(animation),
+                              child: child,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+                FlatButton(
+                  padding: EdgeInsets.zero,
+                  child: ListTile(
                     leading: ImageIcon(
                       AssetImage("assets/icons/left_drawer_itil.png"),
                       size: iconSize,
@@ -122,45 +131,36 @@ class HomePageLeftDrawer extends StatelessWidget {
                         fontSize: textSize,
                       ),
                     ),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (context, _, __) {
-                            return ITILHomePage();
-                          },
-                          transitionDuration: const Duration(milliseconds: 300),
-                          transitionsBuilder: (_, animation, __, child) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: FadeTransition(
-                                opacity: Tween(begin: 0.5, end: 1.0)
-                                    .animate(animation),
-                                child: child,
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  )
-                ],
-              ),
-              Positioned(
-                child: new Container(
-                  child: new Text(
-                    "这里是设置或者更换皮肤按钮的预留区域dsadsad",
                   ),
-                  decoration: new BoxDecoration(
-                    color: Colors.red[400],
-                  ),
-                  padding: new EdgeInsets.all(16.0),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, _, __) {
+                          return ITILHomePage();
+                        },
+                        transitionDuration: const Duration(milliseconds: 300),
+                        transitionsBuilder: (_, animation, __, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: FadeTransition(
+                              opacity: Tween(begin: 0.5, end: 1.0)
+                                  .animate(animation),
+                              child: child,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
                 ),
-                bottom: 0.0,
-              ),
-            ],
-          )),
+              ],
+            ),
+            _bottomButton(context),
+          ],
+        ),
+      ),
     );
   }
 
@@ -196,7 +196,7 @@ class HomePageLeftDrawer extends StatelessWidget {
       otherAccountsPictures: <Widget>[
         CircleAvatar(
           child: Center(
-            child: Text('超'),
+            child: Text('资'),
           ),
         ),
         CircleAvatar(
@@ -206,6 +206,38 @@ class HomePageLeftDrawer extends StatelessWidget {
         ),
       ],
       // onDetailsPressed: () {},
+    );
+  }
+
+  Widget _bottomButton(BuildContext context) {
+    return Positioned(
+      child: SafeArea(
+        bottom: true,
+        child: Container(
+          color: backgroundColor,
+          child: Row(
+            children: <Widget>[
+              Container(
+                width: 60.0,
+                height: 60.0,
+                child: FlatButton(
+                  // iconSize: 24.0,
+                  padding: EdgeInsets.zero,
+                  child: Image(
+                    image: AssetImage('assets/icons/button_setting.png'),
+                    width: 24.0,
+                    height: 24.0,
+                  ),
+                  onPressed: () {
+                    print('设置');
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottom: 0.0,
     );
   }
 }
