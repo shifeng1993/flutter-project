@@ -14,7 +14,7 @@ class App extends StatelessWidget {
     'name': 'superadmin',
     'org': '顶级机构'
   }; // redux内初始化假的用户数据
-  final store = createStore(userinfo, new List<AppNotification<String, dynamic>>());
+  final store = createStore(userinfo, new List<AppNotification>());
   final color = const Color(0xff2C3144);
 
   App();
@@ -26,6 +26,7 @@ class App extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(
           platform: TargetPlatform.iOS, // 使用ios的md 控件
+          backgroundColor: const Color(0xffffffff),
           primaryColor: color, // 应用主要部分的背景颜色（工具栏，标签栏等）
           accentColor: Colors.white, // 前景色：旋钮，文本，过度滚动边缘效果等
           highlightColor: Color.fromRGBO(0, 0, 0, 0.2),

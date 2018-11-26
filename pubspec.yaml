@@ -33,6 +33,7 @@ dependencies:
   redux_persist: ^0.7.0                       # redux持久化
   redux_logging: ^0.3.0                       # 打印当前的redux状态变化
   reselect: ^0.4.0                            # redux状态获取
+  flutter_circular_chart: ^0.1.0              # 圆形图表
 
 dev_dependencies:
   flutter_test:

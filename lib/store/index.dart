@@ -9,7 +9,7 @@ import './middleware/index.dart';
 
 // 创建Store对象
 Store<AppState> createStore(
-    Map<String, dynamic> userInfo, List<AppNotification<String, dynamic>> notification) {
+    Map<String, dynamic> userInfo, List<AppNotification> notification) {
   Store<AppState> store = new Store(
     appReducer,
     initialState: AppState(
