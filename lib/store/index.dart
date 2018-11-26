@@ -5,7 +5,6 @@ import 'package:redux_logging/redux_logging.dart';
 
 import './reducers/index.dart';
 import './states/AppState.dart';
-import './states/Notification.dart';
 import './middleware/index.dart';
 
 // 创建Store对象

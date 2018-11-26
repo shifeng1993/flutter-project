@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart'; // 引入是为了获取ThemeData类
-import '../states/Notification.dart';
 
 @immutable
 class AppState {
@@ -27,4 +26,9 @@ class AppState {
             serviceHost: $serviceHost
         }''';
   }
+}
+
+class AppNotification {
+  final String title = '';
+  final String desc = '';
 }

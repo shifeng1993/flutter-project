@@ -6,7 +6,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 // 引入store
 import './store/index.dart';
 import './store/states/AppState.dart';
-import './store/states/Notification.dart';
 import './pages/index.dart';
 
 // 根组件

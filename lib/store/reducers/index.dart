@@ -9,7 +9,6 @@ import 'package:flutter/material.dart'; // 引入是为了获取ThemeData类
 import 'package:redux/redux.dart';
 import '../states/AppState.dart';
 import '../actions/index.dart';
-import '../states/Notification.dart';
 
 /* ******************* 服务host 开始 ******************* */
 // 设置服务host函数
