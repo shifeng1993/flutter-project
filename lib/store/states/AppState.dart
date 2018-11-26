@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';  // 引入是为了获取ThemeData类
+import 'package:flutter/material.dart'; // 引入是为了获取ThemeData类
+import '../states/Notification.dart';
 
 @immutable
 class AppState {
@@ -6,7 +7,7 @@ class AppState {
   final Map<String, dynamic> userInfo;
 
   // 全局通知列表
-  final List<Map> notification;
+  final List<AppNotification> notification;
 
   // 主题数据
   final ThemeData themeData;

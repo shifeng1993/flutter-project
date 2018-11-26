@@ -6,13 +6,14 @@ import 'package:flutter_redux/flutter_redux.dart';
 // 引入store
 import './store/index.dart';
 import './store/states/AppState.dart';
-
+import './store/states/Notification.dart';
 import './pages/index.dart';
 
 // 根组件
 class App extends StatelessWidget {
-  static final map = {'name': 'superadmin', 'org': '顶级机构'}; // redux内初始化假的用户数据
-  final store = createStore(map);
+  static final userinfo = {'name': 'superadmin', 'org': '顶级机构'}; // redux内初始化假的用户数据
+  static final notification = [{}];
+  final store = createStore(userinfo, new List<AppNotification>());
   final color = const Color(0xff2C3144);
 
   App();
@@ -26,8 +27,8 @@ class App extends StatelessWidget {
           platform: TargetPlatform.iOS, // 使用ios的md 控件
           primaryColor: color, // 应用主要部分的背景颜色（工具栏，标签栏等）
           accentColor: Colors.white, // 前景色：旋钮，文本，过度滚动边缘效果等
-          highlightColor: Color.fromRGBO(255, 255, 255, 0.3),
-          splashColor: Color.fromRGBO(255, 255, 255, 0.5),
+          highlightColor: Color.fromRGBO(0, 0, 0, 0.2),
+          splashColor: Color.fromRGBO(0, 0, 0, 0.4),
           // pageTransitionsTheme: new PageTransitionsTheme(builders: const {
           //   TargetPlatform.android: CupertinoPageTransitionsBuilder(),
           //   TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),

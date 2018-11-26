@@ -5,13 +5,19 @@ import 'package:redux_logging/redux_logging.dart';
 
 import './reducers/index.dart';
 import './states/AppState.dart';
+import './states/Notification.dart';
 import './middleware/index.dart';
 
 // 创建Store对象
-Store<AppState> createStore(Map<String, dynamic> userInfo) {
+Store<AppState> createStore(
+    Map<String, dynamic> userInfo, List<AppNotification> notification) {
   Store<AppState> store = new Store(
     appReducer,
-    initialState: AppState(userInfo, List(), ThemeData(), Map()),
+    initialState: AppState(
+        userInfo,
+        notification,
+        ThemeData(),
+        Map()),
     middleware: [new LoggingMiddleware.printer(), thunkMiddleware],
   );
   return store;

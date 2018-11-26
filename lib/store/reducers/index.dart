@@ -9,6 +9,7 @@ import 'package:flutter/material.dart'; // 引入是为了获取ThemeData类
 import 'package:redux/redux.dart';
 import '../states/AppState.dart';
 import '../actions/index.dart';
+import '../states/Notification.dart';
 
 /* ******************* 服务host 开始 ******************* */
 // 设置服务host函数
@@ -24,13 +25,13 @@ Reducer<Map<String,String>> userInfoReducer = combineReducers<Map<String,String>
 
 /* ******************* 全局通知 开始 ******************* */
 // 设置全局通知函数
-List<Map> setNotificationAction(List<Map> notification, SetNotificationAction action) {
+List<AppNotification> setNotificationAction(List<AppNotification> notification, SetNotificationAction action) {
   return notification;
 }
 
 // 合并全局通知相关函数
-Reducer<List<Map>> notificationReducer = combineReducers<List<Map>>([
-  new TypedReducer<List<Map>, SetNotificationAction>(setNotificationAction),
+Reducer<List<AppNotification>> notificationReducer = combineReducers<List<AppNotification>>([
+  new TypedReducer<List<AppNotification>, SetNotificationAction>(setNotificationAction),
 ]);
 
 

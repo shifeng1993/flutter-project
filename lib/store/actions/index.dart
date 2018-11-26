@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart'; // 引入是为了获取ThemeData类
-
+import '../states/Notification.dart';
 // 用户信息action
 class SetUserInfoAction {
   Map<String, String> userInfo;
@@ -7,7 +7,7 @@ class SetUserInfoAction {
 
 // 全局通知列表action
 class SetNotificationAction {
-  List<Map> notification;
+  List<AppNotification> notification;
 }
 
 // 主题数据
