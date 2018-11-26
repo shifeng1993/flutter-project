@@ -2,9 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:flutter_circular_chart/flutter_circular_chart.dart';
-import 'dart:math' as Math;
-import './color_paltte.dart';
+import '../../widgets/circular_charts/circular_charts.dart';
 
 class CMDBIndexPage extends StatefulWidget {
   CMDBIndexPage({Key key, this.title}) : super(key: key);
@@ -19,8 +17,6 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
   final GlobalKey<AnimatedCircularChartState> _chartKey =
       new GlobalKey<AnimatedCircularChartState>();
 
-  final _chartSize = const Size(300.0, 300.0);
-  final Math.Random random = new Math.Random();
   List<CircularStackEntry> data;
 
   @override
@@ -93,25 +89,70 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
     });
   }
 
+  int normal = 21;
+  int warning = 8;
+  int error = 182;
+
   List<CircularStackEntry> _generateRandomData() {
-    List<CircularStackEntry> data = new List.generate(3, (i) {
-      int segCount = random.nextInt(3);
-      List<CircularSegmentEntry> segments = new List.generate(segCount, (j) {
-        Color randomColor = ColorPalette.primary.random(random);
-        return new CircularSegmentEntry(random.nextDouble(), randomColor);
-      });
-      return new CircularStackEntry(segments);
-    });
+    int total = normal + warning + error;
+    List<CircularStackEntry> data = [
+      CircularStackEntry([
+        CircularSegmentEntry(
+            double.parse((normal / total * 100).toString()), Color(0xffe63434)),
+        CircularSegmentEntry(
+            double.parse(((total - normal) / total * 100).toString()),
+            Color(0xffF0F2F5)),
+      ]),
+      CircularStackEntry([
+        CircularSegmentEntry(double.parse((warning / total * 100).toString()),
+            Color(0xfff3a52e)),
+        CircularSegmentEntry(
+            double.parse(((total - warning) / total * 100).toString()),
+            Color(0xffF0F2F5)),
+      ]),
+      CircularStackEntry([
+        CircularSegmentEntry(
+            double.parse((error / total * 100).toString()), Color(0xff25bf4d)),
+        CircularSegmentEntry(
+            double.parse(((total - error) / total * 100).toString()),
+            Color(0xffF0F2F5)),
+      ])
+    ];
 
     return data;
   }
 
   Widget _chart(BuildContext contxt) {
-    return new AnimatedCircularChart(
-      key: _chartKey,
-      size: _chartSize,
-      initialChartData: data,
-      chartType: CircularChartType.Radial,
+    return Container(
+      padding: EdgeInsets.all(15.0),
+      child: Column(
+        children: <Widget>[
+          Container(
+            child: Text(
+              '资产状态',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            alignment: Alignment.centerLeft,
+          ),
+          Row(
+            children: <Widget>[
+              new AnimatedCircularChart(
+                key: _chartKey,
+                size: const Size(180.0, 180.0),
+                initialChartData: data,
+                chartType: CircularChartType.Radial,
+                edgeStyle: SegmentEdgeStyle.round,
+                percentageValues: true,
+                holeLabel: (normal + warning + error).toString() + "台",
+                labelStyle: TextStyle(fontSize: 18.0, color: Color(0xff000000)),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
