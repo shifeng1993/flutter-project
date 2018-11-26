@@ -7,7 +7,7 @@ class SetUserInfoAction {
 
 // 全局通知列表action
 class SetNotificationAction {
-  List<AppNotification> notification;
+  List<AppNotification<String, dynamic>> notification;
 }
 
 // 主题数据

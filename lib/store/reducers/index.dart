@@ -24,13 +24,13 @@ Reducer<Map<String,String>> userInfoReducer = combineReducers<Map<String,String>
 
 /* ******************* 全局通知 开始 ******************* */
 // 设置全局通知函数
-List<AppNotification> setNotificationAction(List<AppNotification> notification, SetNotificationAction action) {
+List<AppNotification<String, dynamic>> setNotificationAction(List<AppNotification<String, dynamic>> notification, SetNotificationAction action) {
   return notification;
 }
 
 // 合并全局通知相关函数
-Reducer<List<AppNotification>> notificationReducer = combineReducers<List<AppNotification>>([
-  new TypedReducer<List<AppNotification>, SetNotificationAction>(setNotificationAction),
+Reducer<List<AppNotification<String, dynamic>>> notificationReducer = combineReducers<List<AppNotification<String, dynamic>>>([
+  new TypedReducer<List<AppNotification<String, dynamic>>, SetNotificationAction>(setNotificationAction),
 ]);
 
 

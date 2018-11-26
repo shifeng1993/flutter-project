@@ -6,7 +6,7 @@ class AppState {
   final Map<String, dynamic> userInfo;
 
   // 全局通知列表
-  final List<AppNotification> notification;
+  final List<AppNotification<String, dynamic>> notification;
 
   // 主题数据
   final ThemeData themeData;
@@ -28,7 +28,15 @@ class AppState {
   }
 }
 
-class AppNotification {
-  final String title = '';
-  final String desc = '';
+class AppNotification<String, T> {
+  final String title;
+  final String desc;
+  final List<AssociatedUsers> associatedUsers;
+
+  AppNotification(this.title, this.desc, this.associatedUsers);
+}
+
+abstract class AssociatedUsers<String, T> {
+  String username;
+  String age;
 }

@@ -14,10 +14,7 @@ class App extends StatelessWidget {
     'name': 'superadmin',
     'org': '顶级机构'
   }; // redux内初始化假的用户数据
-  static final notification = [
-    {'title': '流程通知', 'desc': '1233211234567'}
-  ];
-  final store = createStore(userinfo, new List<AppNotification>());
+  final store = createStore(userinfo, new List<AppNotification<String, dynamic>>());
   final color = const Color(0xff2C3144);
 
   App();
