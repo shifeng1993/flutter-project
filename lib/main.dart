@@ -10,8 +10,13 @@ import './pages/index.dart';
 
 // 根组件
 class App extends StatelessWidget {
-  static final userinfo = {'name': 'superadmin', 'org': '顶级机构'}; // redux内初始化假的用户数据
-  static final notification = [{}];
+  static final userinfo = {
+    'name': 'superadmin',
+    'org': '顶级机构'
+  }; // redux内初始化假的用户数据
+  static final notification = [
+    {'title': '流程通知', 'desc': '1233211234567'}
+  ];
   final store = createStore(userinfo, new List<AppNotification>());
   final color = const Color(0xff2C3144);
 
