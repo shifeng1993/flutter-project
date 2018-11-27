@@ -12,7 +12,6 @@ import '../../store/states/AppState.dart';
 class HomePageLeftDrawer extends StatelessWidget {
   final iconSize = 24.0;
   final textSize = 15.0;
-  final backgroundColor = const Color(0xff2C3144);
 
   final Duration transitionDuration = Duration(seconds: 2);
 
@@ -31,7 +30,7 @@ class HomePageLeftDrawer extends StatelessWidget {
       elevation: 0.0, // 去掉阴影
       semanticLabel: '123',
       child: Container(
-        color: backgroundColor,
+        color: Theme.of(context).primaryColor,
         child: Stack(
           children: <Widget>[
             ListView(
@@ -214,7 +213,8 @@ class HomePageLeftDrawer extends StatelessWidget {
       child: SafeArea(
         bottom: true,
         child: Container(
-          color: backgroundColor,
+          color: Theme.of(context).primaryColor,
+          width: MediaQuery.of(context).size.width,
           child: Row(
             children: <Widget>[
               Container(

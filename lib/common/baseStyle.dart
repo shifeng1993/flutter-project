@@ -21,6 +21,7 @@ class BaseStyle {
     const Color(0xffF56C6C), // error
     const Color(0xff67C23A), // success
     const Color(0xffE6A23C), // warning
+    const Color(0xffF0F2F5), // 未知
   ];
 
   // 分割线颜色
