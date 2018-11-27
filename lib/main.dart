@@ -15,7 +15,6 @@ class App extends StatelessWidget {
     'org': '顶级机构'
   }; // redux内初始化假的用户数据
   final store = createStore(userinfo, new List<AppNotification>());
-  final color = const Color(0xff2C3144);
 
   App();
 
@@ -26,15 +25,11 @@ class App extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(
           platform: TargetPlatform.iOS, // 使用ios的md 控件
-          backgroundColor: const Color(0xffffffff),
-          primaryColor: color, // 应用主要部分的背景颜色（工具栏，标签栏等）
-          accentColor: Colors.white, // 前景色：旋钮，文本，过度滚动边缘效果等
-          highlightColor: Color.fromRGBO(0, 0, 0, 0.2),
-          splashColor: Color.fromRGBO(0, 0, 0, 0.4),
-          // pageTransitionsTheme: new PageTransitionsTheme(builders: const {
-          //   TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-          //   TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-          // }),
+          backgroundColor: const Color(0xffF0F2F5),
+          primaryColor: const Color(0xff2C3144), // 应用主要部分的背景颜色（工具栏，标签栏等）
+          accentColor: const Color(0xffF0F2F5), // 前景色：旋钮，文本，过度滚动边缘效果等
+          highlightColor: const Color.fromRGBO(255, 255, 255, 0.3),
+          splashColor: const Color.fromRGBO(255, 255, 255, 0.5),
         ),
         routes: <String, WidgetBuilder>{
           '/': (BuildContext context) => SplashPage(),

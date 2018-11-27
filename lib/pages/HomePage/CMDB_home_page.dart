@@ -1,8 +1,7 @@
 // CMDB主页
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../../common/baseStyle.dart';
-import '../../widgets/index.dart';
+import '../../common/BaseStyle.dart';
 
 // 引入下面三个tab页面
 import '../CmdbPage/index_page.dart';
@@ -102,7 +101,7 @@ class _CMDBHomePageState extends State<CMDBHomePage> {
       title: Center(
         child: Text(
           titleText,
-          style: BaseStyle.appBarStyle,
+          style: TextStyle(fontSize: BaseStyle.fontSize[0]),
           textAlign: TextAlign.center,
         ),
       ),
@@ -142,7 +141,6 @@ class _CMDBHomePageState extends State<CMDBHomePage> {
 
   Widget _bottomNavBar(BuildContext context) {
     final bottomNavBarTitleColor = const Color(0xff817F7F);
-    final bottomNavBarActiveIconColor = const Color(0xff2C3144);
     final bottomNavBarIconSize = 30.0;
     return CupertinoTabBar(
       items: <BottomNavigationBarItem>[
@@ -192,7 +190,7 @@ class _CMDBHomePageState extends State<CMDBHomePage> {
       currentIndex: _selectedIndex,
       onTap: _onItemTapped,
       backgroundColor: const Color(0xe6fafafa),
-      activeColor: bottomNavBarActiveIconColor,
+      activeColor: Theme.of(context).primaryColor,
     );
   }
 }
