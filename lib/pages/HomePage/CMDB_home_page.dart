@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import '../../common/BaseStyle.dart';
 
 // 引入下面三个tab页面
-import '../CmdbPage/index_page.dart';
+import '../CmdbPage/index_page/index_page.dart';
 import '../CmdbPage/assets_page.dart';
 import '../CmdbPage/event_page.dart';
 
