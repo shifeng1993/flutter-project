@@ -101,7 +101,7 @@ class _ITILHomePageState extends State<ITILHomePage> {
       title: Center(
         child: Text(
           titleText,
-          style: TextStyle(fontSize:  BaseStyle.fontSize[0]),
+          style: TextStyle(fontSize: BaseStyle.fontSize[0]),
           textAlign: TextAlign.center,
         ),
       ),
@@ -194,4 +194,3 @@ class _ITILHomePageState extends State<ITILHomePage> {
     );
   }
 }
-

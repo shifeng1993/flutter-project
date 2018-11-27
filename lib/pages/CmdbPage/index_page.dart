@@ -35,7 +35,8 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.width / 2.7,
-      padding: EdgeInsets.only(top: 10.0),
+      padding: EdgeInsets.only(top: 10.0,bottom: 10.0),
+      color: const Color(0xffffffff),
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
           return Container(
