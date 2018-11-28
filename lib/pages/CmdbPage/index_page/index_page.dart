@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import "package:pull_to_refresh/pull_to_refresh.dart";
 import '../../../common/baseStyle.dart';
 
+import '../../../widgets/pull_list/index.dart';
 import './chart.dart';
 
 class CMDBIndexPage extends StatefulWidget {
@@ -17,33 +17,21 @@ class CMDBIndexPage extends StatefulWidget {
 }
 
 class _CMDBIndexPageState extends State<CMDBIndexPage> {
-  RefreshController _refreshController; // 下拉刷新的控制器
-
   @override
   void initState() {
     super.initState();
-    _refreshController = new RefreshController();
   }
 
-  void enterRefresh() {
-    _refreshController.requestRefresh(true);
-  }
-
-  void _onOffsetCallback(bool isUp, double offset) {
-    // if you want change some widgets state ,you should rewrite the callback
-  }
-
-  void _onRefresh(bool up) {
+  void _onRefresh(dynamic refreshController, bool up) {
     if (up)
       new Future.delayed(const Duration(milliseconds: 2009)).then((val) {
-        _refreshController.sendBack(true, RefreshStatus.idle);
         setState(() {});
-//                refresher.sendStatus(RefreshStatus.completed);
+        refreshController.sendBack(true, RefreshStatus.completed);
       });
     else {
       new Future.delayed(const Duration(milliseconds: 2009)).then((val) {
         setState(() {});
-        _refreshController.sendBack(false, RefreshStatus.idle);
+        refreshController.sendBack(false, RefreshStatus.idle);
       });
     }
   }
@@ -51,16 +39,20 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: SmartRefresher(
-        enablePullDown: true, // 打开下拉
-        // enablePullUp: true,
+      child: PullList(
         onRefresh: _onRefresh,
-        onOffsetChange: _onOffsetCallback,
         child: new ListView(
           children: <Widget>[
             _banner(context),
             _notification(context),
             _indexTitle(context, '资产状态'),
+            CMDBIndexPageChart(),
+            CMDBIndexPageChart(),
+            CMDBIndexPageChart(),
+            CMDBIndexPageChart(),
+            CMDBIndexPageChart(),
+            CMDBIndexPageChart(),
+            CMDBIndexPageChart(),
             CMDBIndexPageChart(),
             _indexTitle(context, '关注的监控资产'),
             _watchList(context),
