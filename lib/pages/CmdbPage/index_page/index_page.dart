@@ -46,14 +46,46 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
             _banner(context),
             _notification(context),
             _indexTitle(context, '资产状态'),
-            CMDBIndexPageChart(),
-            CMDBIndexPageChart(),
-            CMDBIndexPageChart(),
-            CMDBIndexPageChart(),
-            CMDBIndexPageChart(),
-            CMDBIndexPageChart(),
-            CMDBIndexPageChart(),
-            CMDBIndexPageChart(),
+            CMDBIndexPageChart(
+              normal: 1,
+              error: 3,
+              warning: 4,
+            ),
+            CMDBIndexPageChart(
+              normal: 1,
+              error: 5,
+              warning: 4,
+            ),
+            CMDBIndexPageChart(
+              normal: 1,
+              error: 213,
+              warning: 4,
+            ),
+            CMDBIndexPageChart(
+              normal: 1,
+              error: 333,
+              warning: 4,
+            ),
+            CMDBIndexPageChart(
+              normal: 1,
+              error: 5,
+              warning: 4,
+            ),
+            CMDBIndexPageChart(
+              normal: 1,
+              error: 3,
+              warning: 6,
+            ),
+            CMDBIndexPageChart(
+              normal: 521,
+              error: 3,
+              warning: 4,
+            ),
+            CMDBIndexPageChart(
+              normal: 1,
+              error: 3,
+              warning: 123,
+            ),
             _indexTitle(context, '关注的监控资产'),
             _watchList(context),
           ],
@@ -187,7 +219,6 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
 
   @override
   void dispose() {
-    print("销毁");
     super.dispose();
   }
 }
