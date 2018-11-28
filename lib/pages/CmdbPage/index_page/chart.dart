@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../common/baseStyle.dart';
 import '../../../widgets/circular_charts/circular_charts.dart';
+import '../../../widgets/shadow_card/index.dart';
 
 class CMDBIndexPageChart extends StatefulWidget {
   CMDBIndexPageChart({
@@ -67,23 +68,11 @@ class _CMDBIndexPageChartState extends State<CMDBIndexPageChart> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10.0),
+    return ShadowCard(
       margin: EdgeInsets.only(left: 15.0, right: 15.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        color: Color(0xffffffff),
-        boxShadow: <BoxShadow>[
-          new BoxShadow(
-            color: const Color.fromRGBO(0, 0, 0, 0.04),
-            offset: new Offset(0.0, 0.0),
-            blurRadius: 3.0,
-          ),
-        ],
-      ),
       child: Row(
         children: <Widget>[
-          // 左侧图���
+          // 左侧图
           Expanded(
             flex: 1,
             child: new AnimatedCircularChart(

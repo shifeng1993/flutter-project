@@ -5,6 +5,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import '../../../common/baseStyle.dart';
 
 import '../../../widgets/pull_list/index.dart';
+import '../../../widgets/shadow_card/index.dart';
 import './chart.dart';
 
 class CMDBIndexPage extends StatefulWidget {
@@ -102,21 +103,12 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
       color: const Color(0xffffffff),
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [const Color(0xff43CAFF), const Color(0xff2D4DD5)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              image: DecorationImage(
-                image: AssetImage(
-                    'assets/banner/banner_' + (index + 1).toString() + '.png'),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.all(
-                Radius.circular(10.0),
-              ),
+          return ShadowCard(
+            colors: [const Color(0xff43CAFF), const Color(0xff2D4DD5)],
+            image: DecorationImage(
+              image: AssetImage(
+                  'assets/banner/banner_' + (index + 1).toString() + '.png'),
+              fit: BoxFit.cover,
             ),
           );
         },
@@ -215,10 +207,5 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
       //   ],
       // ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }
