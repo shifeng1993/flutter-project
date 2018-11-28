@@ -33,21 +33,17 @@ class _ShadowCardState extends State<ShadowCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: widget.padding == null ? EdgeInsets.all(10.0) : widget.padding,
-      margin: widget.margin == null
-          ? EdgeInsets.zero
-          : widget.margin,
+      padding: widget.padding ?? EdgeInsets.all(10.0),
+      margin: widget.margin ?? EdgeInsets.zero,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: widget.colors == null
-              ? [Color(0xffffffff), Color(0xffffffff)]
-              : widget.colors,
+          colors: widget.colors ?? [Color(0xffffffff), Color(0xffffffff)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         image: widget.image,
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        color: widget.color == null ? Color(0xffffffff) : widget.colors,
+        color: widget.color ?? Color(0xffffffff),
         boxShadow: <BoxShadow>[
           new BoxShadow(
             color: const Color.fromRGBO(0, 0, 0, 0.04),

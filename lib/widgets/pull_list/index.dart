@@ -7,8 +7,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 class PullList extends StatefulWidget {
   PullList({
     Key key,
-    this.child,
-    this.onRefresh,
+    @required this.child,
+    @required this.onRefresh,
   }) : super(key: key);
 
   final Widget child;
