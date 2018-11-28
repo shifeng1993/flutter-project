@@ -116,7 +116,6 @@ class _PullListState extends State<PullList> {
 
   @override
   void dispose() {
-    print("销毁");
     super.dispose();
   }
 }
