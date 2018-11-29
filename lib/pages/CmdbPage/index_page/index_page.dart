@@ -177,7 +177,7 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
       BuildContext context, List<Map<String, dynamic>> watchList) {
     List<Widget> children = (watchList == null || watchList.length == 0)
         ? <Widget>[]
-        : watchList.map((row) => _watchListCard(row)).toList();
+        : watchList.take(5).map((row) => _watchListCard(row)).toList();
     return Container(
       margin: EdgeInsets.only(left: 15.0, right: 15.0),
       child: Column(
