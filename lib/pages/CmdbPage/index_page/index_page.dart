@@ -18,9 +18,25 @@ class CMDBIndexPage extends StatefulWidget {
 }
 
 class _CMDBIndexPageState extends State<CMDBIndexPage> {
+  List<Map<String, dynamic>> watchList;
+
   @override
   void initState() {
     super.initState();
+    watchList = _getWatchList();
+  }
+
+  List<Map<String, dynamic>> _getWatchList() {
+    List<Map<String, dynamic>> data = new List.generate(10, (i) {
+      i++;
+      Map<String, dynamic> row = new Map();
+      row['name'] = i.toString();
+      row['ip'] = '111.111.111.${i.toString()}';
+      row['type'] = 'linux';
+      row['status'] = '正常';
+      return row;
+    });
+    return data;
   }
 
   void _onRefresh(dynamic refreshController, bool up) {
@@ -52,43 +68,8 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
               error: 3,
               warning: 4,
             ),
-            CMDBIndexPageChart(
-              normal: 1,
-              error: 5,
-              warning: 4,
-            ),
-            CMDBIndexPageChart(
-              normal: 1,
-              error: 213,
-              warning: 4,
-            ),
-            CMDBIndexPageChart(
-              normal: 1,
-              error: 333,
-              warning: 4,
-            ),
-            CMDBIndexPageChart(
-              normal: 1,
-              error: 5,
-              warning: 4,
-            ),
-            CMDBIndexPageChart(
-              normal: 1,
-              error: 3,
-              warning: 6,
-            ),
-            CMDBIndexPageChart(
-              normal: 521,
-              error: 3,
-              warning: 4,
-            ),
-            CMDBIndexPageChart(
-              normal: 1,
-              error: 3,
-              warning: 123,
-            ),
             _indexTitle(context, '关注的监控资产'),
-            _watchList(context),
+            _watchList(context, watchList),
           ],
         ),
       ),
@@ -192,20 +173,29 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
   }
 
   // 关注列表
-  Widget _watchList(BuildContext context) {
-    final Map<String, dynamic> data = {};
+  Widget _watchList(
+      BuildContext context, List<Map<String, dynamic>> watchList) {
+    List<Widget> children = (watchList == null || watchList.length == 0)
+        ? <Widget>[]
+        : watchList.map((row) => _watchListCard(row)).toList();
     return Container(
       margin: EdgeInsets.only(left: 15.0, right: 15.0),
-      // child: ListView(
-      //   key: _listViewKey,
-      //   shrinkWrap: true,
-      //   children: <Widget>[
-      //     const Text('I\'m dedicating every day to you'),
-      //     const Text('Domestic life was never quite my style'),
-      //     const Text('When you smile, you knock me out, I fall apart'),
-      //     const Text('And I thought I was so smart'),
-      //   ],
-      // ),
+      child: Column(
+        children: children,
+      ),
+    );
+  }
+
+  Widget _watchListCard(row) {
+    return ShadowCard(
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: Text(row['name']),
+          )
+        ],
+      ),
     );
   }
 }
