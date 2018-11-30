@@ -1,4 +1,5 @@
 // cmdb首页
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -33,7 +34,7 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
       row['name'] = i.toString();
       row['ip'] = '111.111.111.${i.toString()}';
       row['type'] = 'linux';
-      row['status'] = '正常';
+      row['status'] = 1;
       return row;
     });
     return data;
@@ -177,7 +178,10 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
       BuildContext context, List<Map<String, dynamic>> watchList) {
     List<Widget> children = (watchList == null || watchList.length == 0)
         ? <Widget>[]
-        : watchList.take(5).map((row) => _watchListCard(row)).toList();
+        : watchList
+            .take(5)
+            .map((row) => _watchListCard(row))
+            .toList(); // 列表使用take限制在5个数量
     return Container(
       margin: EdgeInsets.only(left: 15.0, right: 15.0),
       child: Column(
@@ -186,13 +190,67 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
     );
   }
 
+  // 关注列表卡片
   Widget _watchListCard(row) {
     return ShadowCard(
+      margin: EdgeInsets.only(bottom: 10),
       child: Row(
         children: <Widget>[
           Expanded(
             flex: 1,
-            child: Text(row['name']),
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('123 '),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Center(
+                            child: Column(
+                              children: <Widget>[
+                                Text('IP地址'),
+                                Text(row['ip']),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Center(
+                            child: Column(
+                              children: <Widget>[
+                                Text('IP地址'),
+                                Text(row['ip']),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Center(
+                            child: Column(
+                              children: <Widget>[
+                                Text('IP地址'),
+                                Text(row['ip']),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
           )
         ],
       ),
