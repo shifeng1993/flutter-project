@@ -58,7 +58,7 @@ class HomePageLeftDrawer extends StatelessWidget {
                     Navigator.pop(context);
                     Navigator.pushReplacement(
                       context,
-                      RouteBuilder.fade(CMDBHomePage()),
+                      RouteBuilder.fadePage(CMDBHomePage()),
                     );
                   },
                 ),
@@ -82,7 +82,7 @@ class HomePageLeftDrawer extends StatelessWidget {
                     Navigator.pop(context);
                     Navigator.pushReplacement(
                       context,
-                      RouteBuilder.fade(DevOpsHomePage()),
+                      RouteBuilder.fadePage(DevOpsHomePage()),
                     );
                   },
                 ),
@@ -106,7 +106,7 @@ class HomePageLeftDrawer extends StatelessWidget {
                     Navigator.pop(context);
                     Navigator.pushReplacement(
                       context,
-                      RouteBuilder.fade(ITILHomePage()),
+                      RouteBuilder.fadePage(ITILHomePage()),
                     );
                   },
                 ),

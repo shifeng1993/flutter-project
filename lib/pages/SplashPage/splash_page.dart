@@ -34,7 +34,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       if (status == AnimationStatus.completed) {
         Navigator.pushReplacement(
           context,
-          RouteBuilder.fade(CMDBHomePage()),
+          RouteBuilder.fadePage(CMDBHomePage()),
         );
       }
     };

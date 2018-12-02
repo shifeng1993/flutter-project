@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 class RouteBuilder {
-  static final Function fade = (Widget page) {
+  static final Function fadePage = (Widget page) {
     return PageRouteBuilder(
       pageBuilder: (context, _, __) {
         return page;
@@ -18,5 +18,13 @@ class RouteBuilder {
         );
       },
     );
+  };
+
+  static final Function iosPage = (Widget page) {
+    return CupertinoPageRoute(builder: (BuildContext context) => page);
+  };
+
+  static final Function androidPage = (Widget page) {
+    return MaterialPageRoute(builder: (BuildContext context) => page);
   };
 }
