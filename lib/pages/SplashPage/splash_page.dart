@@ -6,6 +6,8 @@ import '../HomePage/CMDB_home_page.dart';
 import '../HomePage/DevOps_home_page.dart';
 import '../HomePage/ITIL_home_page.dart';
 
+import '../../widgets/page_route_Builder/index.dart';
+
 class SplashPage extends StatefulWidget {
   const SplashPage();
 
@@ -32,21 +34,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       if (status == AnimationStatus.completed) {
         Navigator.pushReplacement(
           context,
-          PageRouteBuilder(
-            pageBuilder: (context, _, __) {
-              return CMDBHomePage();
-            },
-            transitionDuration: const Duration(milliseconds: 300),
-            transitionsBuilder: (_, animation, __, child) {
-              return FadeTransition(
-                opacity: animation,
-                child: FadeTransition(
-                  opacity: Tween(begin: 0.5, end: 1.0).animate(animation),
-                  child: child,
-                ),
-              );
-            },
-          ),
+          RouteBuilder.fade(CMDBHomePage()),
         );
       }
     };

@@ -8,6 +8,7 @@ import '../HomePage/DevOps_home_page.dart';
 import '../HomePage/ITIL_home_page.dart';
 
 import '../../store/states/AppState.dart';
+import '../../widgets/page_route_Builder/index.dart';
 
 class HomePageLeftDrawer extends StatelessWidget {
   final iconSize = 24.0;
@@ -57,22 +58,7 @@ class HomePageLeftDrawer extends StatelessWidget {
                     Navigator.pop(context);
                     Navigator.pushReplacement(
                       context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, _, __) {
-                          return CMDBHomePage();
-                        },
-                        transitionDuration: const Duration(milliseconds: 300),
-                        transitionsBuilder: (_, animation, __, child) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: FadeTransition(
-                              opacity: Tween(begin: 0.5, end: 1.0)
-                                  .animate(animation),
-                              child: child,
-                            ),
-                          );
-                        },
-                      ),
+                      RouteBuilder.fade(CMDBHomePage()),
                     );
                   },
                 ),
@@ -96,22 +82,7 @@ class HomePageLeftDrawer extends StatelessWidget {
                     Navigator.pop(context);
                     Navigator.pushReplacement(
                       context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, _, __) {
-                          return DevOpsHomePage();
-                        },
-                        transitionDuration: const Duration(milliseconds: 300),
-                        transitionsBuilder: (_, animation, __, child) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: FadeTransition(
-                              opacity: Tween(begin: 0.5, end: 1.0)
-                                  .animate(animation),
-                              child: child,
-                            ),
-                          );
-                        },
-                      ),
+                      RouteBuilder.fade(DevOpsHomePage()),
                     );
                   },
                 ),
@@ -135,22 +106,7 @@ class HomePageLeftDrawer extends StatelessWidget {
                     Navigator.pop(context);
                     Navigator.pushReplacement(
                       context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, _, __) {
-                          return ITILHomePage();
-                        },
-                        transitionDuration: const Duration(milliseconds: 300),
-                        transitionsBuilder: (_, animation, __, child) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: FadeTransition(
-                              opacity: Tween(begin: 0.5, end: 1.0)
-                                  .animate(animation),
-                              child: child,
-                            ),
-                          );
-                        },
-                      ),
+                      RouteBuilder.fade(ITILHomePage()),
                     );
                   },
                 ),
