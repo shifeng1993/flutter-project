@@ -12,7 +12,12 @@ import '../ItilPage/approval_page.dart';
 import '../drawerPage/home_page_left_drawer.dart';
 
 class ITILHomePage extends StatefulWidget {
-  const ITILHomePage();
+  ITILHomePage({
+    Key key,
+    this.selectedIndex,
+  }) : super(key: key);
+
+  final int selectedIndex;
 
   @override
   _ITILHomePageState createState() => _ITILHomePageState();
@@ -24,6 +29,9 @@ class _ITILHomePageState extends State<ITILHomePage> {
   @override
   void initState() {
     super.initState();
+    if (widget.selectedIndex != null) {
+      _selectedIndex = widget.selectedIndex;
+    }
   }
 
   @override

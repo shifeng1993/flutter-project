@@ -12,7 +12,13 @@ import '../DevOpsPage/ops_page.dart';
 import '../drawerPage/home_page_left_drawer.dart';
 
 class DevOpsHomePage extends StatefulWidget {
-  const DevOpsHomePage();
+  
+  DevOpsHomePage({
+    Key key,
+    this.selectedIndex,
+  }) : super(key: key);
+
+  final int selectedIndex;
 
   @override
   _DevOpsHomePageState createState() => _DevOpsHomePageState();
@@ -24,6 +30,9 @@ class _DevOpsHomePageState extends State<DevOpsHomePage> {
   @override
   void initState() {
     super.initState();
+    if (widget.selectedIndex != null) {
+      _selectedIndex = widget.selectedIndex;
+    }
   }
 
   @override

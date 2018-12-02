@@ -82,7 +82,9 @@ class HomePageLeftDrawer extends StatelessWidget {
                     Navigator.pop(context);
                     Navigator.pushReplacement(
                       context,
-                      RouteBuilder.fadePage(DevOpsHomePage()),
+                      RouteBuilder.fadePage(DevOpsHomePage(
+                        selectedIndex: 0,
+                      )),
                     );
                   },
                 ),

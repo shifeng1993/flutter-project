@@ -12,7 +12,12 @@ import '../CmdbPage/event_page.dart';
 import '../drawerPage/home_page_left_drawer.dart';
 
 class CMDBHomePage extends StatefulWidget {
-  const CMDBHomePage();
+  CMDBHomePage({
+    Key key,
+    this.selectedIndex,
+  }) : super(key: key);
+
+  final int selectedIndex;
 
   @override
   _CMDBHomePageState createState() => _CMDBHomePageState();
@@ -24,6 +29,9 @@ class _CMDBHomePageState extends State<CMDBHomePage> {
   @override
   void initState() {
     super.initState();
+    if (widget.selectedIndex != null) {
+      _selectedIndex = widget.selectedIndex;
+    }
   }
 
   @override
