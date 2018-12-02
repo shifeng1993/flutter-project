@@ -8,6 +8,7 @@ import '../../../common/baseStyle.dart';
 import '../../../widgets/pull_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
 import './chart.dart';
+import './watch_list_card.dart';
 
 class CMDBIndexPage extends StatefulWidget {
   CMDBIndexPage({Key key, this.title}) : super(key: key);
@@ -31,7 +32,7 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
     List<Map<String, dynamic>> data = new List.generate(10, (i) {
       i++;
       Map<String, dynamic> row = new Map();
-      row['name'] = i.toString();
+      row['name'] = '${i.toString()}这是标题，我来展示，这是标题，我来展示这是标题，我来展示，这是标题，我来展示';
       row['ip'] = '111.111.111.${i.toString()}';
       row['type'] = 'linux';
       row['status'] = 1;
@@ -68,6 +69,9 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
               normal: 1,
               error: 3,
               warning: 4,
+              onPressed: (int status) {
+                print(status);
+              },
             ),
             _indexTitle(context, '关注的监控资产'),
             _watchList(context, watchList),
@@ -178,81 +182,15 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
       BuildContext context, List<Map<String, dynamic>> watchList) {
     List<Widget> children = (watchList == null || watchList.length == 0)
         ? <Widget>[]
-        : watchList
-            .take(5)
-            .map((row) => _watchListCard(row))
-            .toList(); // 列表使用take限制在5个数量
+        : watchList.take(5).map((row) {
+            return WatchListCard(
+              row: row,
+            );
+          }).toList(); // 列表使用take限制在5个数量
     return Container(
       margin: EdgeInsets.only(left: 15.0, right: 15.0),
       child: Column(
         children: children,
-      ),
-    );
-  }
-
-  // 关注列表卡片
-  Widget _watchListCard(row) {
-    return ShadowCard(
-      margin: EdgeInsets.only(bottom: 10),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: Container(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('123 '),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Center(
-                            child: Column(
-                              children: <Widget>[
-                                Text('IP地址'),
-                                Text(row['ip']),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Center(
-                            child: Column(
-                              children: <Widget>[
-                                Text('IP地址'),
-                                Text(row['ip']),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Center(
-                            child: Column(
-                              children: <Widget>[
-                                Text('IP地址'),
-                                Text(row['ip']),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )
-        ],
       ),
     );
   }

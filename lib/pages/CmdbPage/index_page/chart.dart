@@ -11,12 +11,13 @@ class CMDBIndexPageChart extends StatefulWidget {
     this.normal,
     this.warning,
     this.error,
+    this.onPressed,
   }) : super(key: key);
 
   final int normal;
   final int warning;
   final int error;
-
+  final Function onPressed;
   @override
   _CMDBIndexPageChartState createState() => new _CMDBIndexPageChartState();
 }
@@ -41,14 +42,16 @@ class _CMDBIndexPageChartState extends State<CMDBIndexPageChart> {
             BaseStyle.statusColor[3]),
       ]),
       CircularStackEntry([
-        CircularSegmentEntry(double.parse((widget.warning / total * 100).toString()),
+        CircularSegmentEntry(
+            double.parse((widget.warning / total * 100).toString()),
             BaseStyle.statusColor[2]),
         CircularSegmentEntry(
             double.parse(((total - widget.warning) / total * 100).toString()),
             BaseStyle.statusColor[3]),
       ]),
       CircularStackEntry([
-        CircularSegmentEntry(double.parse((widget.error / total * 100).toString()),
+        CircularSegmentEntry(
+            double.parse((widget.error / total * 100).toString()),
             BaseStyle.statusColor[0]),
         CircularSegmentEntry(
             double.parse(((total - widget.error) / total * 100).toString()),
@@ -83,7 +86,9 @@ class _CMDBIndexPageChartState extends State<CMDBIndexPageChart> {
               chartType: CircularChartType.Radial,
               edgeStyle: SegmentEdgeStyle.round,
               percentageValues: true,
-              holeLabel: (widget.normal + widget.warning + widget.error).toString() + "台",
+              holeLabel:
+                  (widget.normal + widget.warning + widget.error).toString() +
+                      "台",
               labelStyle: TextStyle(
                   fontSize: BaseStyle.fontSize[2], color: Color(0xff000000)),
             ),
@@ -95,100 +100,109 @@ class _CMDBIndexPageChartState extends State<CMDBIndexPageChart> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        ClipRRect(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(cardStatusSize / 2)),
-                          child: Container(
-                            width: cardStatusSize,
-                            height: cardStatusSize,
-                            color: BaseStyle.statusColor[0],
-                            child: Center(
-                              child: Text(
-                                '${widget.error.toString()}',
-                                style: TextStyle(
-                                    fontSize: BaseStyle.fontSize[2],
-                                    color: Color(0xffffffff)),
+                  GestureDetector(
+                    onTap:  widget.onPressed != null ? () {widget.onPressed(0);} : (){},
+                    child: Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          ClipRRect(
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(cardStatusSize / 2)),
+                            child: Container(
+                              width: cardStatusSize,
+                              height: cardStatusSize,
+                              color: BaseStyle.statusColor[0],
+                              child: Center(
+                                child: Text(
+                                  '${widget.error.toString()}',
+                                  style: TextStyle(
+                                      fontSize: BaseStyle.fontSize[2],
+                                      color: Color(0xffffffff)),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Text(
-                            '宕机${(widget.error / total * 100).toStringAsFixed(1)}%',
-                            style: TextStyle(fontSize: BaseStyle.fontSize[1]),
+                          Container(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              '宕机${(widget.error / total * 100).toStringAsFixed(1)}%',
+                              style: TextStyle(fontSize: BaseStyle.fontSize[1]),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        ClipRRect(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(cardStatusSize / 2)),
-                          child: Container(
-                            width: cardStatusSize,
-                            height: cardStatusSize,
-                            color: BaseStyle.statusColor[1],
-                            child: Center(
-                              child: Text(
-                                '${widget.normal.toString()}',
-                                style: TextStyle(
-                                    fontSize: BaseStyle.fontSize[2],
-                                    color: Color(0xffffffff)),
+                  GestureDetector(
+                    onTap: widget.onPressed != null ? () {widget.onPressed(1);}: (){},
+                    child: Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          ClipRRect(
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(cardStatusSize / 2)),
+                            child: Container(
+                              width: cardStatusSize,
+                              height: cardStatusSize,
+                              color: BaseStyle.statusColor[1],
+                              child: Center(
+                                child: Text(
+                                  '${widget.normal.toString()}',
+                                  style: TextStyle(
+                                      fontSize: BaseStyle.fontSize[2],
+                                      color: Color(0xffffffff)),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Text(
-                            '正常${(widget.normal / total * 100).toStringAsFixed(1)}%',
-                            style: TextStyle(fontSize: BaseStyle.fontSize[1]),
+                          Container(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              '正常${(widget.normal / total * 100).toStringAsFixed(1)}%',
+                              style: TextStyle(fontSize: BaseStyle.fontSize[1]),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        ClipRRect(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(cardStatusSize / 2)),
-                          child: Container(
-                            width: cardStatusSize,
-                            height: cardStatusSize,
-                            color: BaseStyle.statusColor[2],
-                            child: Center(
-                              child: Text(
-                                '${widget.warning.toString()}',
-                                style: TextStyle(
-                                    fontSize: BaseStyle.fontSize[2],
-                                    color: Color(0xffffffff)),
+                  GestureDetector(
+                    onTap: widget.onPressed != null ? () {widget.onPressed(2);}: (){},
+                    child: Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          ClipRRect(
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(cardStatusSize / 2)),
+                            child: Container(
+                              width: cardStatusSize,
+                              height: cardStatusSize,
+                              color: BaseStyle.statusColor[2],
+                              child: Center(
+                                child: Text(
+                                  '${widget.warning.toString()}',
+                                  style: TextStyle(
+                                      fontSize: BaseStyle.fontSize[2],
+                                      color: Color(0xffffffff)),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Text(
-                            '告警${(widget.warning / total * 100).toStringAsFixed(1)}%',
-                            style: TextStyle(fontSize: BaseStyle.fontSize[1]),
+                          Container(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              '告警${(widget.warning / total * 100).toStringAsFixed(1)}%',
+                              style: TextStyle(fontSize: BaseStyle.fontSize[1]),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],
