@@ -1,5 +1,4 @@
 // cmdb首页
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -178,8 +177,7 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
   }
 
   // 关注列表
-  Widget _watchList(
-      BuildContext context, List<Map<String, dynamic>> watchList) {
+  Widget _watchList(BuildContext context, List<Map<String, dynamic>> watchList) {
     List<Widget> children = (watchList == null || watchList.length == 0)
         ? <Widget>[]
         : watchList.take(5).map((row) {
