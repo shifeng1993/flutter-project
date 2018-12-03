@@ -131,20 +131,14 @@ class _CMDBHomePageState extends State<CMDBHomePage> {
   }
 
   Widget _body(BuildContext context, int _selectedIndex) {
-    var bodyWidget;
-    switch (_selectedIndex) {
-      case 0:
-        bodyWidget = CMDBIndexPage(); // cmdb首页
-        break;
-      case 1:
-        bodyWidget = CMDBAssetsPage(); // cmdb 资产/监控
-        break;
-      case 2:
-        bodyWidget = CMDBEventPage(); // cmdb 事件
-        break;
-      default:
-    }
-    return bodyWidget;
+    return IndexedStack(
+      children: <Widget>[
+        CMDBIndexPage(), // cmdb首页
+        CMDBAssetsPage(), // cmdb 资产/监控
+        CMDBEventPage(), // cmdb 事件
+      ],
+      index: _selectedIndex,
+    );
   }
 
   Widget _bottomNavBar(BuildContext context) {

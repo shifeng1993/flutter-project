@@ -12,7 +12,6 @@ import '../DevOpsPage/ops_page.dart';
 import '../drawerPage/home_page_left_drawer.dart';
 
 class DevOpsHomePage extends StatefulWidget {
-  
   DevOpsHomePage({
     Key key,
     this.selectedIndex,
@@ -132,20 +131,14 @@ class _DevOpsHomePageState extends State<DevOpsHomePage> {
   }
 
   Widget _body(BuildContext context, int _selectedIndex) {
-    var bodyWidget;
-    switch (_selectedIndex) {
-      case 0:
-        bodyWidget = DevOpsIndexPage(); // DevOps 首页
-        break;
-      case 1:
-        bodyWidget = DevOpsMonitorPage(); // DevOps 资产/监控
-        break;
-      case 2:
-        bodyWidget = DevOpsOpsPage(); // DevOps 运维
-        break;
-      default:
-    }
-    return bodyWidget;
+    return IndexedStack(
+      children: <Widget>[
+        DevOpsIndexPage(), // DevOps 首页
+        DevOpsMonitorPage(), // DevOps 资产/监控
+        DevOpsOpsPage(), // DevOps 运维
+      ],
+      index: _selectedIndex,
+    );
   }
 
   Widget _bottomNavBar(BuildContext context) {

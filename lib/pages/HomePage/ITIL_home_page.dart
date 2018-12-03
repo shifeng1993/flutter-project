@@ -131,20 +131,14 @@ class _ITILHomePageState extends State<ITILHomePage> {
   }
 
   Widget _body(BuildContext context, int _selectedIndex) {
-    var bodyWidget;
-    switch (_selectedIndex) {
-      case 0:
-        bodyWidget = ITILIndexPage(); // ITIL首页
-        break;
-      case 1:
-        bodyWidget = ITILGTasksPage(); // ITIL 待办
-        break;
-      case 2:
-        bodyWidget = ITILApprovalPage(); // ITIL 审批
-        break;
-      default:
-    }
-    return bodyWidget;
+    return IndexedStack(
+      children: <Widget>[
+        ITILIndexPage(), // ITIL首页
+        ITILGTasksPage(), // ITIL 待办
+        ITILApprovalPage(), // ITIL 审批
+      ],
+      index: _selectedIndex,
+    );
   }
 
   Widget _bottomNavBar(BuildContext context) {
