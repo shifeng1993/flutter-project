@@ -81,7 +81,7 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
 
     assetRankList = [
       {
-        'name': 'foo',
+        'name': 'foofoofoofoofoofoofoofoofoofoofoofoofoo',
         'ip': '123.123.123.11',
         'type': 'windows',
         'score': '90.0'
@@ -298,37 +298,32 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
             child: Row(
               children: <Widget>[
                 Container(
-                  width: 30.0,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
+                  width: 40.0,
+                  child: Center(
                     child: Text('', style: tableHeadStyle),
                   ),
                 ),
                 Expanded(
                   flex: colFlex[0],
-                  child: Align(
-                    alignment: Alignment.centerLeft,
+                  child: Center(
                     child: Text('资产名称', style: tableHeadStyle),
                   ),
                 ),
                 Expanded(
                   flex: colFlex[1],
-                  child: Align(
-                    alignment: Alignment.centerLeft,
+                  child: Center(
                     child: Text('IP地址', style: tableHeadStyle),
                   ),
                 ),
                 Expanded(
                   flex: colFlex[2],
-                  child: Align(
-                    alignment: Alignment.centerLeft,
+                  child: Center(
                     child: Text('资产类型', style: tableHeadStyle),
                   ),
                 ),
                 Container(
                   width: 50.0,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
+                  child: Center(
                     child: Text('得分', style: tableHeadStyle),
                   ),
                 )
@@ -346,72 +341,66 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
   }
 
   Widget _assetRankRow(Map<String, dynamic> row, int index, List<int> colFlex) {
-    TextStyle tableBodyStyle =
-        TextStyle(color: Color(0xffffffff), fontSize: BaseStyle.fontSize[4]);
+    TextStyle tableBodyStyle = TextStyle(
+      color: BaseStyle.textColor[0],
+      fontSize: BaseStyle.fontSize[4],
+    );
 
-
-    Widget indexView = (index < 3) ? Image.asset('assets/icons/rank_num_${(index + 1).toString()}.png') : Text(index.toString(), style: TextStyle(color: Color(0xffffffff), fontSize: BaseStyle.fontSize[2]));
+    Widget indexView = (index < 3)
+        ? Image.asset('assets/icons/rank_num_${(index + 1).toString()}.png',
+            width: 19, height: 24)
+        : Text((index + 1).toString(),
+            style: TextStyle(
+                color: BaseStyle.textColor[0],
+                fontWeight: FontWeight.w600,
+                fontSize: BaseStyle.fontSize[2]));
 
     return Container(
-      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+      height: 50.0,
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
             color: BaseStyle.lineColor[0],
-            width: BaseStyle.pixelWidth(context, 1.0),
+            width: index == 0 ? 0.0 : BaseStyle.pixelWidth(context, 1.0),
           ),
         ),
       ),
       child: Row(
         children: <Widget>[
-           Container(
-                  width: 30.0,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: indexView,
-                  ),
-                ),
+          Container(
+              width: 40.0,
+              child: Center(
+                child: indexView,
+              )),
           Expanded(
             flex: colFlex[0],
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text('资产名称', style: tableBodyStyle),
+            child: Center(
+              child: Text(
+                row['name'],
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: tableBodyStyle,
+              ),
             ),
           ),
           Expanded(
             flex: colFlex[1],
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text('IP地址', style: tableBodyStyle),
+            child: Center(
+              child: Text(row['ip'], style: tableBodyStyle),
             ),
           ),
           Expanded(
             flex: colFlex[2],
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text('资产类型', style: tableBodyStyle),
+            child: Center(
+              child: Text(row['type'], style: tableBodyStyle),
             ),
           ),
           Container(
             width: 50.0,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text('得分', style: tableBodyStyle),
+            child: Center(
+              child: Text(row['score'], style: tableBodyStyle),
             ),
           ),
-
-          // Text(
-          //   '公告：',
-          //   style: TextStyle(
-          //       fontSize: BaseStyle.fontSize[4],
-          //       fontWeight: FontWeight.w600),
-          // ),
-          // Text(
-          //   '资产 ${row['name']} 由 ${row['user']} 于 ${row['date']} ${row['status']}',
-          //   style: TextStyle(
-          //     fontSize: BaseStyle.fontSize[4],
-          //   ),
-          // ),
         ],
       ),
     );
