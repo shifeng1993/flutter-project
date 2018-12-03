@@ -226,12 +226,14 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
       decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: BaseStyle.lineColor[0],
-            width: index == 0 ? 0.0 : BaseStyle.pixelWidth(context, 1.0),
-          ),
-        ),
+        border: index == 0
+            ? null
+            : Border(
+                top: BorderSide(
+                  color: BaseStyle.lineColor[0],
+                  width: BaseStyle.pixelWidth(context, 1.0),
+                ),
+              ),
       ),
       child: Row(
         children: <Widget>[
@@ -358,12 +360,14 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
     return Container(
       height: 50.0,
       decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: BaseStyle.lineColor[0],
-            width: index == 0 ? 0.0 : BaseStyle.pixelWidth(context, 1.0),
-          ),
-        ),
+        border: index == 0
+            ? null
+            : Border(
+                top: BorderSide(
+                  color: BaseStyle.lineColor[0],
+                  width: BaseStyle.pixelWidth(context, 1.0),
+                ),
+              ),
       ),
       child: Row(
         children: <Widget>[
