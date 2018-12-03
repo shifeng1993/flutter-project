@@ -108,11 +108,13 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
         onTap: (int index) {
           print(index);
         },
-        autoplay: true, //自动播放
-        duration: 1000, // 自动播放毫秒数
+        duration: 1000, // 动画时长
         index: 0, // 初始
         viewportFraction: 0.85,
         scale: 0.9,
+        autoplay: true, //自动播放
+        autoplayDelay: 6000, // 自动播放毫秒数
+        autoplayDisableOnInteraction: true,  // 如果设置为true，autoplay则在使用滑动时禁用。
       ),
     );
   }
