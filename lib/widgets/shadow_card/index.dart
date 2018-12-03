@@ -39,7 +39,7 @@ class _ShadowCardState extends State<ShadowCard> {
       child: Stack(
         children: <Widget>[
           Container(
-            padding: widget.padding ?? EdgeInsets.all(10.0),
+            padding: widget.padding ?? EdgeInsets.zero,
             margin: widget.margin ?? EdgeInsets.zero,
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -58,7 +58,16 @@ class _ShadowCardState extends State<ShadowCard> {
                 ),
               ],
             ),
-            child: widget.child,
+            child: widget.child != null
+                ? Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1, // 用flex布局默认铺满宽度
+                        child: widget.child,
+                      ),
+                    ],
+                  )
+                : null,
           ),
         ],
       ),

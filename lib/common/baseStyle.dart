@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class BaseStyle {
+abstract class BaseStyle {
   static final List<dynamic> fontSize = [
     18.0, // 顶部一级标题
     15.0, // 导航栏/卡片标题/列表文字/按钮文字
@@ -28,4 +28,8 @@ class BaseStyle {
   static final List<Color> lineColor = [
     const Color(0xffE4E7ED),
   ];
+
+  static double pixelWidth(BuildContext context, double pixel) {
+    return pixel / MediaQuery.of(context).devicePixelRatio;
+  }
 }

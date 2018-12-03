@@ -6,6 +6,7 @@ import '../../../common/baseStyle.dart';
 
 import '../../../widgets/pull_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
+import '../../../widgets/shadow_card/card_title.dart';
 import './chart.dart';
 import './watch_list_card.dart';
 
@@ -63,7 +64,7 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
           children: <Widget>[
             _banner(context),
             _notification(context),
-            _indexTitle(context, '资产状态'),
+            _cardTitle(context, '资产状态'),
             CMDBIndexPageChart(
               normal: 1,
               error: 3,
@@ -72,7 +73,7 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
                 print(status);
               },
             ),
-            _indexTitle(context, '关注的监控资产'),
+            _cardTitle(context, '关注的监控资产'),
             _watchList(context, watchList),
           ],
         ),
@@ -89,6 +90,7 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
           return ShadowCard(
+            padding: EdgeInsets.all(10.0),
             colors: [const Color(0xff43CAFF), const Color(0xff2D4DD5)],
             image: DecorationImage(
               image: AssetImage(
@@ -161,18 +163,12 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
   }
 
   // 资产状态卡片头部
-  Widget _indexTitle(BuildContext context, String title) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      padding:
-          EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: BaseStyle.fontSize[1],
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+  Widget _cardTitle(BuildContext context, String title) {
+    return ShadowCardTitle(
+      title: title,
+      onPressed: () {
+        print(title);
+      },
     );
   }
 

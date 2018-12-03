@@ -73,6 +73,7 @@ class _CMDBIndexPageChartState extends State<CMDBIndexPageChart> {
   Widget build(BuildContext context) {
     return ShadowCard(
       margin: EdgeInsets.only(left: 15.0, right: 15.0),
+      padding: EdgeInsets.all(10.0),
       child: Row(
         children: <Widget>[
           // 左侧图
