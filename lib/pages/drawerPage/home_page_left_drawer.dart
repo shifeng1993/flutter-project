@@ -35,6 +35,7 @@ class HomePageLeftDrawer extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             ListView(
+              physics: ClampingScrollPhysics(),
               padding: EdgeInsets.only(top: 20.0),
               children: <Widget>[
                 _drawerHeader(context, userInfo),

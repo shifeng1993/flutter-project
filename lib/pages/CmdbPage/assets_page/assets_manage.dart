@@ -60,8 +60,10 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
     List<Map<String, dynamic>> data = new List.generate(pageSize, (i) {
       i++;
       Map<String, dynamic> row = new Map();
-      row['name'] = '${(i + (currentPage - 1) * pageSize).toString()}这是标题，我来展示，这是标题，我来展示这是标题，我来展示，这是标题，我来展示';
-      row['ip'] = '111.111.111.${(i + (currentPage - 1) * pageSize).toString()}';
+      row['name'] =
+          '${(i + (currentPage - 1) * pageSize).toString()}这是标题，我来展示，这是标题，我来展示这是标题，我来展示，这是标题，我来展示';
+      row['ip'] =
+          '111.111.111.${(i + (currentPage - 1) * pageSize).toString()}';
       row['type'] = 'linux';
       row['status'] = new Random().nextInt(2);
       return row;
@@ -86,7 +88,7 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
     return AppBar(
       title: Container(
         margin:
-            EdgeInsets.only(left: iconSize + 22), // 给marginleft补齐量，使title在屏幕中央
+            EdgeInsets.only(left: iconSize + 20), // 给marginleft补齐量，使title在屏幕中央
         child: Center(
           child: Text(
             '资产管理',
@@ -137,6 +139,7 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
         itemBuilder: (BuildContext context, int index) {
           return _listCard(context, manageList[index], index);
         },
+        physics: ScrollPhysics(),
         itemCount: manageList.length ?? 0,
       ),
     );
