@@ -24,6 +24,7 @@ class CMDBHomePage extends StatefulWidget {
 }
 
 class _CMDBHomePageState extends State<CMDBHomePage> {
+  BuildContext context;
   int _selectedIndex = 0;
 
   @override
@@ -39,23 +40,26 @@ class _CMDBHomePageState extends State<CMDBHomePage> {
     super.dispose();
   }
 
+  Future<bool> _goback() {
+    print('back');
+    return new Future.value(false);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appbar(context, _selectedIndex),
-      body: _body(context, _selectedIndex),
-      bottomNavigationBar: _bottomNavBar(context),
-      drawer: HomePageLeftDrawer(),
+    this.context = context;
+    return WillPopScope(
+      child: Scaffold(
+        appBar: _appbar(_selectedIndex),
+        body: _body(_selectedIndex),
+        bottomNavigationBar: _bottomNavBar(),
+        drawer: HomePageLeftDrawer(),
+      ),
+      onWillPop: _goback,
     );
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  Widget _appbar(BuildContext context, int _selectedIndex) {
+  Widget _appbar(int _selectedIndex) {
     var titleText;
     var actions;
     final iconSize = 22.0;
@@ -125,12 +129,12 @@ class _CMDBHomePageState extends State<CMDBHomePage> {
         );
       }),
       actions: actions,
-      centerTitle: false, // 消除 android 与 ios 页面title布局差异
+      centerTitle: true, // 消除 android 与 ios 页面title布局差异
       elevation: 0.0, // 去掉appbar下面的阴影
     );
   }
 
-  Widget _body(BuildContext context, int _selectedIndex) {
+  Widget _body(int _selectedIndex) {
     return IndexedStack(
       children: <Widget>[
         CMDBIndexPage(), // cmdb首页
@@ -141,7 +145,7 @@ class _CMDBHomePageState extends State<CMDBHomePage> {
     );
   }
 
-  Widget _bottomNavBar(BuildContext context) {
+  Widget _bottomNavBar() {
     final bottomNavBarTitleColor = const Color(0xff817F7F);
     final bottomNavBarIconSize = 30.0;
     return CupertinoTabBar(
@@ -194,5 +198,11 @@ class _CMDBHomePageState extends State<CMDBHomePage> {
       backgroundColor: const Color(0xe6fafafa),
       activeColor: Theme.of(context).primaryColor,
     );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }

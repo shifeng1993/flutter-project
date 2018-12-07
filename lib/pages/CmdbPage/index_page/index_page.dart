@@ -20,6 +20,7 @@ class CMDBIndexPage extends StatefulWidget {
 }
 
 class _CMDBIndexPageState extends State<CMDBIndexPage> {
+  BuildContext context;
   List<Map<String, dynamic>> watchList;
 
   @override
@@ -57,14 +58,15 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
 
   @override
   Widget build(BuildContext context) {
+    this.context = context;
     return Container(
       child: PullList(
         onRefresh: _onRefresh,
         child: new ListView(
           children: <Widget>[
-            _banner(context),
-            _notification(context),
-            _cardTitle(context, '资产状态'),
+            _banner(),
+            _notification(),
+            _cardTitle('资产状态'),
             CMDBIndexPageChart(
               normal: 1,
               error: 3,
@@ -73,15 +75,15 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
                 print(status);
               },
             ),
-            _cardTitle(context, '关注的监控资产'),
-            _watchList(context, watchList),
+            _cardTitle('关注的监控资产'),
+            _watchList(watchList),
           ],
         ),
       ),
     );
   }
 
-  Widget _banner(BuildContext context) {
+  Widget _banner() {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.width / 2.7,
@@ -114,13 +116,13 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
         scale: 0.9,
         autoplay: true, //自动播放
         autoplayDelay: 6000, // 自动播放毫秒数
-        autoplayDisableOnInteraction: true,  // 如果设置为true，autoplay则在使用滑动时禁用。
+        autoplayDisableOnInteraction: true, // 如果设置为true，autoplay则在使用滑动时禁用。
       ),
     );
   }
 
   // 通知栏
-  Widget _notification(BuildContext context) {
+  Widget _notification() {
     String notificationStr = 'dsadsadas';
     double leftPointSize = 7.0;
     return Container(
@@ -165,7 +167,7 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
   }
 
   // 资产状态卡片头部
-  Widget _cardTitle(BuildContext context, String title) {
+  Widget _cardTitle(String title) {
     return ShadowCardTitle(
       title: title,
       onPressed: () {
@@ -175,7 +177,7 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
   }
 
   // 关注列表
-  Widget _watchList(BuildContext context, List<Map<String, dynamic>> watchList) {
+  Widget _watchList(List<Map<String, dynamic>> watchList) {
     List<Widget> children = (watchList == null || watchList.length == 0)
         ? <Widget>[]
         : watchList.take(5).map((row) {

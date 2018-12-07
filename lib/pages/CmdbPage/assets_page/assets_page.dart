@@ -6,6 +6,9 @@ import '../../../common/baseStyle.dart';
 import '../../../widgets/pull_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
 import '../../../widgets/shadow_card/card_title.dart';
+import '../../../widgets/page_route_Builder/index.dart';
+
+import './assets_manage.dart';
 
 class CMDBAssetsPage extends StatefulWidget {
   CMDBAssetsPage({Key key, this.title}) : super(key: key);
@@ -17,6 +20,7 @@ class CMDBAssetsPage extends StatefulWidget {
 }
 
 class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
+  BuildContext context;
   List<Map<String, dynamic>> flexHeaderList;
   List<Map<String, dynamic>> assetLifeList;
   List<Map<String, dynamic>> assetRankList;
@@ -30,7 +34,7 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
         'imgPath': 'assets/icons/cmdb_assets_manage.png',
         'title': '资产管理',
         'onPressed': () {
-          print('资产管理');
+          Navigator.push(context, RouteBuilder.iosPage(CMDBAssetsManagePage()));
         }
       },
       {
@@ -129,33 +133,34 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
 
   @override
   Widget build(BuildContext context) {
+    this.context = context;
     return Container(
       child: PullList(
         onRefresh: _onRefresh,
         child: new ListView(
           children: <Widget>[
-            _headerCard(context),
+            _headerCard(),
             ShadowCardTitle(
               title: '资产生命周期',
               onPressed: () {
                 print('资产生命周期');
               },
             ),
-            _assetLife(context),
+            _assetLife(),
             ShadowCardTitle(
               title: '资产监控排行TOP',
               onPressed: () {
                 print('资产监控排行TOP');
               },
             ),
-            _assetRank(context),
+            _assetRank(),
           ],
         ),
       ),
     );
   }
 
-  Widget _headerCard(BuildContext context) {
+  Widget _headerCard() {
     List<Widget> children =
         (flexHeaderList == null || flexHeaderList.length == 0)
             ? <Widget>[]
@@ -174,7 +179,7 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
       flex: item['flex'],
       child: GestureDetector(
         onTap: item['onPressed'],
-        child: Padding(
+        child: Container(
           padding: EdgeInsets.only(top: 20, bottom: 20),
           child: Center(
             child: Column(
@@ -206,7 +211,7 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
     );
   }
 
-  Widget _assetLife(BuildContext context) {
+  Widget _assetLife() {
     List<Widget> children = (assetLifeList == null || assetLifeList.length == 0)
         ? <Widget>[]
         : assetLifeList.take(2).map((row) {
@@ -274,7 +279,7 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
 
   List<int> colFlex = [4, 4, 3];
 
-  Widget _assetRank(BuildContext context) {
+  Widget _assetRank() {
     List<Widget> children = (assetRankList == null || assetRankList.length == 0)
         ? <Widget>[]
         : assetRankList.take(4).map((row) {

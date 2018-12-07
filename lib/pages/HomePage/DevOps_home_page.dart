@@ -125,7 +125,7 @@ class _DevOpsHomePageState extends State<DevOpsHomePage> {
         );
       }),
       actions: actions,
-      centerTitle: false, // 消除 android 与 ios 页面title布局差异
+      centerTitle: true, // 消除 android 与 ios 页面title布局差异
       elevation: 0.0, // 去掉appbar下面的阴影
     );
   }
