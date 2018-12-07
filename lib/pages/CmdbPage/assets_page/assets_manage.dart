@@ -30,7 +30,7 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
   }
 
   void _onRefresh(dynamic controller) {
-    new Future.delayed(const Duration(milliseconds: 500)).then((val) {
+    new Future.delayed(const Duration(milliseconds: 200)).then((val) {
       currentPage = 1;
       setState(() {
         manageList = _getManageList(currentPage, pageSize);
@@ -40,7 +40,7 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
   }
 
   void _onLoad(dynamic controller) {
-    new Future.delayed(const Duration(milliseconds: 500)).then((val) {
+    new Future.delayed(const Duration(milliseconds: 200)).then((val) {
       currentPage++;
       setState(() {
         manageList.addAll(_getManageList(currentPage, pageSize));
@@ -139,7 +139,7 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
         itemBuilder: (BuildContext context, int index) {
           return _listCard(context, manageList[index], index);
         },
-        physics: ScrollPhysics(),
+        physics: ClampingScrollPhysics(),
         itemCount: manageList.length ?? 0,
       ),
     );
