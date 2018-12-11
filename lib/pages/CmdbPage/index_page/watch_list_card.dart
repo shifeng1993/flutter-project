@@ -15,6 +15,21 @@ class WatchListCard extends StatefulWidget {
 }
 
 class _WatchListCardState extends State<WatchListCard> {
+  List<Action> actions;
+
+  @override
+  void initState() {
+    super.initState();
+    actions = [
+      Action('监控', ()  {
+        print('监控');
+      }),
+      Action('取消', ()  {
+        print('取消');
+      })
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget statusImage;
@@ -82,6 +97,7 @@ class _WatchListCardState extends State<WatchListCard> {
       onPressed: () {
         cardOnPress(widget.row);
       },
+      actions: actions,
       child: Row(
         children: <Widget>[
           Expanded(
@@ -96,11 +112,14 @@ class _WatchListCardState extends State<WatchListCard> {
                         statusImage,
                         Expanded(
                           flex: 1,
-                          child: Text(
-                            widget.row['name'],
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: flexTextTitle,
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 30.0),
+                            child: Text(
+                              widget.row['name'],
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: flexTextTitle,
+                            ),
                           ),
                         )
                       ],

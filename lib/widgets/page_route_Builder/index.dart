@@ -27,4 +27,11 @@ class RouteBuilder {
   static final Function androidPage = (Widget page) {
     return MaterialPageRoute(builder: (BuildContext context) => page);
   };
+
+  static final Function dialog = (BuildContext buildContext,
+      Animation<double> animation, Animation<double> secondaryAnimation) {
+    return Builder(builder: (BuildContext context) {
+      return Container();
+    });
+  };
 }

@@ -43,17 +43,10 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
   }
 
   void _onRefresh(dynamic refreshController, bool up) {
-    if (up)
-      new Future.delayed(const Duration(milliseconds: 2009)).then((val) {
-        setState(() {});
-        refreshController.sendBack(true, RefreshStatus.completed);
-      });
-    else {
-      new Future.delayed(const Duration(milliseconds: 2009)).then((val) {
-        setState(() {});
-        refreshController.sendBack(false, RefreshStatus.idle);
-      });
-    }
+    new Future.delayed(const Duration(milliseconds: 2009)).then((val) {
+      setState(() {});
+      refreshController.sendBack(true, RefreshStatus.completed);
+    });
   }
 
   @override
