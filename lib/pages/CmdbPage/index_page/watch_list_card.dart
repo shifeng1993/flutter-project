@@ -23,9 +23,11 @@ class _WatchListCardState extends State<WatchListCard> {
     actions = [
       Action('监控', ()  {
         print('监控');
+        print(widget.row.toString());
       }),
       Action('取消', ()  {
         print('取消');
+        print(widget.row.toString());
       })
     ];
   }

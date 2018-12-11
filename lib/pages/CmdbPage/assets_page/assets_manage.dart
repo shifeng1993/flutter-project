@@ -148,6 +148,17 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
   Widget _listCard(BuildContext context, Map<String, dynamic> row, int index) {
     List<int> flex = [8, 6, 7];
 
+    List<Action> actions = [
+      Action('监控', () {
+        print('监控');
+        print(row.toString());
+      }),
+      Action('取消', () {
+        print('取消');
+        print(row.toString());
+      })
+    ];
+
     TextStyle flexTextTitle = TextStyle(
         fontSize: BaseStyle.fontSize[1],
         color: BaseStyle.textColor[0],
@@ -167,6 +178,7 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
       margin: EdgeInsets.only(
           bottom: 10, left: 15, right: 15, top: index == 0 ? 10 : 0),
       padding: EdgeInsets.only(left: 10, top: 15, right: 10, bottom: 15),
+      actions: actions,
       onPressed: () {
         cardOnPress(row);
       },
@@ -191,13 +203,16 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
                         ),
                         Expanded(
                           flex: 1,
-                          child: Text(
-                            row['name'],
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: flexTextTitle,
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 30.0),
+                            child: Text(
+                              row['name'],
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: flexTextTitle,
+                            ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
