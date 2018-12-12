@@ -45,6 +45,7 @@ class ShadowCard extends StatefulWidget {
 class _ShadowCardState extends State<ShadowCard> {
   final double rightTopButtonSize = 40.0;
   Matrix4 actionsArrow = Matrix4.identity();
+  bool debounce = true; // 防止单身五百年的手速
 
   @override
   void initState() {
@@ -175,7 +176,17 @@ class _ShadowCardState extends State<ShadowCard> {
             ),
           ),
         ),
-        onPressed: row.onPressed,
+        onPressed: () {
+          // 防止单身五百年的手速
+          if (this.debounce) {
+            this.debounce = false;
+            row.onPressed();
+            Navigator.of(context).pop();
+            new Future.delayed(const Duration(milliseconds: 500)).then((val) {
+              this.debounce = true;
+            });
+          }
+        },
       ),
     );
   }
