@@ -9,6 +9,8 @@ import '../../../widgets/shadow_card/card_title.dart';
 import '../../../widgets/page_route_Builder/index.dart';
 
 import './assets_manage.dart';
+import './assets_inspection.dart';
+import './assets_monitor.dart';
 
 class CMDBAssetsPage extends StatefulWidget {
   CMDBAssetsPage({Key key, this.title}) : super(key: key);
@@ -42,7 +44,7 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
         'imgPath': 'assets/icons/cmdb_assets_inspection.png',
         'title': '资产巡检',
         'onPressed': () {
-          print('资产巡检');
+          Navigator.push(context, RouteBuilder.iosPage(CMDBAssetsInspectionPage()));
         }
       },
       {
@@ -50,7 +52,7 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
         'imgPath': 'assets/icons/cmdb_assets_monitor.png',
         'title': '资产监控',
         'onPressed': () {
-          print('资产监控');
+          Navigator.push(context, RouteBuilder.iosPage(CMDBAssetsMonitorPage()));
         }
       },
       {

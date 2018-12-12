@@ -1,7 +1,7 @@
 /// reducer单元测试例子，目前还没有东西测。后面有东西再仿照demo进行测试的添加
 
-import 'package:flutter_test/flutter_test.dart';
-import 'package:quiver/core.dart';
+// import 'package:flutter_test/flutter_test.dart';
+// import 'package:quiver/core.dart';
 // import 'package:redux_sample/models/models.dart';
 // import 'package:redux_sample/selectors/selectors.dart';
 

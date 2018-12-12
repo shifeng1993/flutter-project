@@ -1,39 +1,39 @@
-// cmdb资产 -> 资产管理
+// cmdb资产 -> 资产巡检
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../common/baseStyle.dart';
 
-import '../../drawerPage/assets_right_drawer.dart';
 import '../../../widgets/pull_push_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
 
-class CMDBAssetsManagePage extends StatefulWidget {
-  CMDBAssetsManagePage({Key key, this.title}) : super(key: key);
+class CMDBAssetsInspectionPage extends StatefulWidget {
+  CMDBAssetsInspectionPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _CMDBAssetsManagePageState createState() => new _CMDBAssetsManagePageState();
+  _CMDBAssetsInspectionPageState createState() =>
+      new _CMDBAssetsInspectionPageState();
 }
 
-class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
+class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
   BuildContext context;
-  List<Map<String, dynamic>> manageList;
+  List<Map<String, dynamic>> inspectionList;
   int currentPage = 1;
   int pageSize = 15;
 
   @override
   void initState() {
     super.initState();
-    manageList = _getManageList(1, pageSize);
+    inspectionList = _getInspectionList(1, pageSize);
   }
 
   void _onRefresh(dynamic controller) {
     new Future.delayed(const Duration(milliseconds: 200)).then((val) {
       currentPage = 1;
       setState(() {
-        manageList = _getManageList(currentPage, pageSize);
+        inspectionList = _getInspectionList(currentPage, pageSize);
       });
       controller.sendBack(true, RefreshStatus.completed);
     });
@@ -43,7 +43,7 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
     new Future.delayed(const Duration(milliseconds: 200)).then((val) {
       currentPage++;
       setState(() {
-        manageList.addAll(_getManageList(currentPage, pageSize));
+        inspectionList.addAll(_getInspectionList(currentPage, pageSize));
       });
       controller.sendBack(false, RefreshStatus.completed);
       controller.sendBack(false, RefreshStatus.idle);
@@ -56,16 +56,17 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
     return new Future.value(false);
   }
 
-  List<Map<String, dynamic>> _getManageList(int currentPage, int pageSize) {
+  List<Map<String, dynamic>> _getInspectionList(int currentPage, int pageSize) {
     List<Map<String, dynamic>> data = new List.generate(pageSize, (i) {
       i++;
       Map<String, dynamic> row = new Map();
       row['name'] =
           '${(i + (currentPage - 1) * pageSize).toString()}这是标题，我来展示，这是标题，我来展示这是标题，我来展示，这是标题，我来展示';
-      row['ip'] =
-          '111.111.111.${(i + (currentPage - 1) * pageSize).toString()}';
-      row['type'] = 'linux';
-      row['status'] = new Random().nextInt(2);
+      row['cycle'] = '${new Random().nextInt(5).toString()}天';
+      row['createUser'] = '用户${new Random().nextInt(20).toString()}';
+      row['createTime'] = '1999-08-01 11:11:11';
+      row['lastTime'] = '1999-08-01 11:11:11';
+      row['nextTime'] = '1999-08-01 11:11:11';
       return row;
     });
     return data;
@@ -78,7 +79,6 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
       child: Scaffold(
         appBar: _appbar(),
         body: _body(),
-        endDrawer: AssetsRightDrawer(),
       ),
       onWillPop: _goback,
     );
@@ -88,11 +88,9 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
     final iconSize = 22.0;
     return AppBar(
       title: Container(
-        margin:
-            EdgeInsets.only(left: iconSize + 20), // 给marginleft补齐量，使title在屏幕中央
         child: Center(
           child: Text(
-            '资产管理',
+            '资产巡检',
             style: TextStyle(fontSize: BaseStyle.fontSize[0]),
             textAlign: TextAlign.center,
           ),
@@ -108,26 +106,10 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
         );
       }),
       actions: <Widget>[
-        IconButton(
-          icon: ImageIcon(
-            AssetImage("assets/icons/search_w.png"),
-            size: iconSize,
-          ),
-          onPressed: () {
-            print('搜索');
-          },
+        Container(
+          width: iconSize + 26, // 加26是为了补齐偏差
+          height: iconSize + 26, // 加26是为了补齐偏差
         ),
-        Builder(builder: (BuildContext context) {
-          return IconButton(
-            icon: ImageIcon(
-              AssetImage("assets/icons/filter.png"),
-              size: iconSize,
-            ),
-            onPressed: () {
-              Scaffold.of(context).openEndDrawer();
-            },
-          );
-        }),
       ],
       centerTitle: false, // 消除 android 与 ios 页面title布局差异
       elevation: 0.0, // 去掉appbar下面的阴影
@@ -140,24 +122,20 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
       onRefresh: _onRefresh,
       child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
-          return _listCard(context, manageList[index], index);
+          return _listCard(context, inspectionList[index], index);
         },
         physics: ClampingScrollPhysics(),
-        itemCount: manageList.length ?? 0,
+        itemCount: inspectionList.length ?? 0,
       ),
     );
   }
 
   Widget _listCard(BuildContext context, Map<String, dynamic> row, int index) {
-    List<int> flex = [8, 6, 7];
+    List<int> flex = [3, 3, 5];
 
     List<Action> actions = [
-      Action('监控', () {
-        print('监控');
-        print(row.toString());
-      }),
-      Action('取消', () {
-        print('取消');
+      Action('删除', () {
+        print('删除');
         print(row.toString());
       })
     ];
@@ -199,7 +177,7 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
                         Container(
                           margin: EdgeInsets.only(right: 5),
                           child: Image.asset(
-                            'assets/icons/assets_icon.png',
+                            'assets/icons/inspection_icon.png',
                             width: 20,
                             height: 20,
                           ),
@@ -232,13 +210,13 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
                                   padding: EdgeInsets.only(bottom: 5),
                                   child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Text('IP地址', style: flexTextKey),
+                                    child: Text('巡检周期', style: flexTextKey),
                                   ),
                                 ),
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    row['ip'],
+                                    row['cycle'],
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: flexTextVal,
@@ -257,13 +235,13 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
                                   padding: EdgeInsets.only(bottom: 5),
                                   child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Text('资产类型', style: flexTextKey),
+                                    child: Text('创建者', style: flexTextKey),
                                   ),
                                 ),
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    row['type'],
+                                    row['createUser'],
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: flexTextVal,
@@ -282,12 +260,12 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
                                   padding: EdgeInsets.only(bottom: 5),
                                   child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Text('资产状态', style: flexTextKey),
+                                    child: Text('创建时间', style: flexTextKey),
                                   ),
                                 ),
                                 Align(
                                   alignment: Alignment.centerLeft,
-                                  child: Text(getAssetStatus(row['status']),
+                                  child: Text(row['createTime'],
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: flexTextVal),
@@ -298,7 +276,32 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
                         ),
                       ],
                     ),
-                  )
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    padding: EdgeInsets.only(top: 5),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '上次执行时间：${row['lastTime']}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: BaseStyle.fontSize[4],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 5),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '下次执行时间：${row['nextTime']}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: BaseStyle.fontSize[4],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -1,39 +1,41 @@
-// cmdb资产 -> 资产管理
+// cmdb资产/监控 -> 监控
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:unicorndial/unicorndial.dart';
 import '../../../common/baseStyle.dart';
 
 import '../../drawerPage/assets_right_drawer.dart';
 import '../../../widgets/pull_push_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
 
-class CMDBAssetsManagePage extends StatefulWidget {
-  CMDBAssetsManagePage({Key key, this.title}) : super(key: key);
+class CMDBAssetsMonitorPage extends StatefulWidget {
+  CMDBAssetsMonitorPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _CMDBAssetsManagePageState createState() => new _CMDBAssetsManagePageState();
+  _CMDBAssetsMonitorPageState createState() =>
+      new _CMDBAssetsMonitorPageState();
 }
 
-class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
+class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
   BuildContext context;
-  List<Map<String, dynamic>> manageList;
+  List<Map<String, dynamic>> monitorList;
   int currentPage = 1;
   int pageSize = 15;
 
   @override
   void initState() {
     super.initState();
-    manageList = _getManageList(1, pageSize);
+    monitorList = _getManageList(1, pageSize);
   }
 
   void _onRefresh(dynamic controller) {
     new Future.delayed(const Duration(milliseconds: 200)).then((val) {
       currentPage = 1;
       setState(() {
-        manageList = _getManageList(currentPage, pageSize);
+        monitorList = _getManageList(currentPage, pageSize);
       });
       controller.sendBack(true, RefreshStatus.completed);
     });
@@ -43,7 +45,7 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
     new Future.delayed(const Duration(milliseconds: 200)).then((val) {
       currentPage++;
       setState(() {
-        manageList.addAll(_getManageList(currentPage, pageSize));
+        monitorList.addAll(_getManageList(currentPage, pageSize));
       });
       controller.sendBack(false, RefreshStatus.completed);
       controller.sendBack(false, RefreshStatus.idle);
@@ -76,10 +78,11 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
     this.context = context;
     return WillPopScope(
       child: Scaffold(
-        appBar: _appbar(),
-        body: _body(),
-        endDrawer: AssetsRightDrawer(),
-      ),
+          appBar: _appbar(),
+          body: _body(),
+          endDrawer: AssetsRightDrawer(),
+          floatingActionButton: _floatActionButton() //,
+          ),
       onWillPop: _goback,
     );
   }
@@ -92,7 +95,7 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
             EdgeInsets.only(left: iconSize + 20), // 给marginleft补齐量，使title在屏幕中央
         child: Center(
           child: Text(
-            '资产管理',
+            '资产监控',
             style: TextStyle(fontSize: BaseStyle.fontSize[0]),
             textAlign: TextAlign.center,
           ),
@@ -134,16 +137,60 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
     );
   }
 
+  Widget _floatActionButton() {
+    return UnicornDialer(
+      orientation: UnicornOrientation.VERTICAL,
+      backgroundColor: Theme.of(context).accentColor,
+      parentButton: Icon(Icons.add),
+      hasBackground: false, // mask
+      childButtons: <UnicornButton>[
+        UnicornButton(
+          currentButton: FloatingActionButton(
+            backgroundColor: BaseStyle.statusColor[0],
+            heroTag: 'error',
+            child: _getAssetStatusImage(0,),
+            mini: true,
+            onPressed: () {
+              print(123);
+            },
+          ),
+        ),
+        UnicornButton(
+          currentButton: FloatingActionButton(
+            backgroundColor: BaseStyle.statusColor[1],
+            heroTag: 'normal',
+            child: _getAssetStatusImage(1),
+            mini: true,
+            onPressed: () {
+              print(123);
+            },
+          ),
+        ),
+        UnicornButton(
+          currentButton: FloatingActionButton(
+            backgroundColor: BaseStyle.statusColor[2],
+            heroTag: 'warning',
+            child: _getAssetStatusImage(2),
+            mini: true,
+            onPressed: () {
+              print(123);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _body() {
     return PullPushList(
       onLoad: _onLoad,
       onRefresh: _onRefresh,
       child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
-          return _listCard(context, manageList[index], index);
+          return _listCard(context, monitorList[index], index);
         },
         physics: ClampingScrollPhysics(),
-        itemCount: manageList.length ?? 0,
+        itemCount: monitorList.length ?? 0,
       ),
     );
   }
@@ -198,11 +245,7 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(right: 5),
-                          child: Image.asset(
-                            'assets/icons/assets_icon.png',
-                            width: 20,
-                            height: 20,
-                          ),
+                          child: _getAssetStatusImage(row['status']),
                         ),
                         Expanded(
                           flex: 1,
@@ -310,6 +353,37 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
 
   void cardOnPress(row) {
     print(row.toString());
+  }
+
+  Widget _getAssetStatusImage(int status) {
+    double size = 20.0;
+    Widget img;
+    switch (status) {
+      case 0:
+        img = Image.asset(
+          'assets/icons/assets_status_error.png',
+          width: size,
+          height: size,
+        );
+        break;
+      case 1:
+        img = Image.asset(
+          'assets/icons/assets_status_normal.png',
+          width: size,
+          height: size,
+        );
+        break;
+      case 2:
+        img = Image.asset(
+          'assets/icons/assets_status_warning.png',
+          width: size,
+          height: size,
+        );
+        break;
+      default:
+        img = null;
+    }
+    return img;
   }
 
   String getAssetStatus(int status) {

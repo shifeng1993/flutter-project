@@ -37,7 +37,7 @@ class _PopoverButtonState extends State<PopoverButton> {
       child: widget.button ?? widget.button,
       onTap: () {
         var offset = WidgetUtil.getWidgetLocalToGlobal(context);
-        var bounds = WidgetUtil.getWidgetBounds(context);
+        // var bounds = WidgetUtil.getWidgetBounds(context);
 
         showGeneralDialog(
           context: context,

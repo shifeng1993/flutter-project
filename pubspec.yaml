@@ -36,6 +36,7 @@ dependencies:
   flutter_circular_chart: ^0.1.0              # 圆形图表
   pull_to_refresh: ^1.1.6                     # 列表组件，下拉刷新和上拉加载
   flustars: ^0.1.4                            # 常用工具类
+  unicorndial: ^1.1.5                         # floatActionButton菜单
   
 dev_dependencies:
   flutter_test:

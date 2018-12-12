@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../HomePage/CMDB_home_page.dart';
-import '../HomePage/DevOps_home_page.dart';
-import '../HomePage/ITIL_home_page.dart';
+// import '../HomePage/DevOps_home_page.dart';
+// import '../HomePage/ITIL_home_page.dart';
 
 import '../../widgets/page_route_Builder/index.dart';
 
