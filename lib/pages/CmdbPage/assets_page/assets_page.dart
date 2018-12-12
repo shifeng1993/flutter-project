@@ -11,6 +11,7 @@ import '../../../widgets/page_route_Builder/index.dart';
 import './assets_manage.dart';
 import './assets_inspection.dart';
 import './assets_monitor.dart';
+import './assets_service.dart';
 
 class CMDBAssetsPage extends StatefulWidget {
   CMDBAssetsPage({Key key, this.title}) : super(key: key);
@@ -60,7 +61,7 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
         'imgPath': 'assets/icons/cmdb_assets_service.png',
         'title': '业务服务管理',
         'onPressed': () {
-          print('业务服务管理');
+          Navigator.push(context, RouteBuilder.iosPage(CMDBAssetsServicePage()));
         }
       },
     ];

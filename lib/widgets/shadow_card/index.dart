@@ -175,10 +175,7 @@ class _ShadowCardState extends State<ShadowCard> {
             ),
           ),
         ),
-        onPressed: () {
-          row.onPressed();
-          Navigator.pop(context);
-        },
+        onPressed: row.onPressed,
       ),
     );
   }

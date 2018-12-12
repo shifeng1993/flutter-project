@@ -8,32 +8,32 @@ import '../../drawerPage/assets_right_drawer.dart';
 import '../../../widgets/pull_push_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
 
-class CMDBAssetsManagePage extends StatefulWidget {
-  CMDBAssetsManagePage({Key key, this.title}) : super(key: key);
+class CMDBAssetsServicePage extends StatefulWidget {
+  CMDBAssetsServicePage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _CMDBAssetsManagePageState createState() => new _CMDBAssetsManagePageState();
+  _CMDBAssetsServicePageState createState() => new _CMDBAssetsServicePageState();
 }
 
-class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
+class _CMDBAssetsServicePageState extends State<CMDBAssetsServicePage> {
   BuildContext context;
-  List<Map<String, dynamic>> manageList;
+  List<Map<String, dynamic>> serviceList;
   int currentPage = 1;
   int pageSize = 15;
 
   @override
   void initState() {
     super.initState();
-    manageList = _getManageList(1, pageSize);
+    serviceList = _getManageList(1, pageSize);
   }
 
   void _onRefresh(dynamic controller) {
     new Future.delayed(const Duration(milliseconds: 200)).then((val) {
       currentPage = 1;
       setState(() {
-        manageList = _getManageList(currentPage, pageSize);
+        serviceList = _getManageList(currentPage, pageSize);
       });
       controller.sendBack(true, RefreshStatus.completed);
     });
@@ -43,7 +43,7 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
     new Future.delayed(const Duration(milliseconds: 200)).then((val) {
       currentPage++;
       setState(() {
-        manageList.addAll(_getManageList(currentPage, pageSize));
+        serviceList.addAll(_getManageList(currentPage, pageSize));
       });
       controller.sendBack(false, RefreshStatus.completed);
       controller.sendBack(false, RefreshStatus.idle);
@@ -140,10 +140,10 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
       onRefresh: _onRefresh,
       child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
-          return _listCard(context, manageList[index], index);
+          return _listCard(context, serviceList[index], index);
         },
         physics: ClampingScrollPhysics(),
-        itemCount: manageList.length ?? 0,
+        itemCount: serviceList.length ?? 0,
       ),
     );
   }
