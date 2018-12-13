@@ -1,5 +1,6 @@
 // cmdb资产/监控 -> 监控
 import 'dart:math';
+import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:unicorndial/unicorndial.dart';
@@ -22,12 +23,15 @@ class CMDBAssetsMonitorPage extends StatefulWidget {
 class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
   BuildContext context;
   List<Map<String, dynamic>> monitorList;
+  ScrollController _scrollController;
+  var currentStatus;
   int currentPage = 1;
   int pageSize = 15;
 
   @override
   void initState() {
     super.initState();
+    currentStatus = null;
     monitorList = _getManageList(1, pageSize);
   }
 
@@ -52,6 +56,10 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
     });
   }
 
+  void _onController(dynamic controller) {
+    this._scrollController = controller.scrollController;
+  }
+
   Future<bool> _goback() {
     print('_goback');
     Navigator.of(context).pop();
@@ -67,7 +75,8 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
       row['ip'] =
           '111.111.111.${(i + (currentPage - 1) * pageSize).toString()}';
       row['type'] = 'linux';
-      row['status'] = new Random().nextInt(2);
+      row['status'] =
+          currentStatus == null ? new Random().nextInt(2) : currentStatus;
       return row;
     });
     return data;
@@ -137,6 +146,26 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
     );
   }
 
+  _setStatusList(int status) {
+    if (_scrollController.hasClients) {
+      _scrollController
+          .animateTo(
+        0.0,
+        curve: Curves.easeOut,
+        duration: const Duration(milliseconds: 1000),
+      )
+          .then((val) {
+        currentPage = 1;
+        setState(() {
+          currentStatus = status;
+          monitorList = _getManageList(currentPage, pageSize);
+        });
+      });
+    } else {
+      print(_scrollController.hasClients.toString());
+    }
+  }
+
   Widget _floatActionButton() {
     return UnicornDialer(
       orientation: UnicornOrientation.VERTICAL,
@@ -148,11 +177,9 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
           currentButton: FloatingActionButton(
             backgroundColor: BaseStyle.statusColor[0],
             heroTag: 'error',
-            child: _getAssetStatusImage(0,),
+            child: _getAssetStatusImage(0),
             mini: true,
-            onPressed: () {
-              print(123);
-            },
+            onPressed: () => _setStatusList(0),
           ),
         ),
         UnicornButton(
@@ -161,9 +188,7 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
             heroTag: 'normal',
             child: _getAssetStatusImage(1),
             mini: true,
-            onPressed: () {
-              print(123);
-            },
+            onPressed: () => _setStatusList(1),
           ),
         ),
         UnicornButton(
@@ -172,9 +197,21 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
             heroTag: 'warning',
             child: _getAssetStatusImage(2),
             mini: true,
-            onPressed: () {
-              print(123);
-            },
+            onPressed: () => _setStatusList(2),
+          ),
+        ),
+        UnicornButton(
+          currentButton: FloatingActionButton(
+            backgroundColor: Color(0xffffffff),
+            heroTag: 'all',
+            child: Text(
+              '全部',
+              style: TextStyle(
+                  fontSize: BaseStyle.fontSize[4],
+                  color: BaseStyle.textColor[0]),
+            ),
+            mini: true,
+            onPressed: () => _setStatusList(null),
           ),
         ),
       ],
@@ -185,7 +222,9 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
     return PullPushList(
       onLoad: _onLoad,
       onRefresh: _onRefresh,
+      onController: _onController,
       child: ListView.builder(
+        padding: EdgeInsets.only(top: 10),
         itemBuilder: (BuildContext context, int index) {
           return _listCard(context, monitorList[index], index);
         },
@@ -225,8 +264,7 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
         fontWeight: FontWeight.w500);
 
     return ShadowCard(
-      margin: EdgeInsets.only(
-          bottom: 10, left: 15, right: 15, top: index == 0 ? 10 : 0),
+      margin: EdgeInsets.only(bottom: 10, left: 15, right: 15, top: 0),
       padding: EdgeInsets.only(left: 10, top: 15, right: 10, bottom: 15),
       actions: actions,
       onPressed: () {

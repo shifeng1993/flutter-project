@@ -10,11 +10,14 @@ class PullPushList extends StatefulWidget {
     @required this.child,
     @required this.onRefresh,
     @required this.onLoad,
+    this.onController,
   }) : super(key: key);
 
   final Widget child;
   final Function onRefresh;
   final Function onLoad;
+  final Function onController;
+
   @override
   _PullPushListState createState() => new _PullPushListState();
 }
@@ -98,7 +101,7 @@ class _PullPushListState extends State<PullPushList> {
     );
   }
 
-   Widget _footerBuilder(BuildContext context, int status) {
+  Widget _footerBuilder(BuildContext context, int status) {
     return ClassicIndicator(
       mode: status, // 传入状态
 
@@ -152,7 +155,7 @@ class _PullPushListState extends State<PullPushList> {
     return Container(
       child: SmartRefresher(
         enablePullDown: true, // 打开下拉
-        enablePullUp: true,// 打开上拉
+        enablePullUp: true, // 打开上拉
         onRefresh: _onRefresh,
         onOffsetChange: _onOffsetCallback,
         headerBuilder: (BuildContext context, int status) {
@@ -172,9 +175,16 @@ class _PullPushListState extends State<PullPushList> {
           bottomWhenBuild: true, // 是否位于底部
         ),
         controller: _controller,
-        child: widget.child,
+        child: _list(),
       ),
     );
+  }
+
+  Widget _list() {
+    new Future.delayed(const Duration(milliseconds: 1000)).then((val) {
+      widget.onController(_controller);
+    });
+    return widget.child;
   }
 
   @override
