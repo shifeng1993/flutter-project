@@ -182,7 +182,9 @@ class _PullPushListState extends State<PullPushList> {
 
   Widget _list() {
     new Future.delayed(const Duration(milliseconds: 1000)).then((val) {
-      widget.onController(_controller);
+      if (widget.onController != null) {
+        widget.onController(_controller);
+      }
     });
     return widget.child;
   }

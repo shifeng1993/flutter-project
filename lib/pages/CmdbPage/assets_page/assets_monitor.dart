@@ -76,7 +76,7 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
           '111.111.111.${(i + (currentPage - 1) * pageSize).toString()}';
       row['type'] = 'linux';
       row['status'] =
-          currentStatus == null ? new Random().nextInt(2) : currentStatus;
+          currentStatus == null ? new Random().nextInt(3) : currentStatus;
       return row;
     });
     return data;
