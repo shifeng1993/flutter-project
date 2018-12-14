@@ -166,7 +166,7 @@ class _PullPushListState extends State<PullPushList> {
         },
         headerConfig: const RefreshConfig(
           triggerDistance: 80.0,
-          completeDuration: 800,
+          completeDuration: 300,
           visibleRange: 60.0,
         ),
         footerConfig: const LoadConfig(

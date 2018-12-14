@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:unicorndial/unicorndial.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 import '../../../common/baseStyle.dart';
 
 import '../../drawerPage/assets_right_drawer.dart';
@@ -67,15 +68,19 @@ class _CMDBAssetsServicePageState extends State<CMDBAssetsServicePage> {
   }
 
   List<Map<String, dynamic>> _getManageList(int currentPage, int pageSize) {
-    List<String> nameList = ['OA业务', 'CRM业务', 'XXX', '某某业务'];
+    List<String> nameList = ['OA业务', 'CRM业务', 'ERP业务', 'APM业务'];
     List<Map<String, dynamic>> data = new List.generate(pageSize, (i) {
       i++;
       Map<String, dynamic> row = new Map();
       row['name'] =
-          '${(i + (currentPage - 1) * pageSize).toString()}${nameList[new Random().nextInt(4)]}';
+          '${(i + (currentPage - 1) * pageSize).toString()}.${nameList[new Random().nextInt(4)]}测试长度测试长度测试长度测试长度';
       row['businessServices'] = new Random().nextInt(100);
       row['server'] = new Random().nextInt(100);
       row['other'] = new Random().nextInt(100);
+      row['rating'] = (new Random().nextInt(5) + 1) == 5
+          ? (new Random().nextInt(5) + 1).toDouble()
+          : (new Random().nextInt(5) + 1).toDouble() +
+              new Random().nextDouble();
       row['status'] =
           currentStatus == null ? new Random().nextInt(3) : currentStatus;
       return row;
@@ -226,7 +231,6 @@ class _CMDBAssetsServicePageState extends State<CMDBAssetsServicePage> {
 
   Widget _listCard(BuildContext context, Map<String, dynamic> row, int index) {
     List<int> flex = [1, 1, 1];
-
     TextStyle flexTextTitle = TextStyle(
         fontSize: BaseStyle.fontSize[1],
         color: BaseStyle.textColor[0],
@@ -242,15 +246,15 @@ class _CMDBAssetsServicePageState extends State<CMDBAssetsServicePage> {
         color: BaseStyle.textColor[0],
         fontWeight: FontWeight.w500);
 
-    return Stack(
-      children: <Widget>[
-        ShadowCard(
-          margin: EdgeInsets.only(bottom: 10, left: 15, right: 15, top: 0),
-          padding: EdgeInsets.only(left: 10, top: 15, right: 10, bottom: 15),
-          onPressed: () {
-            cardOnPress(row);
-          },
-          child: Row(
+    return ShadowCard(
+      margin: EdgeInsets.only(bottom: 10, left: 15, right: 15, top: 0),
+      padding: EdgeInsets.only(left: 10, top: 15, right: 10, bottom: 15),
+      onPressed: () {
+        cardOnPress(row);
+      },
+      child: Stack(
+        children: <Widget>[
+          Row(
             children: <Widget>[
               Expanded(
                 flex: 1,
@@ -268,7 +272,7 @@ class _CMDBAssetsServicePageState extends State<CMDBAssetsServicePage> {
                             Expanded(
                               flex: 1,
                               child: Padding(
-                                padding: EdgeInsets.only(right: 30.0),
+                                padding: EdgeInsets.only(right: 100.0),
                                 child: Text(
                                   row['name'],
                                   maxLines: 1,
@@ -362,8 +366,20 @@ class _CMDBAssetsServicePageState extends State<CMDBAssetsServicePage> {
               )
             ],
           ),
-        ),
-      ],
+          Positioned(
+            right: 0,
+            top: 0,
+            child: SmoothStarRating(
+              allowHalfRating: true, // 启用半颗星
+              starCount: 5,
+              rating: row['rating'],
+              size: 20.0,
+              color: Color(0xffFFD06A),
+              borderColor: Color(0xffFFD06A),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

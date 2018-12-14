@@ -37,6 +37,7 @@ dependencies:
   pull_to_refresh: ^1.1.6                     # 列表组件，下拉刷新和上拉加载
   flustars: ^0.1.4                            # 常用工具类
   unicorndial: ^1.1.5                         # floatActionButton菜单
+  smooth_star_rating: ^1.0.1                  # 评分控件
   
 dev_dependencies:
   flutter_test:
