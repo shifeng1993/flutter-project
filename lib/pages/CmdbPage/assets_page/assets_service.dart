@@ -127,7 +127,7 @@ class _CMDBAssetsServicePageState extends State<CMDBAssetsServicePage> {
         Builder(builder: (BuildContext context) {
           return IconButton(
             icon: ImageIcon(
-              AssetImage("assets/icons/filter.png"),
+              AssetImage("assets/icons/analysis.png"),
               size: iconSize,
             ),
             onPressed: () {
