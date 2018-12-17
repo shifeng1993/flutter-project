@@ -12,6 +12,7 @@ import './assets_manage.dart';
 import './assets_inspection.dart';
 import './assets_monitor.dart';
 import './assets_service.dart';
+import './assets_Life.dart';
 
 class CMDBAssetsPage extends StatefulWidget {
   CMDBAssetsPage({Key key, this.title}) : super(key: key);
@@ -147,7 +148,7 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
             ShadowCardTitle(
               title: '资产生命周期',
               onPressed: () {
-                print('资产生命周期');
+                Navigator.push(context, RouteBuilder.iosPage(CMDBAssetsLifePage()));
               },
             ),
             _assetLife(),
