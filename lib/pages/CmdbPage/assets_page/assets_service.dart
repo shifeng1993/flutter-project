@@ -8,7 +8,7 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 import '../../../common/baseStyle.dart';
 
 import '../../drawerPage/assets_right_drawer.dart';
-import '../../../widgets/pull_push_list/index.dart';
+import '../../../widgets/pull_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
 
 class CMDBAssetsServicePage extends StatefulWidget {
@@ -36,24 +36,13 @@ class _CMDBAssetsServicePageState extends State<CMDBAssetsServicePage> {
     monitorList = _getManageList(1, pageSize);
   }
 
-  void _onRefresh(dynamic controller) {
+  void _onRefresh(dynamic controller, bool up) {
     new Future.delayed(const Duration(milliseconds: 200)).then((val) {
       currentPage = 1;
       setState(() {
         monitorList = _getManageList(currentPage, pageSize);
       });
       controller.sendBack(true, RefreshStatus.completed);
-    });
-  }
-
-  void _onLoad(dynamic controller) {
-    new Future.delayed(const Duration(milliseconds: 200)).then((val) {
-      currentPage++;
-      setState(() {
-        monitorList.addAll(_getManageList(currentPage, pageSize));
-      });
-      controller.sendBack(false, RefreshStatus.completed);
-      controller.sendBack(false, RefreshStatus.idle);
     });
   }
 
@@ -214,22 +203,111 @@ class _CMDBAssetsServicePageState extends State<CMDBAssetsServicePage> {
   }
 
   Widget _body() {
-    return PullPushList(
-      onLoad: _onLoad,
+    List<Widget> children = new List<Widget>();
+    children.add(_headCard());
+    if (monitorList != null && monitorList.length != 0) {
+      List<Widget> list = monitorList.take(5).map((row) {
+        return _listCard(
+            monitorList[monitorList.indexOf(row)], monitorList.indexOf(row));
+      }).toList();
+      children.addAll(list);
+    }
+
+    return PullList(
       onRefresh: _onRefresh,
       onController: _onController,
-      child: ListView.builder(
-        padding: EdgeInsets.only(top: 10),
-        itemBuilder: (BuildContext context, int index) {
-          return _listCard(context, monitorList[index], index);
-        },
+      child: ListView(
         physics: ClampingScrollPhysics(),
-        itemCount: monitorList.length ?? 0,
+        children: children,
       ),
     );
   }
 
-  Widget _listCard(BuildContext context, Map<String, dynamic> row, int index) {
+  Widget _headCard() {
+    List headCardList = [
+      {
+        'index': 0,
+        'value': 22,
+      },
+      {
+        'index': 1,
+        'value': 22,
+      },
+      {
+        'index': 2,
+        'value': 22,
+      },
+    ];
+    List<Widget> headCard = headCardList.take(3).map((row) {
+      String title;
+      List<Color> colors;
+      switch (row['index']) {
+        case 0:
+          title = '正常';
+          colors = [Color(0xff84DD58), Color(0xff24C482)];
+          break;
+        case 1:
+          title = '告警';
+          colors = [Color(0xffFFBE5D), Color(0xffFF8E30)];
+          break;
+        case 2:
+          title = '严重';
+          colors = [Color(0xffFF7F7F), Color(0xffFA4637)];
+          break;
+        default:
+      }
+      return Expanded(
+        flex: 1,
+        child: GestureDetector(
+          onTap: () {
+            print(1);
+          },
+          child: Container(
+            margin: EdgeInsets.only(left: 2.5, right: 2.5),
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: colors,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+            ),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  row['value'].toString(),
+                  style: TextStyle(
+                    fontSize: 30.0,
+                    color: Color(0xffffffff),
+                  ),
+                ),
+                Text(
+                  title,
+                  style: TextStyle(
+                      fontSize: BaseStyle.fontSize[2],
+                      color: Color(0xffffffff)),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }).toList();
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+      ),
+      margin: EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.only(top: 10, bottom: 10, left: 12.5, right: 12.5),
+      child: Row(
+        children: headCard,
+      ),
+    );
+  }
+
+  Widget _listCard(Map<String, dynamic> row, int index) {
     List<int> flex = [1, 1, 1];
     TextStyle flexTextTitle = TextStyle(
         fontSize: BaseStyle.fontSize[1],

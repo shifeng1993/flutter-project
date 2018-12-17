@@ -9,21 +9,32 @@ class PullList extends StatefulWidget {
     Key key,
     @required this.child,
     @required this.onRefresh,
+    this.onController,
+    this.fontStyle,
+    this.color,
   }) : super(key: key);
 
   final Widget child;
   final Function onRefresh;
+  final Function onController;
+  final String fontStyle;
+  final Color color;
+
   @override
   _PullListState createState() => new _PullListState();
 }
 
 class _PullListState extends State<PullList> {
-  RefreshController _refreshController; // 下拉刷新的控制器
+  RefreshController _controller; // 下拉刷新的控制器
+  Map<String, Color> fontStyle = {
+    'dark': Color(0xff000000),
+    'light': Color(0xffffffff),
+  };
 
   @override
   void initState() {
     super.initState();
-    _refreshController = new RefreshController();
+    _controller = new RefreshController();
   }
 
   void _onOffsetCallback(bool isUp, double offset) {
@@ -40,10 +51,13 @@ class _PullListState extends State<PullList> {
   };
 
   void _onRefresh(bool up) {
-    widget.onRefresh(_refreshController, up);
+    widget.onRefresh(_controller, up);
   }
 
   Widget _headerBuilder(BuildContext context, int status) {
+    Color color = widget.fontStyle == null
+        ? fontStyle['dark'] // 下拉刷新字体icon 默认暗色
+        : fontStyle[widget.fontStyle];
     return ClassicIndicator(
       mode: status, // 传入状态
 
@@ -57,44 +71,45 @@ class _PullListState extends State<PullList> {
       // 0对应icon
       idleIcon: Icon(
         Icons.arrow_downward,
-        color: Theme.of(context).primaryColor,
+        color: color,
       ),
       // 1对应icon
       releaseIcon: Icon(
         Icons.arrow_upward,
-        color: Theme.of(context).primaryColor,
+        color: color,
       ),
       // 2对应icon
       refreshingIcon: SpinKitDoubleBounce(
-        color: Theme.of(context).primaryColor,
+        color: color,
         size: 50.0,
       ),
       // 3对应icon
       completeIcon: Icon(
         Icons.done,
-        color: Theme.of(context).primaryColor,
+        color: color,
       ),
       // 4对应icon
       failedIcon: Icon(
         Icons.clear,
-        color: Theme.of(context).primaryColor,
+        color: color,
       ),
       // 5对应icon
       noMoreIcon: Icon(
         Icons.clear,
-        color: Theme.of(context).primaryColor,
+        color: color,
       ),
 
       iconPos: IconPosition.left,
       spacing: 5.0, // 间隔
       height: 60.0, // 高度
-      textStyle: const TextStyle(color: const Color(0xff555555)), // 文字样式
+      textStyle: TextStyle(color: color), // 文字样式
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: widget.color == null ? Color(0x00000000) : widget.color,
       child: SmartRefresher(
         enablePullDown: true, // 打开下拉
         enablePullUp: false,
@@ -108,10 +123,19 @@ class _PullListState extends State<PullList> {
           completeDuration: 300,
           visibleRange: 60.0,
         ),
-        controller: _refreshController,
-        child: widget.child,
+        controller: _controller,
+        child: _list(),
       ),
     );
+  }
+
+  Widget _list() {
+    new Future.delayed(const Duration(milliseconds: 1000)).then((val) {
+      if (widget.onController != null) {
+        widget.onController(_controller);
+      }
+    });
+    return widget.child;
   }
 
   @override
@@ -127,4 +151,9 @@ class RefreshStatus {
   static const int completed = 3;
   static const int failed = 4;
   static const int noMore = 5;
+}
+
+class FontStyle {
+  static const String dark = 'dark';
+  static const String light = 'light';
 }
