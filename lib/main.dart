@@ -25,7 +25,6 @@ class App extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(
           // platform: TargetPlatform.iOS, // 使用ios的md 控件
-          backgroundColor: const Color(0xffF0F2F5),
           primaryColor: const Color(0xff2C3144), // 应用主要部分的背景颜色（工具栏，标签栏等）
           accentColor: const Color(0xffFFBC63), // 前景色：旋钮，文本，过度滚动边缘效果等
           highlightColor: const Color.fromRGBO(255, 255, 255, 0.3),

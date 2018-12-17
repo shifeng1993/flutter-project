@@ -26,21 +26,26 @@ class ShadowCardTitle extends StatelessWidget {
           ),
         ),
         Positioned(
-          right: 0,
-          child: Material(
-            child: InkWell(
-              onTap: onPressed ?? () {},
-              highlightColor: Color.fromRGBO(0, 0, 0, 0.02),
-              splashColor: Color.fromRGBO(0, 0, 0, 0.04),
-              child: Center(
-                child: SizedBox.fromSize(
-                  size: Size(50, 40),
-                  child: Image.asset('assets/icons/next_b.png'),
+          right: 5,
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(40 / 2)),
+            child: Material(
+              color: Color(0x00000000),
+              child: InkWell(
+                onTap: onPressed ?? () {},
+                highlightColor: Color.fromRGBO(0, 0, 0, 0.02),
+                splashColor: Color.fromRGBO(0, 0, 0, 0.04),
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  child: Center(
+                    child: Image.asset('assets/icons/next_b.png'),
+                  ),
                 ),
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }

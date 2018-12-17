@@ -176,20 +176,27 @@ class HomePageLeftDrawer extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: Row(
             children: <Widget>[
-              Container(
-                width: 60.0,
-                height: 60.0,
-                child: FlatButton(
-                  // iconSize: 24.0,
-                  padding: EdgeInsets.zero,
-                  child: Image(
-                    image: AssetImage('assets/icons/button_setting.png'),
-                    width: 24.0,
-                    height: 24.0,
+              ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(60 / 2)),
+                child: Material(
+                  color: Color(0x00000000),
+                  child: InkWell(
+                    onTap: () {
+                      print('设置');
+                    },
+                    highlightColor: Theme.of(context).highlightColor,
+                    splashColor: Theme.of(context).splashColor,
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      child: Center(
+                          child: Image(
+                        image: AssetImage('assets/icons/button_setting.png'),
+                        width: 24.0,
+                        height: 24.0,
+                      )),
+                    ),
                   ),
-                  onPressed: () {
-                    print('设置');
-                  },
                 ),
               ),
             ],
