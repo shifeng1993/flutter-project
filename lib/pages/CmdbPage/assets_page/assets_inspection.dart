@@ -135,7 +135,9 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
 
     List<Action> actions = [
       Action(
-        title: Text('删'),
+        title: Center(
+          child: Text('取'),
+        ),
         backgroundColor: Color(0xffff0000),
         onPressed: () {
           print('删除');
