@@ -212,7 +212,6 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
   Widget _assetLifeRow(Map<String, dynamic> row, int index) {
     double leftPointSize = 5.0;
     return Container(
-      width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
       decoration: BoxDecoration(
         border: index == 0
@@ -239,23 +238,13 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
             ),
           ),
           Container(
-            child: Row(
-              children: <Widget>[
-                Text(
-                  '公告：',
-                  style: TextStyle(
-                      fontSize: BaseStyle.fontSize[4],
-                      fontWeight: FontWeight.w600),
-                ),
-                Text(
-                  '资产 ${row['name']} 由 ${row['user']} 于 ${row['date']} ${row['status']}',
-                  style: TextStyle(
-                    fontSize: BaseStyle.fontSize[4],
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+            child: Text(
+              '资产 ${row['name']} 由 ${row['user']} 于 ${row['date']} ${row['status']}',
+              style: TextStyle(
+                fontSize: BaseStyle.fontSize[4],
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
@@ -363,7 +352,7 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
       child: Row(
         children: <Widget>[
           Container(
-              width: 40.0,
+              width: 35.0,
               child: Center(
                 child: indexView,
               )),
@@ -381,19 +370,34 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
           Expanded(
             flex: colFlex[1],
             child: Center(
-              child: Text(row['ip'], style: tableBodyStyle),
+              child: Text(
+                row['ip'],
+                style: tableBodyStyle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
           Expanded(
             flex: colFlex[2],
             child: Center(
-              child: Text(row['type'], style: tableBodyStyle),
+              child: Text(
+                row['type'],
+                style: tableBodyStyle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
           Container(
             width: 50.0,
             child: Center(
-              child: Text(row['score'], style: tableBodyStyle),
+              child: Text(
+                row['score'],
+                style: tableBodyStyle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
         ],
