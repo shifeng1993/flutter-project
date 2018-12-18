@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../common/baseStyle.dart';
+import '../../../utils/mock.dart';
 
 import '../../../widgets/pull_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
@@ -71,73 +72,44 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
         }
       },
     ];
-    assetLifeList = [
-      {
-        'name': 'foo',
-        'date': '2018-04-12 12:00:00',
-        'user': 'jonylolo',
-        'status': '入库'
-      },
-      {
-        'name': 'bar',
-        'date': '2018-04-12 12:00:00',
-        'user': 'jonylolo',
-        'status': '出库'
-      },
-      {
-        'name': 'too',
-        'date': '2018-04-12 12:00:00',
-        'user': 'jonylolo',
-        'status': '不要了'
-      },
-    ];
+    assetLifeList = _getLifeList();
+    assetRankList = _getRankList();
+  }
 
-    assetRankList = [
-      {
-        'name': 'foofoofoofoofoofoofoofoofoofoofoofoofoo',
-        'ip': '123.123.123.11',
-        'type': 'windows',
-        'score': '90.0'
-      },
-      {
-        'name': 'foo',
-        'ip': '123.123.123.11',
-        'type': 'windows',
-        'score': '90.0'
-      },
-      {
-        'name': 'foo',
-        'ip': '123.123.123.11',
-        'type': 'windows',
-        'score': '90.0'
-      },
-      {
-        'name': 'foo',
-        'ip': '123.123.123.11',
-        'type': 'windows',
-        'score': '90.0'
-      },
-      {
-        'name': 'foo',
-        'ip': '123.123.123.11',
-        'type': 'windows',
-        'score': '90.0'
-      },
-    ];
+  List<Map<String, dynamic>> _getLifeList() {
+    List<Map<String, dynamic>> data = new List.generate(5, (i) {
+      i++;
+      Map<String, dynamic> row = new Map();
+      row['name'] = 'foo,bar';
+      row['date'] = Mock.getDateTime();
+      row['user'] = 'jonylolo';
+      row['status'] = '入库';
+      return row;
+    });
+    return data;
+  }
+
+  List<Map<String, dynamic>> _getRankList() {
+    List<Map<String, dynamic>> data = new List.generate(5, (i) {
+      i++;
+      Map<String, dynamic> row = new Map();
+      row['name'] = 'foo,bar';
+      row['ip'] = Mock.getIP();
+      row['type'] = Mock.getCiType();
+      row['score'] = Mock.getScore();
+      return row;
+    });
+    return data;
   }
 
   void _onRefresh(dynamic refreshController, bool up) {
-    if (up)
-      new Future.delayed(const Duration(milliseconds: 2009)).then((val) {
-        setState(() {});
-        refreshController.sendBack(true, RefreshStatus.completed);
+    new Future.delayed(const Duration(milliseconds: 500)).then((val) {
+      setState(() {
+        assetLifeList = _getLifeList();
+        assetRankList = _getRankList();
       });
-    else {
-      new Future.delayed(const Duration(milliseconds: 2009)).then((val) {
-        setState(() {});
-        refreshController.sendBack(false, RefreshStatus.idle);
-      });
-    }
+      refreshController.sendBack(true, RefreshStatus.completed);
+    });
   }
 
   @override
@@ -280,6 +252,8 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
                   style: TextStyle(
                     fontSize: BaseStyle.fontSize[4],
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
@@ -294,7 +268,7 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
   Widget _assetRank() {
     List<Widget> children = (assetRankList == null || assetRankList.length == 0)
         ? <Widget>[]
-        : assetRankList.take(4).map((row) {
+        : assetRankList.take(5).map((row) {
             return _assetRankRow(row, assetRankList.indexOf(row), colFlex);
           }).toList(); // 列表使用take限制在5个数量
 

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../common/baseStyle.dart';
+import '../../../utils/mock.dart';
 
 import '../../../widgets/pull_push_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
@@ -60,20 +61,15 @@ class _CMDBAssetsRankPageState extends State<CMDBAssetsRankPage> {
     return new Future.value(false);
   }
 
-  List<String> system = ['windows', 'centos', 'ubuntu', 'macos'];
   List<Map<String, dynamic>> _getInspectionList(int currentPage, int pageSize) {
     List<Map<String, dynamic>> data = new List.generate(pageSize, (i) {
       i++;
-      int score = Random().nextInt(100);
       Map<String, dynamic> row = new Map();
       row['name'] =
           '${(i + (currentPage - 1) * pageSize).toString()}这是标题，我来展示，这是标题，我来展示这是标题，我来展示，这是标题，我来展示';
-      row['ip'] =
-          '${Random().nextInt(255).toString()}.${Random().nextInt(255).toString()}.${Random().nextInt(255).toString()}.${Random().nextInt(255).toString()}';
-      row['type'] = system[Random().nextInt(4)];
-      row['score'] = (score == 100)
-          ? score.toDouble().toStringAsFixed(1)
-          : (score.toDouble() + new Random().nextDouble()).toStringAsFixed(1);
+      row['ip'] = Mock.getIP();
+      row['type'] = Mock.getCiType();
+      row['score'] = Mock.getScore();
       return row;
     });
     return data;
@@ -138,7 +134,7 @@ class _CMDBAssetsRankPageState extends State<CMDBAssetsRankPage> {
   }
 
   Widget _listCard(BuildContext context, Map<String, dynamic> row, int index) {
-    List<int> flex = [5, 4, 3];
+    List<int> flex = [1, 1, 1];
 
     Widget indexView = (index < 3)
         ? Image.asset('assets/icons/rank_num_${(index + 1).toString()}.png',
@@ -199,7 +195,7 @@ class _CMDBAssetsRankPageState extends State<CMDBAssetsRankPage> {
       child: Row(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(right: 15),
+            margin: EdgeInsets.only(right: 5),
             child: Center(
               child: indexView,
             ),
@@ -223,14 +219,11 @@ class _CMDBAssetsRankPageState extends State<CMDBAssetsRankPage> {
                         ),
                         Expanded(
                           flex: 1,
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 30.0),
-                            child: Text(
-                              row['name'],
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: flexTextTitle,
-                            ),
+                          child: Text(
+                            row['name'],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: flexTextTitle,
                           ),
                         ),
                       ],
@@ -247,13 +240,11 @@ class _CMDBAssetsRankPageState extends State<CMDBAssetsRankPage> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
+                                  child: Center(
                                     child: Text('IP地址', style: flexTextKey),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
+                                Center(
                                   child: Text(
                                     row['ip'],
                                     maxLines: 1,
@@ -272,13 +263,11 @@ class _CMDBAssetsRankPageState extends State<CMDBAssetsRankPage> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
+                                  child: Center(
                                     child: Text('资产类型', style: flexTextKey),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
+                                Center(
                                   child: Text(
                                     row['type'],
                                     maxLines: 1,
@@ -297,13 +286,11 @@ class _CMDBAssetsRankPageState extends State<CMDBAssetsRankPage> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
+                                  child: Center(
                                     child: Text('分数', style: flexTextKey),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
+                                Center(
                                   child: Text(row['score'],
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -327,23 +314,5 @@ class _CMDBAssetsRankPageState extends State<CMDBAssetsRankPage> {
 
   void cardOnPress(row) {
     print(row.toString());
-  }
-
-  String getAssetStatus(int status) {
-    String statusText;
-    switch (status) {
-      case 0:
-        statusText = '宕机';
-        break;
-      case 1:
-        statusText = '正常';
-        break;
-      case 2:
-        statusText = '告警';
-        break;
-      default:
-        statusText = '未知';
-    }
-    return statusText;
   }
 }

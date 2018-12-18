@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../common/baseStyle.dart';
+import '../../../utils/mock.dart';
 
 import '../../../widgets/pull_push_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
@@ -64,9 +65,9 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
           '${(i + (currentPage - 1) * pageSize).toString()}这是标题，我来展示，这是标题，我来展示这是标题，我来展示，这是标题，我来展示';
       row['cycle'] = '${new Random().nextInt(5).toString()}天';
       row['createUser'] = '用户${new Random().nextInt(20).toString()}';
-      row['createTime'] = '1999-08-01 11:11:11';
-      row['lastTime'] = '1999-08-01 11:11:11';
-      row['nextTime'] = '1999-08-01 11:11:11';
+      row['createTime'] = Mock.getDateTime();
+      row['lastTime'] = Mock.getDateTime();
+      row['nextTime'] = Mock.getDateTime();
       return row;
     });
     return data;
@@ -190,14 +191,11 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
                         ),
                         Expanded(
                           flex: 1,
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 30.0),
-                            child: Text(
-                              row['name'],
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: flexTextTitle,
-                            ),
+                          child: Text(
+                            row['name'],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: flexTextTitle,
                           ),
                         ),
                       ],
@@ -209,18 +207,16 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
                       children: <Widget>[
                         Expanded(
                           flex: flex[0],
-                          child: Center(
+                          child: Container(
                             child: Column(
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
+                                  child: Center(
                                     child: Text('巡检周期', style: flexTextKey),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
+                                Center(
                                   child: Text(
                                     row['cycle'],
                                     maxLines: 1,
@@ -234,18 +230,16 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
                         ),
                         Expanded(
                           flex: flex[1],
-                          child: Center(
+                          child: Container(
                             child: Column(
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
+                                  child: Center(
                                     child: Text('创建者', style: flexTextKey),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
+                                Center(
                                   child: Text(
                                     row['createUser'],
                                     maxLines: 1,
@@ -259,18 +253,16 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
                         ),
                         Expanded(
                           flex: flex[2],
-                          child: Center(
+                          child: Container(
                             child: Column(
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
+                                  child: Center(
                                     child: Text('创建时间', style: flexTextKey),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
+                                Center(
                                   child: Text(row['createTime'],
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -319,23 +311,5 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
 
   void cardOnPress(row) {
     print(row.toString());
-  }
-
-  String getAssetStatus(int status) {
-    String statusText;
-    switch (status) {
-      case 0:
-        statusText = '宕机';
-        break;
-      case 1:
-        statusText = '正常';
-        break;
-      case 2:
-        statusText = '告警';
-        break;
-      default:
-        statusText = '未知';
-    }
-    return statusText;
   }
 }

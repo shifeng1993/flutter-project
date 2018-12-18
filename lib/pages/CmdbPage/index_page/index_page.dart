@@ -1,8 +1,10 @@
 // cmdb首页
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import '../../../common/baseStyle.dart';
+import '../../../utils/mock.dart';
 
 import '../../../widgets/pull_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
@@ -22,29 +24,41 @@ class CMDBIndexPage extends StatefulWidget {
 class _CMDBIndexPageState extends State<CMDBIndexPage> {
   BuildContext context;
   List<Map<String, dynamic>> watchList;
+  Map<String,int> chartData;
 
   @override
   void initState() {
     super.initState();
     watchList = _getWatchList();
+    chartData = _getChartData();
   }
 
+  Map<String,int> _getChartData() {
+    Map<String,int> chartData = new Map();
+    chartData['normal'] = Random().nextInt(100);
+    chartData['error'] = Random().nextInt(100);
+    chartData['warning'] = Random().nextInt(100);
+    return chartData;
+  }
   List<Map<String, dynamic>> _getWatchList() {
     List<Map<String, dynamic>> data = new List.generate(10, (i) {
       i++;
       Map<String, dynamic> row = new Map();
       row['name'] = '${i.toString()}这是标题，我来展示，这是标题，我来展示这是标题，我来展示，这是标题，我来展示';
-      row['ip'] = '111.111.111.${i.toString()}';
-      row['type'] = 'linux';
-      row['status'] = 1;
+      row['ip'] = Mock.getIP();
+      row['type'] = Mock.getCiType();
+      row['status'] = Mock.getStatus();
       return row;
     });
     return data;
   }
 
   void _onRefresh(dynamic refreshController, bool up) {
-    new Future.delayed(const Duration(milliseconds: 2009)).then((val) {
-      setState(() {});
+    new Future.delayed(const Duration(milliseconds: 500)).then((val) {
+      setState(() {
+        watchList = _getWatchList();
+        chartData = _getChartData();
+      });
       refreshController.sendBack(true, RefreshStatus.completed);
     });
   }
@@ -62,9 +76,9 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
             _notification(),
             _cardTitle('资产状态'),
             CMDBIndexPageChart(
-              normal: 1,
-              error: 3,
-              warning: 4,
+              normal: chartData['normal'],
+              error: chartData['error'],
+              warning: chartData['warning'],
               onPressed: (int status) {
                 print(status);
               },

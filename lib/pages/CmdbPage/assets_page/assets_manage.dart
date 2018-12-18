@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../common/baseStyle.dart';
+import '../../../utils/mock.dart';
 
 import '../../drawerPage/assets_right_drawer.dart';
 import '../../../widgets/pull_push_list/index.dart';
@@ -62,10 +63,9 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
       Map<String, dynamic> row = new Map();
       row['name'] =
           '${(i + (currentPage - 1) * pageSize).toString()}这是标题，我来展示，这是标题，我来展示这是标题，我来展示，这是标题，我来展示';
-      row['ip'] =
-          '111.111.111.${(i + (currentPage - 1) * pageSize).toString()}';
-      row['type'] = 'linux';
-      row['status'] = new Random().nextInt(2);
+      row['ip'] = Mock.getIP();
+      row['type'] = Mock.getCiType();
+      row['status'] = Mock.getStatusText();
       return row;
     });
     return data;
@@ -149,7 +149,7 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
   }
 
   Widget _listCard(BuildContext context, Map<String, dynamic> row, int index) {
-    List<int> flex = [8, 6, 7];
+    List<int> flex = [1, 1, 1];
 
     List<Action> actions = [
       Action(
@@ -206,14 +206,11 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
                         ),
                         Expanded(
                           flex: 1,
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 30.0),
-                            child: Text(
-                              row['name'],
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: flexTextTitle,
-                            ),
+                          child: Text(
+                            row['name'],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: flexTextTitle,
                           ),
                         ),
                       ],
@@ -230,13 +227,11 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
+                                  child: Center(
                                     child: Text('IP地址', style: flexTextKey),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
+                                Center(
                                   child: Text(
                                     row['ip'],
                                     maxLines: 1,
@@ -255,13 +250,11 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
+                                  child: Center(
                                     child: Text('资产类型', style: flexTextKey),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
+                                Center(
                                   child: Text(
                                     row['type'],
                                     maxLines: 1,
@@ -280,14 +273,12 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
+                                  child: Center(
                                     child: Text('资产状态', style: flexTextKey),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(getAssetStatus(row['status']),
+                                Center(
+                                  child: Text(row['status'],
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: flexTextVal),
@@ -310,23 +301,5 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
 
   void cardOnPress(row) {
     print(row.toString());
-  }
-
-  String getAssetStatus(int status) {
-    String statusText;
-    switch (status) {
-      case 0:
-        statusText = '宕机';
-        break;
-      case 1:
-        statusText = '正常';
-        break;
-      case 2:
-        statusText = '告警';
-        break;
-      default:
-        statusText = '未知';
-    }
-    return statusText;
   }
 }

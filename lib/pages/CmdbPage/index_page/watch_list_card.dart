@@ -78,7 +78,7 @@ class _WatchListCardState extends State<WatchListCard> {
         break;
     }
 
-    List<int> flex = [8, 6, 7];
+    List<int> flex = [1, 1, 1];
 
     TextStyle flexTextTitle = TextStyle(
         fontSize: BaseStyle.fontSize[1],
@@ -116,14 +116,11 @@ class _WatchListCardState extends State<WatchListCard> {
                         statusImage,
                         Expanded(
                           flex: 1,
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 30.0),
-                            child: Text(
-                              widget.row['name'],
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: flexTextTitle,
-                            ),
+                          child: Text(
+                            widget.row['name'],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: flexTextTitle,
                           ),
                         )
                       ],
@@ -140,13 +137,11 @@ class _WatchListCardState extends State<WatchListCard> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
+                                  child: Center(
                                     child: Text('IP地址', style: flexTextKey),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
+                                Center(
                                   child: Text(
                                     widget.row['ip'],
                                     maxLines: 1,
@@ -165,13 +160,11 @@ class _WatchListCardState extends State<WatchListCard> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
+                                  child: Center(
                                     child: Text('资产类型', style: flexTextKey),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
+                                Center(
                                   child: Text(
                                     widget.row['type'],
                                     maxLines: 1,
@@ -190,13 +183,11 @@ class _WatchListCardState extends State<WatchListCard> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
+                                  child: Center(
                                     child: Text('PING检测状态', style: flexTextKey),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
+                                Center(
                                   child: Text(statusText,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,

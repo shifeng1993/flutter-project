@@ -555,22 +555,4 @@ class _CMDBAssetsServicePageState extends State<CMDBAssetsServicePage> {
     }
     return img;
   }
-
-  String getAssetStatus(int status) {
-    String statusText;
-    switch (status) {
-      case 0:
-        statusText = '宕机';
-        break;
-      case 1:
-        statusText = '正常';
-        break;
-      case 2:
-        statusText = '告警';
-        break;
-      default:
-        statusText = '未知';
-    }
-    return statusText;
-  }
 }
