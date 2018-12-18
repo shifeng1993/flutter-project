@@ -8,11 +8,13 @@ import '../../../widgets/shadow_card/index.dart';
 import '../../../widgets/shadow_card/card_title.dart';
 import '../../../widgets/page_route_Builder/index.dart';
 
-import './assets_manage.dart';
-import './assets_inspection.dart';
-import './assets_monitor.dart';
-import './assets_service.dart';
-import './assets_Life.dart';
+// tab页面需要导航的页面
+import './assets_manage.dart'; // 资产管理
+import './assets_inspection.dart'; // 资产巡检
+import './assets_monitor.dart'; // 资产监控
+import './assets_service.dart'; // 业务服务
+import './assets_Life.dart'; // 生命周期
+import './assets_rank.dart'; // 资产排行
 
 class CMDBAssetsPage extends StatefulWidget {
   CMDBAssetsPage({Key key, this.title}) : super(key: key);
@@ -46,7 +48,8 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
         'imgPath': 'assets/icons/cmdb_assets_inspection.png',
         'title': '资产巡检',
         'onPressed': () {
-          Navigator.push(context, RouteBuilder.iosPage(CMDBAssetsInspectionPage()));
+          Navigator.push(
+              context, RouteBuilder.iosPage(CMDBAssetsInspectionPage()));
         }
       },
       {
@@ -54,7 +57,8 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
         'imgPath': 'assets/icons/cmdb_assets_monitor.png',
         'title': '资产监控',
         'onPressed': () {
-          Navigator.push(context, RouteBuilder.iosPage(CMDBAssetsMonitorPage()));
+          Navigator.push(
+              context, RouteBuilder.iosPage(CMDBAssetsMonitorPage()));
         }
       },
       {
@@ -62,7 +66,8 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
         'imgPath': 'assets/icons/cmdb_assets_service.png',
         'title': '业务服务管理',
         'onPressed': () {
-          Navigator.push(context, RouteBuilder.iosPage(CMDBAssetsServicePage()));
+          Navigator.push(
+              context, RouteBuilder.iosPage(CMDBAssetsServicePage()));
         }
       },
     ];
@@ -148,14 +153,16 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
             ShadowCardTitle(
               title: '资产生命周期',
               onPressed: () {
-                Navigator.push(context, RouteBuilder.iosPage(CMDBAssetsLifePage()));
+                Navigator.push(
+                    context, RouteBuilder.iosPage(CMDBAssetsLifePage()));
               },
             ),
             _assetLife(),
             ShadowCardTitle(
               title: '资产监控排行TOP',
               onPressed: () {
-                print('资产监控排行TOP');
+                Navigator.push(
+                    context, RouteBuilder.iosPage(CMDBAssetsRankPage()));
               },
             ),
             _assetRank(),

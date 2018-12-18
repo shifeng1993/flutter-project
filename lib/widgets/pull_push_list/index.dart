@@ -124,16 +124,16 @@ class _PullPushListState extends State<PullPushList> {
       refreshingText: '加载中...', // 2对应字符串
       completeText: '加载完成', // 3对应字符串
       failedText: '加载失败', //4对应字符串
-      noDataText: '没有数据', // 5对应字符串
+      noDataText: '没有更多了', // 5对应字符串
 
       // 0对应icon
       idleIcon: Icon(
-        Icons.arrow_downward,
+        Icons.arrow_upward,
         color: color,
       ),
       // 1对应icon
       releaseIcon: Icon(
-        Icons.arrow_upward,
+        Icons.arrow_downward,
         color: color,
       ),
       // 2对应icon

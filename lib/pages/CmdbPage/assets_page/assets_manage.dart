@@ -152,14 +152,14 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
     List<int> flex = [8, 6, 7];
 
     List<Action> actions = [
-      Action('监控', () {
-        print('监控');
-        print(row.toString());
-      }),
-      Action('取消', () {
-        print('取消');
-        print(row.toString());
-      })
+      Action(
+        title: Text('删'),
+        backgroundColor: Color(0xffff0000),
+        onPressed: () {
+          print('删除');
+          print(row.toString());
+        },
+      )
     ];
 
     TextStyle flexTextTitle = TextStyle(

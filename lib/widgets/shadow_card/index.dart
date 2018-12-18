@@ -4,16 +4,16 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
-import '../popover/popover_button.dart';
-import '../triangle/index.dart';
 import '../../common/baseStyle.dart';
 
 class Action {
-  final String title;
-  final Function onPressed;
+  Action({this.title, this.onPressed, this.backgroundColor});
 
-  Action(this.title, this.onPressed);
+  final Widget title;
+  final Function onPressed;
+  final Color backgroundColor;
 }
 
 class ShadowCard extends StatefulWidget {
@@ -46,6 +46,7 @@ class _ShadowCardState extends State<ShadowCard> {
   final double rightTopButtonSize = 40.0;
   Matrix4 actionsArrow = Matrix4.identity();
   bool debounce = true; // 防止单身五百年的手速
+  final SlidableController slidableController = new SlidableController();
 
   @override
   void initState() {
@@ -54,16 +55,38 @@ class _ShadowCardState extends State<ShadowCard> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> children =
-        (widget.actions == null || widget.actions.length == 0)
-            ? <Widget>[]
-            : widget.actions.take(5).map((row) {
-                return _action(row, widget.actions.indexOf(row));
-              }).toList();
+    bool hasActions = (widget.actions == null || widget.actions.length == 0);
+    List<Widget> actionsWidget = hasActions
+        ? <Widget>[]
+        : widget.actions.take(5).map((row) {
+            return _action(row, widget.actions.indexOf(row));
+          }).toList();
+    return Container(
+      margin: widget.margin ?? EdgeInsets.zero,
+      child: hasActions
+          ? _card()
+          : Slidable(
+              key: widget.key,
+              delegate: SlidableBehindDelegate(),
+              actionExtentRatio: 0.15,
+              controller: slidableController,
+              secondaryActions: actionsWidget,
+              child: _card(),
+            ),
+    );
+  }
+
+  Widget _card() {
     return GestureDetector(
-      onTap: widget.onPressed ?? () {},
+      onTap: () {
+        if (widget.onPressed != null) {
+          widget.onPressed();
+        }
+        if (slidableController.activeState != null) {
+          slidableController.activeState.close();
+        }
+      },
       child: Container(
-        margin: widget.margin ?? EdgeInsets.zero,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: widget.colors ?? [Color(0xffffffff), Color(0xffffffff)],
@@ -96,60 +119,6 @@ class _ShadowCardState extends State<ShadowCard> {
                     )
                   : null,
             ),
-            widget.actions == null
-                ? Container(
-                    width: 0,
-                    height: 0,
-                  )
-                : Positioned(
-                    right: 0,
-                    top: 0,
-                    width: 40,
-                    height: 40,
-                    child: PopoverButton(
-                      button: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                        child: Container(
-                          width: rightTopButtonSize,
-                          height: rightTopButtonSize,
-                          color: Color(0x00000000),
-                          child: Center(
-                            child: Center(
-                              child: Image.asset(
-                                'assets/icons/actions.png',
-                                width: 24,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(5.0),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(44, 49, 68, 0.8),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                              ),
-                              height: 30.0,
-                              child: Row(
-                                children: children,
-                              ),
-                            ),
-                            Triangle(
-                              direction: TriangleDirection.rightMiddle,
-                              size: 10,
-                              color: Color.fromRGBO(44, 49, 68, 0.8),
-                              deg: 60,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
           ],
         ),
       ),
@@ -157,37 +126,39 @@ class _ShadowCardState extends State<ShadowCard> {
   }
 
   Widget _action(Action row, int index) {
-    return Container(
-      width: 62,
-      decoration: BoxDecoration(
-          border: index != 0
-              ? Border(
-                  left: BorderSide(
-                      color: BaseStyle.lineColor[0],
-                      width: 1.0 / MediaQuery.of(context).devicePixelRatio))
-              : null),
-      child: FlatButton(
-        child: Center(
-          child: Text(
-            row.title,
-            style: TextStyle(
-              fontSize: BaseStyle.fontSize[2],
-              color: Color(0xffffffff),
+    return Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.centerRight,
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(40 / 2)),
+            child: Material(
+              color: row.backgroundColor ?? Color(0x00000000),
+              child: InkWell(
+                onTap: () {
+                  // 防止单身五百年的手速
+                  if (this.debounce) {
+                    this.debounce = false;
+                    row.onPressed();
+                    slidableController.activeState.close();
+                    new Future.delayed(const Duration(milliseconds: 500))
+                        .then((val) {
+                      this.debounce = true;
+                    });
+                  }
+                },
+                highlightColor: Color.fromRGBO(0, 0, 0, 0.04),
+                splashColor: Color.fromRGBO(0, 0, 0, 0.08),
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  child: row.title ?? null,
+                ),
+              ),
             ),
           ),
-        ),
-        onPressed: () {
-          // 防止单身五百年的手速
-          if (this.debounce) {
-            this.debounce = false;
-            row.onPressed();
-            Navigator.of(context).pop();
-            new Future.delayed(const Duration(milliseconds: 500)).then((val) {
-              this.debounce = true;
-            });
-          }
-        },
-      ),
+        )
+      ],
     );
   }
 }

@@ -1,4 +1,4 @@
-// cmdb资产 -> 资产巡检
+// cmdb资产 -> 生命周期
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,46 +7,50 @@ import '../../../common/baseStyle.dart';
 import '../../../widgets/pull_push_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
 
-class CMDBAssetsInspectionPage extends StatefulWidget {
-  CMDBAssetsInspectionPage({Key key, this.title}) : super(key: key);
+class CMDBAssetsRankPage extends StatefulWidget {
+  CMDBAssetsRankPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _CMDBAssetsInspectionPageState createState() =>
-      new _CMDBAssetsInspectionPageState();
+  _CMDBAssetsRankPageState createState() => new _CMDBAssetsRankPageState();
 }
 
-class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
+class _CMDBAssetsRankPageState extends State<CMDBAssetsRankPage> {
   BuildContext context;
-  List<Map<String, dynamic>> inspectionList;
+  List<Map<String, dynamic>> rankList;
   int currentPage = 1;
   int pageSize = 15;
 
   @override
   void initState() {
     super.initState();
-    inspectionList = _getInspectionList(1, pageSize);
+    rankList = _getInspectionList(1, pageSize);
   }
 
   void _onRefresh(dynamic controller) {
     new Future.delayed(const Duration(milliseconds: 200)).then((val) {
       currentPage = 1;
       setState(() {
-        inspectionList = _getInspectionList(currentPage, pageSize);
+        rankList = _getInspectionList(currentPage, pageSize);
       });
+      controller.sendBack(false, RefreshStatus.idle);
       controller.sendBack(true, RefreshStatus.completed);
     });
   }
 
   void _onLoad(dynamic controller) {
     new Future.delayed(const Duration(milliseconds: 200)).then((val) {
-      currentPage++;
-      setState(() {
-        inspectionList.addAll(_getInspectionList(currentPage, pageSize));
-      });
-      controller.sendBack(false, RefreshStatus.completed);
-      controller.sendBack(false, RefreshStatus.idle);
+      if (rankList.length < 45) {
+        currentPage++;
+        setState(() {
+          rankList.addAll(_getInspectionList(currentPage, pageSize));
+        });
+        controller.sendBack(false, RefreshStatus.completed);
+        controller.sendBack(false, RefreshStatus.idle);
+      } else {
+        controller.sendBack(false, RefreshStatus.noMore);
+      }
     });
   }
 
@@ -56,17 +60,20 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
     return new Future.value(false);
   }
 
+  List<String> system = ['windows', 'centos', 'ubuntu', 'macos'];
   List<Map<String, dynamic>> _getInspectionList(int currentPage, int pageSize) {
     List<Map<String, dynamic>> data = new List.generate(pageSize, (i) {
       i++;
+      int score = Random().nextInt(100);
       Map<String, dynamic> row = new Map();
       row['name'] =
           '${(i + (currentPage - 1) * pageSize).toString()}这是标题，我来展示，这是标题，我来展示这是标题，我来展示，这是标题，我来展示';
-      row['cycle'] = '${new Random().nextInt(5).toString()}天';
-      row['createUser'] = '用户${new Random().nextInt(20).toString()}';
-      row['createTime'] = '1999-08-01 11:11:11';
-      row['lastTime'] = '1999-08-01 11:11:11';
-      row['nextTime'] = '1999-08-01 11:11:11';
+      row['ip'] =
+          '${Random().nextInt(255).toString()}.${Random().nextInt(255).toString()}.${Random().nextInt(255).toString()}.${Random().nextInt(255).toString()}';
+      row['type'] = system[Random().nextInt(4)];
+      row['score'] = (score == 100)
+          ? score.toDouble().toStringAsFixed(1)
+          : (score.toDouble() + new Random().nextDouble()).toStringAsFixed(1);
       return row;
     });
     return data;
@@ -90,7 +97,7 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
       title: Container(
         child: Center(
           child: Text(
-            '资产巡检',
+            '资产监控排行TOP',
             style: TextStyle(fontSize: BaseStyle.fontSize[0]),
             textAlign: TextAlign.center,
           ),
@@ -122,16 +129,38 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
       onRefresh: _onRefresh,
       child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
-          return _listCard(context, inspectionList[index], index);
+          return _listCard(context, rankList[index], index);
         },
         physics: ClampingScrollPhysics(),
-        itemCount: inspectionList.length ?? 0,
+        itemCount: rankList.length ?? 0,
       ),
     );
   }
 
   Widget _listCard(BuildContext context, Map<String, dynamic> row, int index) {
-    List<int> flex = [3, 3, 5];
+    List<int> flex = [5, 4, 3];
+
+    Widget indexView = (index < 3)
+        ? Image.asset('assets/icons/rank_num_${(index + 1).toString()}.png',
+            width: 25, height: 34)
+        : ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(24 / 2)),
+            child: Container(
+              width: 24,
+              height: 24,
+              color: Color(0xffC0C4CC),
+              child: Center(
+                child: Text(
+                  (index + 1).toString(),
+                  style: TextStyle(
+                    color: Color(0xffffffff),
+                    fontWeight: FontWeight.w600,
+                    fontSize: BaseStyle.fontSize[1],
+                  ),
+                ),
+              ),
+            ),
+          );
 
     List<Action> actions = [
       Action(
@@ -169,6 +198,12 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
       },
       child: Row(
         children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(right: 15),
+            child: Center(
+              child: indexView,
+            ),
+          ),
           Expanded(
             flex: 1,
             child: Container(
@@ -181,7 +216,7 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
                         Container(
                           margin: EdgeInsets.only(right: 5),
                           child: Image.asset(
-                            'assets/icons/inspection_icon.png',
+                            'assets/icons/assets_icon.png',
                             width: 20,
                             height: 20,
                           ),
@@ -214,13 +249,13 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
                                   padding: EdgeInsets.only(bottom: 5),
                                   child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Text('巡检周期', style: flexTextKey),
+                                    child: Text('IP地址', style: flexTextKey),
                                   ),
                                 ),
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    row['cycle'],
+                                    row['ip'],
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: flexTextVal,
@@ -239,13 +274,13 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
                                   padding: EdgeInsets.only(bottom: 5),
                                   child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Text('创建者', style: flexTextKey),
+                                    child: Text('资产类型', style: flexTextKey),
                                   ),
                                 ),
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    row['createUser'],
+                                    row['type'],
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: flexTextVal,
@@ -264,12 +299,12 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
                                   padding: EdgeInsets.only(bottom: 5),
                                   child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Text('创建时间', style: flexTextKey),
+                                    child: Text('分数', style: flexTextKey),
                                   ),
                                 ),
                                 Align(
                                   alignment: Alignment.centerLeft,
-                                  child: Text(row['createTime'],
+                                  child: Text(row['score'],
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: flexTextVal),
@@ -279,31 +314,6 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    padding: EdgeInsets.only(top: 5),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      '上次执行时间：${row['lastTime']}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: BaseStyle.fontSize[4],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: 5),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      '下次执行时间：${row['nextTime']}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: BaseStyle.fontSize[4],
-                      ),
                     ),
                   ),
                 ],

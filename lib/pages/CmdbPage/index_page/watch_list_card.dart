@@ -21,11 +21,7 @@ class _WatchListCardState extends State<WatchListCard> {
   void initState() {
     super.initState();
     actions = [
-      Action('监控', ()  {
-        print('监控');
-        print(widget.row.toString());
-      }),
-      Action('取消', ()  {
+      Action(title: Text('取'), backgroundColor: Color(0xffff0000),onPressed:  ()  {
         print('取消');
         print(widget.row.toString());
       })

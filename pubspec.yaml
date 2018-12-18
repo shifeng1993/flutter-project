@@ -38,6 +38,7 @@ dependencies:
   flustars: ^0.1.4                            # 常用工具类
   unicorndial: ^1.1.5                         # floatActionButton菜单
   smooth_star_rating: ^1.0.1                  # 评分控件
+  flutter_slidable: ^0.4.9                    # 水平滑动动作
   
 dev_dependencies:
   flutter_test:

@@ -13,8 +13,7 @@ class CMDBAssetsLifePage extends StatefulWidget {
   final String title;
 
   @override
-  _CMDBAssetsLifePageState createState() =>
-      new _CMDBAssetsLifePageState();
+  _CMDBAssetsLifePageState createState() => new _CMDBAssetsLifePageState();
 }
 
 class _CMDBAssetsLifePageState extends State<CMDBAssetsLifePage> {
@@ -133,10 +132,14 @@ class _CMDBAssetsLifePageState extends State<CMDBAssetsLifePage> {
     List<int> flex = [3, 3, 5];
 
     List<Action> actions = [
-      Action('删除', () {
-        print('删除');
-        print(row.toString());
-      })
+      Action(
+        title: Text('删'),
+        backgroundColor: Color(0xffff0000),
+        onPressed: () {
+          print('删除');
+          print(row.toString());
+        },
+      )
     ];
 
     TextStyle flexTextTitle = TextStyle(
