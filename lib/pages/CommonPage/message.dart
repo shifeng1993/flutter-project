@@ -8,6 +8,9 @@ import '../../utils/mock.dart';
 
 import '../../widgets/pull_push_list/index.dart';
 import '../../widgets/shadow_card/index.dart';
+import '../../widgets/page_route_Builder/index.dart';
+
+import './message_details.dart';
 
 class MessagePage extends StatefulWidget {
   MessagePage({Key key, this.title}) : super(key: key);
@@ -159,7 +162,16 @@ class _MessagePageState extends State<MessagePage> {
       padding: EdgeInsets.only(left: 10, top: 15, right: 10, bottom: 15),
       actions: actions,
       onPressed: () {
-        cardOnPress(row);
+        Navigator.push(
+          context,
+          RouteBuilder.iosPage(
+            MessageDetalisPage(
+              title: row['title'],
+              desc: row['desc'],
+              dateTime: row['dateTime'],
+            ),
+          ),
+        );
       },
       child: Row(
         children: <Widget>[
@@ -226,9 +238,5 @@ class _MessagePageState extends State<MessagePage> {
         ],
       ),
     );
-  }
-
-  void cardOnPress(row) {
-    print(row.toString());
   }
 }
