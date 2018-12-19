@@ -9,8 +9,11 @@ import '../../../utils/mock.dart';
 import '../../../widgets/pull_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
 import '../../../widgets/shadow_card/card_title.dart';
+import '../../../widgets/page_route_Builder/index.dart';
 import './chart.dart';
 import './watch_list_card.dart';
+
+import '../../CommonPage/message.dart';
 
 class CMDBIndexPage extends StatefulWidget {
   CMDBIndexPage({Key key, this.title}) : super(key: key);
@@ -75,7 +78,7 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
           children: <Widget>[
             _banner(),
             _notification(),
-            _cardTitle('资产状态'),
+            _cardTitle('资产状态', false),
             CMDBIndexPageChart(
               normal: chartData['normal'],
               error: chartData['error'],
@@ -134,51 +137,57 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
   Widget _notification() {
     String notificationStr = 'dsadsadas';
     double leftPointSize = 7.0;
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.only(top: 12.0, bottom: 12.0),
-      color: const Color(0xffffffff),
-      child: Row(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(10.0),
-            child: ClipRRect(
-              borderRadius:
-                  BorderRadius.all(Radius.circular(leftPointSize / 2)),
-              child: Container(
-                width: leftPointSize,
-                height: leftPointSize,
-                color: Theme.of(context).primaryColor,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, RouteBuilder.iosPage(MessagePage()));
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.only(top: 12.0, bottom: 12.0),
+        color: const Color(0xffffffff),
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(10.0),
+              child: ClipRRect(
+                borderRadius:
+                    BorderRadius.all(Radius.circular(leftPointSize / 2)),
+                child: Container(
+                  width: leftPointSize,
+                  height: leftPointSize,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
             ),
-          ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text(
-                  '公告：',
-                  style: TextStyle(
-                      fontSize: BaseStyle.fontSize[1],
-                      fontWeight: FontWeight.w600),
-                ),
-                Text(
-                  notificationStr,
-                  style: TextStyle(
-                    fontSize: BaseStyle.fontSize[1],
+            Container(
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    '公告：',
+                    style: TextStyle(
+                        fontSize: BaseStyle.fontSize[1],
+                        fontWeight: FontWeight.w600),
                   ),
-                ),
-              ],
+                  Text(
+                    notificationStr,
+                    style: TextStyle(
+                      fontSize: BaseStyle.fontSize[1],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   // 资产状态卡片头部
-  Widget _cardTitle(String title) {
+  Widget _cardTitle(String title, [bool rightButton = true]) {
     return ShadowCardTitle(
       title: title,
+      rightButton: rightButton,
       onPressed: () {
         print(title);
       },

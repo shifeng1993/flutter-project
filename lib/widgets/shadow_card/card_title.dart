@@ -4,8 +4,11 @@ import 'package:flutter/cupertino.dart';
 import '../../common/baseStyle.dart';
 
 class ShadowCardTitle extends StatelessWidget {
-  ShadowCardTitle({Key key, this.title, this.onPressed}) : super(key: key);
+  ShadowCardTitle(
+      {Key key, this.title, this.onPressed, this.rightButton = true})
+      : super(key: key);
 
+  final rightButton;
   final Function onPressed;
   final String title;
 
@@ -25,27 +28,29 @@ class ShadowCardTitle extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          right: 5,
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(40 / 2)),
-            child: Material(
-              color: Color(0x00000000),
-              child: InkWell(
-                onTap: onPressed ?? () {},
-                highlightColor: Color.fromRGBO(0, 0, 0, 0.02),
-                splashColor: Color.fromRGBO(0, 0, 0, 0.04),
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  child: Center(
-                    child: Image.asset('assets/icons/next_b.png'),
+        rightButton
+            ? Positioned(
+                right: 5,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(40 / 2)),
+                  child: Material(
+                    color: Color(0x00000000),
+                    child: InkWell(
+                      onTap: onPressed ?? () {},
+                      highlightColor: Color.fromRGBO(0, 0, 0, 0.02),
+                      splashColor: Color.fromRGBO(0, 0, 0, 0.04),
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        child: Center(
+                          child: Image.asset('assets/icons/next_b.png'),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
-        ),
+              )
+            : Container(),
       ],
     );
   }
