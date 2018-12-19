@@ -24,7 +24,7 @@ class CMDBIndexPage extends StatefulWidget {
 class _CMDBIndexPageState extends State<CMDBIndexPage> {
   BuildContext context;
   List<Map<String, dynamic>> watchList;
-  Map<String,int> chartData;
+  Map<String, int> chartData;
 
   @override
   void initState() {
@@ -33,13 +33,14 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
     chartData = _getChartData();
   }
 
-  Map<String,int> _getChartData() {
-    Map<String,int> chartData = new Map();
+  Map<String, int> _getChartData() {
+    Map<String, int> chartData = new Map();
     chartData['normal'] = Random().nextInt(100);
     chartData['error'] = Random().nextInt(100);
     chartData['warning'] = Random().nextInt(100);
     return chartData;
   }
+
   List<Map<String, dynamic>> _getWatchList() {
     List<Map<String, dynamic>> data = new List.generate(10, (i) {
       i++;

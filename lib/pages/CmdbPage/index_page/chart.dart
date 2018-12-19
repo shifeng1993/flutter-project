@@ -18,6 +18,7 @@ class CMDBIndexPageChart extends StatefulWidget {
   final int warning;
   final int error;
   final Function onPressed;
+
   @override
   _CMDBIndexPageChartState createState() => new _CMDBIndexPageChartState();
 }
@@ -70,6 +71,16 @@ class _CMDBIndexPageChartState extends State<CMDBIndexPageChart> {
   }
 
   @override
+  void didUpdateWidget(CMDBIndexPageChart oldWidget) {
+    setState(() {
+      total = widget.normal + widget.warning + widget.error;
+      data = _generateRandomData();
+      _chartKey.currentState.updateData(data);
+    });
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ShadowCard(
       margin: EdgeInsets.only(left: 15.0, right: 15.0),
@@ -102,7 +113,11 @@ class _CMDBIndexPageChartState extends State<CMDBIndexPageChart> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   GestureDetector(
-                    onTap:  widget.onPressed != null ? () {widget.onPressed(0);} : (){},
+                    onTap: widget.onPressed != null
+                        ? () {
+                            widget.onPressed(0);
+                          }
+                        : () {},
                     child: Padding(
                       padding: EdgeInsets.all(5),
                       child: Row(
@@ -137,7 +152,11 @@ class _CMDBIndexPageChartState extends State<CMDBIndexPageChart> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: widget.onPressed != null ? () {widget.onPressed(1);}: (){},
+                    onTap: widget.onPressed != null
+                        ? () {
+                            widget.onPressed(1);
+                          }
+                        : () {},
                     child: Padding(
                       padding: EdgeInsets.all(5),
                       child: Row(
@@ -172,7 +191,11 @@ class _CMDBIndexPageChartState extends State<CMDBIndexPageChart> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: widget.onPressed != null ? () {widget.onPressed(2);}: (){},
+                    onTap: widget.onPressed != null
+                        ? () {
+                            widget.onPressed(2);
+                          }
+                        : () {},
                     child: Padding(
                       padding: EdgeInsets.all(5),
                       child: Row(
