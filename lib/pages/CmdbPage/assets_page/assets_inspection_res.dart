@@ -29,15 +29,15 @@ class _CMDBAssetsInspectionResPageState
     scoreList = _getScoreList();
   }
 
-  List<Map<String, dynamic>> _getScoreList() {
+  List<Map<String, dynamic>> _getScoreList({int length: 3}) {
     List<String> nameList = ['访问控制(S3)', '安全审计(G3)', '身份鉴别(S3)'];
-    List<Map<String, dynamic>> data = new List.generate(2, (i) {
-      i++;
+    List<int> weightList = Mock.getWeightList(length: length);
+    List<Map<String, dynamic>> data = new List.generate(length, (i) {
       Map<String, dynamic> row = new Map();
       row['id'] = i;
-      row['name'] = nameList[i.toInt()];
+      row['name'] = nameList[(i).toInt()];
       row['score'] = Mock.getScore(); // 权重
-      row['weight'] = double.parse(Random().nextDouble().toStringAsFixed(1));
+      row['weight'] = weightList[i.toInt()].toDouble() / 100;
       row['type'] = Mock.getCiType();
       row['status'] = Mock.getStatus();
       return row;
@@ -107,26 +107,28 @@ class _CMDBAssetsInspectionResPageState
   }
 
   Widget _listCard(BuildContext context, Map<String, dynamic> row) {
-    List<int> flex = [1, 1, 1];
-
-    TextStyle flexTextTitle = TextStyle(
-        fontSize: BaseStyle.fontSize[1],
-        color: BaseStyle.textColor[0],
-        fontWeight: FontWeight.w500);
-
-    TextStyle flexTextKey = TextStyle(
-        fontSize: BaseStyle.fontSize[3],
-        color: BaseStyle.textColor[2],
-        fontWeight: FontWeight.w400);
-
-    TextStyle flexTextVal = TextStyle(
-        fontSize: BaseStyle.fontSize[3],
-        color: BaseStyle.textColor[0],
-        fontWeight: FontWeight.w500);
-
+    List<Color> colors;
+    switch (row['id']) {
+      case 0:
+        colors = [Color(0xff56C7CA), Color(0xff41AA4C)];
+        break;
+      case 1:
+        colors = [Color(0xffFFC820), Color(0xffFF9E13)];
+        break;
+      case 2:
+        colors = [Color(0xffE8A051), Color(0xffEA534B)];
+        break;
+      default:
+    }
     return ShadowCard(
       margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
-      padding: EdgeInsets.only(left: 10, top: 15, right: 10, bottom: 15),
+      padding: EdgeInsets.all(15),
+      colors: colors,
+      image: DecorationImage(
+        alignment: Alignment.centerRight,
+        image: AssetImage('assets/images/assets_inspection_res.png'),
+        fit: BoxFit.contain,
+      ),
       onPressed: () {
         cardOnPress(row);
       },
@@ -137,7 +139,137 @@ class _CMDBAssetsInspectionResPageState
             child: Container(
               child: Column(
                 children: <Widget>[
-                  
+                  Container(
+                    child: Row(
+                      children: <Widget>[
+                        ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          child: Container(
+                            height: 30,
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            color: Color.fromRGBO(255, 255, 255, 0.3),
+                            child: Center(
+                              child: Text(
+                                row['name'],
+                                style: TextStyle(
+                                  fontSize: BaseStyle.fontSize[2],
+                                  color: Color(0xffffffff),
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.clip,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            padding: EdgeInsets.only(left: 5),
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  (row['weight'] * double.parse(row['score']))
+                                      .toStringAsFixed(1),
+                                  style: TextStyle(
+                                    fontSize: 48,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xffffffff),
+                                  ),
+                                ),
+                                Text(
+                                  '最终得分',
+                                  style: TextStyle(
+                                    fontSize: BaseStyle.fontSize[2],
+                                    color: Color.fromRGBO(255, 255, 255, 0.6),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(), // 这里给一个空容器是利用flex特性把两侧的元素挤到两边
+                        ),
+                        Container(
+                          child: Column(
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  row['score'],
+                                  style: TextStyle(
+                                    fontSize: BaseStyle.fontSize[2],
+                                    color: Color(0xffffffff),
+                                  ),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  '当前得分',
+                                  style: TextStyle(
+                                    fontSize: BaseStyle.fontSize[2],
+                                    color: Color.fromRGBO(255, 255, 255, 0.6),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'X',
+                                  style: TextStyle(
+                                    fontSize: BaseStyle.fontSize[2],
+                                    color: Color.fromRGBO(255, 255, 255, 0.6),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          child: Column(
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  row['weight'].toString(),
+                                  style: TextStyle(
+                                    fontSize: BaseStyle.fontSize[2],
+                                    color: Color(0xffffffff),
+                                  ),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  '权重',
+                                  style: TextStyle(
+                                    fontSize: BaseStyle.fontSize[2],
+                                    color: Color.fromRGBO(255, 255, 255, 0.6),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
