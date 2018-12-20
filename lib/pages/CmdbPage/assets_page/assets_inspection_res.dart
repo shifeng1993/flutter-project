@@ -26,18 +26,18 @@ class _CMDBAssetsInspectionResPageState
   @override
   void initState() {
     super.initState();
-    scoreList = _getScoreList();
+    scoreList = _getScoreList(10);
   }
 
-  List<Map<String, dynamic>> _getScoreList({int length: 3}) {
+  List<Map<String, dynamic>> _getScoreList(int length) {
     List<String> nameList = ['访问控制(S3)', '安全审计(G3)', '身份鉴别(S3)'];
     List<int> weightList = Mock.getWeightList(length: length);
     List<Map<String, dynamic>> data = new List.generate(length, (i) {
       Map<String, dynamic> row = new Map();
       row['id'] = i;
-      row['name'] = nameList[(i).toInt()];
+      row['name'] = nameList[(i).toInt() % 3];
       row['score'] = Mock.getScore(); // 权重
-      row['weight'] = weightList[i.toInt()].toDouble() / 100;
+      row['weight'] = weightList[i].toDouble() / 100;
       row['type'] = Mock.getCiType();
       row['status'] = Mock.getStatus();
       return row;
@@ -108,7 +108,7 @@ class _CMDBAssetsInspectionResPageState
 
   Widget _listCard(BuildContext context, Map<String, dynamic> row) {
     List<Color> colors;
-    switch (row['id']) {
+    switch (row['id'] % 3) {
       case 0:
         colors = [Color(0xff56C7CA), Color(0xff41AA4C)];
         break;
@@ -140,6 +140,7 @@ class _CMDBAssetsInspectionResPageState
               child: Column(
                 children: <Widget>[
                   Container(
+                    margin: EdgeInsets.only(bottom: 10),
                     child: Row(
                       children: <Widget>[
                         ClipRRect(
@@ -201,8 +202,9 @@ class _CMDBAssetsInspectionResPageState
                         Container(
                           child: Column(
                             children: <Widget>[
-                              Align(
+                              Container(
                                 alignment: Alignment.centerLeft,
+                                margin: EdgeInsets.only(bottom: 10),
                                 child: Text(
                                   row['score'],
                                   style: TextStyle(
@@ -211,7 +213,7 @@ class _CMDBAssetsInspectionResPageState
                                   ),
                                 ),
                               ),
-                              Align(
+                              Container(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   '当前得分',
@@ -228,7 +230,7 @@ class _CMDBAssetsInspectionResPageState
                           padding: EdgeInsets.all(10),
                           child: Column(
                             children: <Widget>[
-                              Align(
+                              Container(
                                 alignment: Alignment.center,
                                 child: Text(
                                   'X',
@@ -244,7 +246,8 @@ class _CMDBAssetsInspectionResPageState
                         Container(
                           child: Column(
                             children: <Widget>[
-                              Align(
+                              Container(
+                                margin: EdgeInsets.only(bottom: 10),
                                 alignment: Alignment.centerRight,
                                 child: Text(
                                   row['weight'].toString(),
@@ -254,7 +257,7 @@ class _CMDBAssetsInspectionResPageState
                                   ),
                                 ),
                               ),
-                              Align(
+                              Container(
                                 alignment: Alignment.centerRight,
                                 child: Text(
                                   '权重',
