@@ -8,6 +8,9 @@ import '../../../utils/mock.dart';
 import '../../drawerPage/assets_right_drawer.dart';
 import '../../../widgets/pull_push_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
+import '../../../widgets/page_route_Builder/index.dart';
+
+import './assets_details.dart';
 
 class CMDBAssetsManagePage extends StatefulWidget {
   CMDBAssetsManagePage({Key key, this.title}) : super(key: key);
@@ -183,7 +186,7 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
       padding: EdgeInsets.only(left: 10, top: 15, right: 10, bottom: 15),
       actions: actions,
       onPressed: () {
-        cardOnPress(row);
+        Navigator.push(context, RouteBuilder.iosPage(CMDBAssetsDetalisPage()));
       },
       child: Row(
         children: <Widget>[
@@ -297,9 +300,5 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
         ],
       ),
     );
-  }
-
-  void cardOnPress(row) {
-    print(row.toString());
   }
 }
