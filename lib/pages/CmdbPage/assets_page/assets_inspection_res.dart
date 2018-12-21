@@ -8,6 +8,9 @@ import '../../../utils/mock.dart';
 import '../../drawerPage/assets_right_drawer.dart';
 import '../../../widgets/pull_push_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
+import '../../../widgets/page_route_Builder/index.dart';
+
+import './assets_inspection_score.dart';
 
 class CMDBAssetsInspectionResPage extends StatefulWidget {
   CMDBAssetsInspectionResPage({Key key, this.title}) : super(key: key);
@@ -36,8 +39,8 @@ class _CMDBAssetsInspectionResPageState
       Map<String, dynamic> row = new Map();
       row['id'] = i;
       row['name'] = nameList[(i).toInt() % 3];
-      row['score'] = Mock.getScore(); // 权重
-      row['weight'] = weightList[i].toDouble() / 100;
+      row['score'] = Mock.getScore();
+      row['weight'] = weightList[i].toDouble() / 100; // 权重
       row['type'] = Mock.getCiType();
       row['status'] = Mock.getStatus();
       return row;
@@ -130,7 +133,8 @@ class _CMDBAssetsInspectionResPageState
         fit: BoxFit.contain,
       ),
       onPressed: () {
-        cardOnPress(row);
+        Navigator.push(
+            context, RouteBuilder.iosPage(CMDBAssetsInspectionScorePage()));
       },
       child: Row(
         children: <Widget>[
