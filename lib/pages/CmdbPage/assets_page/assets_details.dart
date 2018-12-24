@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import '../../../common/baseStyle.dart';
 import '../../../utils/mock.dart';
 
-import '../../../widgets/accordion/accordion_List.dart';
+import '../../../widgets/accordion/accordion_list.dart';
 import '../../../widgets/accordion/accordion_list_item.dart';
 
 class CMDBAssetsDetalisPage extends StatefulWidget {
