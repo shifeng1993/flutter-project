@@ -5,6 +5,9 @@ import 'package:flutter/cupertino.dart';
 import '../../../common/baseStyle.dart';
 import '../../../utils/mock.dart';
 
+import '../../../widgets/accordion/accordion_List.dart';
+import '../../../widgets/accordion/accordion_list_item.dart';
+
 class CMDBAssetsDetalisPage extends StatefulWidget {
   CMDBAssetsDetalisPage({Key key, this.title}) : super(key: key);
 
@@ -17,11 +20,13 @@ class CMDBAssetsDetalisPage extends StatefulWidget {
 class _CMDBAssetsDetalisPageState extends State<CMDBAssetsDetalisPage> {
   BuildContext context;
   Map<String, dynamic> assetsDetalisMap;
+  List<String> assetsDetalisMapKeys;
 
   @override
   void initState() {
     super.initState();
     assetsDetalisMap = _getAssetsDetalisMap();
+    assetsDetalisMapKeys = assetsDetalisMap.keys.toList();
   }
 
   List<Map<String, dynamic>> _getListRow() {
@@ -91,48 +96,57 @@ class _CMDBAssetsDetalisPageState extends State<CMDBAssetsDetalisPage> {
 
   Widget _body() {
     List<String> keys = assetsDetalisMap.keys.toList();
-    List<Widget> children =
-        (assetsDetalisMap == null || assetsDetalisMap.length == 0)
-            ? <Widget>[]
-            : keys.map((String attr) {
-                return _listCard(
-                  context,
-                  attr,
-                  assetsDetalisMap[attr],
-                );
-              }).toList();
-    return ListView(
-      padding: EdgeInsets.only(top: 10),
-      children: children,
-      physics: BouncingScrollPhysics(),
-    );
-  }
-
-  Widget _listCard(
-      BuildContext context, String attr, List<Map<String, dynamic>> list) {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        color: Color(0xffffffff),
-        child: Row(
+    return AccordionList(
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: Text(
+                  assetsDetalisMapKeys[index],
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Text(
+                  'fdsafdsafdsafddsafdsafdsakjfglhdsjkalhjkgldhsaklj',
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      itemMenuBuilder: (BuildContext context, int index) {
+        return Column(
           children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Text(
-                attr,
-                overflow: TextOverflow.ellipsis,
+            Container(
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      '12312321',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      'fdsafdsafdsafddsafdsafdsakjfglhdsjkalhjkgldhsaklj',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Text(
-                'fdsafdsafdsafddsafdsafdsakjfglhdsjkalhjkgldhsaklj',
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+            )
           ],
-        ),
-      ),
+        );
+      },
+      itemCount: keys.length ?? 0,
+      // controller: new AnimationController(),
     );
   }
 
