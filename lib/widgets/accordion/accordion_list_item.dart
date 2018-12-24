@@ -19,20 +19,24 @@ class AccordionListItem extends StatefulWidget {
     Key key,
     @required this.index,
     @required this.isShow,
-    @required this.itemBuilder,
-    @required this.itemMenuBuilder,
+    @required this.listTitle,
+    this.listMenu,
+    this.itemHeight,
     this.setSelectIndex,
     this.duration,
     this.curve,
+    this.color,
   }) : super(key: key);
 
   final int index;
   final bool isShow;
   final Duration duration;
-  final IndexedWidgetBuilder itemBuilder;
-  final IndexedWidgetBuilder itemMenuBuilder;
+  final IndexedWidgetBuilder listTitle;
+  final List<Widget> listMenu;
+  final double itemHeight;
   final Function setSelectIndex;
   final Curve curve;
+  final Color color;
 
   @override
   _AccordionListItemState createState() => new _AccordionListItemState();
@@ -44,43 +48,74 @@ class _AccordionListItemState extends State<AccordionListItem> {
   @override
   void initState() {
     super.initState();
-    _menuHeight = 0;
+    _menuHeight = 0.0;
   }
 
   @override
   Widget build(BuildContext context) {
+    // print(MediaQuery.of(context).size.height);
     return Container(
-      color: Color(0xffffffff),
+      color: widget.color ?? Color(0xffffffff),
       child: Column(
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              print(widget.isShow);
               if (widget.isShow) {
                 setState(() {
-                  widget.setSelectIndex(100);
-                  this._menuHeight = 0;
+                  widget.setSelectIndex(null); // 通过为空或者非空变换打开状态
+                  this._menuHeight = 0.0;
                 });
               } else {
                 setState(() {
-                  widget.setSelectIndex(widget.index);
-                  this._menuHeight = 300;
+                  widget.setSelectIndex(widget.index); // 通过为空或者非空变换打开状态
+                  this._menuHeight = widget.itemHeight * widget.listMenu.length;
                 });
               }
             },
             child: Builder(
               builder: (BuildContext context) {
-                return widget.itemBuilder(context, widget.index);
+                return Row(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 1,
+                      child: widget.listTitle(context, widget.index),
+                    ),
+                    Offstage(
+                      offstage: widget.listMenu == null,
+                      child: Center(
+                        child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: Transform(
+                            child: Icon(
+                              Icons.chevron_right,
+                              color: Color(0xff000000),
+                              size: 20,
+                            ),
+                            alignment: Alignment.center,
+                            transform: new Matrix4.identity()
+                              ..rotateZ(90 * 3.1415927 / 180),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                );
               },
             ),
           ),
           AnimatedContainer(
-            height: widget.isShow ? _menuHeight : 0, // 防止多个同时打开
+            height: widget.isShow ? _menuHeight : 0.0, // 防止多个同时打开
             duration: widget.duration ?? Duration(milliseconds: 300),
-            curve: widget.curve ?? Curves.linear,
+            curve: widget.curve ?? Curves.fastOutSlowIn,
             child: Builder(
               builder: (BuildContext context) {
-                return widget.itemMenuBuilder(context, widget.index);
+                // var bounds = WidgetUtil.getWidgetBounds(context);
+                // print(bounds.height);
+                return ListView(
+                  physics: NeverScrollableScrollPhysics(),
+                  children: widget.listMenu,
+                );
               },
             ),
           ),

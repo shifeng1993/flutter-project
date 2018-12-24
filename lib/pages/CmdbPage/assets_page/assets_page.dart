@@ -119,7 +119,7 @@ class _CMDBAssetsPageState extends State<CMDBAssetsPage> {
       child: PullList(
         onRefresh: _onRefresh,
         child: new ListView(
-          physics: ClampingScrollPhysics(),
+          physics: BouncingScrollPhysics(),
           children: <Widget>[
             _headerCard(),
             ShadowCardTitle(

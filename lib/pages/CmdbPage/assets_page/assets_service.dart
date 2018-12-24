@@ -217,7 +217,7 @@ class _CMDBAssetsServicePageState extends State<CMDBAssetsServicePage> {
       onRefresh: _onRefresh,
       onController: _onController,
       child: ListView(
-        physics: ClampingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         children: children,
       ),
     );

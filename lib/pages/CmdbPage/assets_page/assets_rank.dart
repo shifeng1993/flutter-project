@@ -127,7 +127,7 @@ class _CMDBAssetsRankPageState extends State<CMDBAssetsRankPage> {
         itemBuilder: (BuildContext context, int index) {
           return _listCard(context, rankList[index], index);
         },
-        physics: ClampingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         itemCount: rankList.length ?? 0,
       ),
     );

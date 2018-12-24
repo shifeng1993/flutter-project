@@ -144,7 +144,7 @@ class _CMDBAssetsInspectionPageState extends State<CMDBAssetsInspectionPage> {
         itemBuilder: (BuildContext context, int index) {
           return _listCard(context, inspectionList[index], index);
         },
-        physics: ClampingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         itemCount: inspectionList.length ?? 0,
       ),
     );

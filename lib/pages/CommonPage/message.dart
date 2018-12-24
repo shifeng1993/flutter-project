@@ -129,7 +129,7 @@ class _MessagePageState extends State<MessagePage> {
         itemBuilder: (BuildContext context, int index) {
           return _listCard(context, messageList[index], index);
         },
-        physics: ClampingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         itemCount: messageList.length ?? 0,
       ),
     );

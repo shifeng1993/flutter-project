@@ -97,14 +97,24 @@ class _CMDBAssetsDetalisPageState extends State<CMDBAssetsDetalisPage> {
   Widget _body() {
     List<String> keys = assetsDetalisMap.keys.toList();
     return AccordionList(
-      itemBuilder: (BuildContext context, int index) {
+      listTitle: (BuildContext context, int index) {
         return Container(
+          color: Color(0x00000000), // 占满宽度
+          alignment: Alignment.centerLeft,
+          child: Text(
+            assetsDetalisMapKeys[index],
+            overflow: TextOverflow.ellipsis,
+          ),
+        );
+      },
+      listMenu: <Widget>[
+        Container(
           child: Row(
             children: <Widget>[
               Expanded(
                 flex: 1,
                 child: Text(
-                  assetsDetalisMapKeys[index],
+                  '12312321',
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -117,34 +127,9 @@ class _CMDBAssetsDetalisPageState extends State<CMDBAssetsDetalisPage> {
               ),
             ],
           ),
-        );
-      },
-      itemMenuBuilder: (BuildContext context, int index) {
-        return Column(
-          children: <Widget>[
-            Container(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      '12312321',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      'fdsafdsafdsafddsafdsafdsakjfglhdsjkalhjkgldhsaklj',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        );
-      },
+        )
+      ],
+      itemHeight: 40,
       itemCount: keys.length ?? 0,
       // controller: new AnimationController(),
     );

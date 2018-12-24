@@ -226,7 +226,7 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
         itemBuilder: (BuildContext context, int index) {
           return _listCard(context, monitorList[index], index);
         },
-        physics: ClampingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         itemCount: monitorList.length ?? 0,
       ),
     );

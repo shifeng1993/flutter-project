@@ -145,7 +145,7 @@ class _CMDBAssetsManagePageState extends State<CMDBAssetsManagePage> {
         itemBuilder: (BuildContext context, int index) {
           return _listCard(context, manageList[index], index);
         },
-        physics: ClampingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         itemCount: manageList.length ?? 0,
       ),
     );

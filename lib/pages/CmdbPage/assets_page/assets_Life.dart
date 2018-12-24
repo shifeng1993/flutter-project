@@ -123,7 +123,7 @@ class _CMDBAssetsLifePageState extends State<CMDBAssetsLifePage> {
         itemBuilder: (BuildContext context, int index) {
           return _listCard(context, lifeList[index], index);
         },
-        physics: ClampingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         itemCount: lifeList.length ?? 0,
       ),
     );

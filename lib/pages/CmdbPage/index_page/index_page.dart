@@ -74,7 +74,7 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
       child: PullList(
         onRefresh: _onRefresh,
         child: new ListView(
-          physics: ClampingScrollPhysics(),
+          physics: BouncingScrollPhysics(),
           children: <Widget>[
             _banner(),
             _notification(),
