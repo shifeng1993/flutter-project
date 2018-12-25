@@ -30,7 +30,8 @@ class _CMDBAssetsDetalisPageState extends State<CMDBAssetsDetalisPage> {
   }
 
   List<Map<String, dynamic>> _getListRow() {
-    List<Map<String, dynamic>> list = List.generate(3, (i) {
+    int length = Random().nextInt(10);
+    List<Map<String, dynamic>> list = List.generate(length, (i) {
       Map<String, dynamic> row = new Map();
       row['key'] = '属性${(i + 1).toString()}';
       row['val'] = 'dsaqfa';
@@ -95,10 +96,11 @@ class _CMDBAssetsDetalisPageState extends State<CMDBAssetsDetalisPage> {
   }
 
   Widget _body() {
-    List<String> keys = assetsDetalisMap.keys.toList();
+    double itemHeight = 40.0;
     return AccordionList(
       listTitle: (BuildContext context, int index) {
         return Container(
+          height: 50.0,
           color: Color(0x00000000), // 占满宽度
           alignment: Alignment.centerLeft,
           child: Text(
@@ -107,30 +109,40 @@ class _CMDBAssetsDetalisPageState extends State<CMDBAssetsDetalisPage> {
           ),
         );
       },
-      listMenu: <Widget>[
-        Container(
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Text(
-                  '12312321',
-                  overflow: TextOverflow.ellipsis,
-                ),
+      listMenu: (BuildContext context, int index) {
+        return ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              height: itemHeight,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      '12312321',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      'fdsafdsafdsafddsafdsafdsakjfglhdsjkalhjkgldhsaklj',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
-              Expanded(
-                flex: 1,
-                child: Text(
-                  'fdsafdsafdsafddsafdsafdsakjfglhdsjkalhjkgldhsaklj',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-        )
-      ],
-      itemHeight: 40,
-      itemCount: keys.length ?? 0,
+            );
+          },
+          itemCount: assetsDetalisMap[assetsDetalisMapKeys[index]].length ?? 0,
+        );
+      },
+      itemHeight: (BuildContext context, int index) {
+        int length = assetsDetalisMap[assetsDetalisMapKeys[index]].length;
+        return length.toDouble() * itemHeight;
+      },
+      itemCount: assetsDetalisMapKeys.length ?? 0,
       // controller: new AnimationController(),
     );
   }

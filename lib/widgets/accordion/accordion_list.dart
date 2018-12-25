@@ -17,24 +17,26 @@ class Action {
 }
 
 class AccordionList extends StatefulWidget {
-  AccordionList(
-      {Key key,
-      @required this.listTitle,
-      @required this.itemCount,
-      @required this.listMenu,
-      @required this.itemHeight,
-      this.padding,
-      this.controller,
-      this.physics})
-      : super(key: key);
+  AccordionList({
+    Key key,
+    @required this.listTitle,
+    @required this.itemCount,
+    @required this.listMenu,
+    @required this.itemHeight,
+    this.itemPadding,
+    this.padding,
+    this.controller,
+    this.physics,
+  }) : super(key: key);
 
   final Function listTitle; // 子列表
-  final List<Widget> listMenu;
+  final Function listMenu;
   final int itemCount; // 数量
-  final double itemHeight; // menuitem高度
+  final Function itemHeight; // menuitem高度
   final EdgeInsets padding;
   final int controller; // 控制器
   final ScrollPhysics physics;
+  final EdgeInsets itemPadding;
 
   @override
   _AccordionListState createState() => new _AccordionListState();
@@ -72,8 +74,9 @@ class _AccordionListState extends State<AccordionList> {
           return AccordionListItem(
             listTitle: widget.listTitle,
             listMenu: widget.listMenu,
-            itemHeight: widget.itemHeight,
+            itemHeight: widget.itemHeight(context, i),
             setSelectIndex: this.setSelectIndex,
+            itemPadding: widget.itemPadding ?? EdgeInsets.zero,
             index: i,
             isShow: isShow,
           );

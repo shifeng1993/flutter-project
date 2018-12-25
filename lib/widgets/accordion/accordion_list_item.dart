@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:core';
+import 'dart:math' as Math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
@@ -26,34 +27,56 @@ class AccordionListItem extends StatefulWidget {
     this.duration,
     this.curve,
     this.color,
+    this.itemPadding
   }) : super(key: key);
 
   final int index;
   final bool isShow;
   final Duration duration;
   final IndexedWidgetBuilder listTitle;
-  final List<Widget> listMenu;
+  final IndexedWidgetBuilder listMenu;
   final double itemHeight;
   final Function setSelectIndex;
   final Curve curve;
   final Color color;
+  final EdgeInsets itemPadding;
 
   @override
   _AccordionListItemState createState() => new _AccordionListItemState();
 }
 
-class _AccordionListItemState extends State<AccordionListItem> {
+class _AccordionListItemState extends State<AccordionListItem>
+    with SingleTickerProviderStateMixin {
   double _menuHeight;
+  AnimationController _animationController;
+  Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
     _menuHeight = 0.0;
+    _animationController = AnimationController(
+      duration: widget.duration ?? Duration(milliseconds: 200),
+      vsync: this,
+    );
+    // 从0度旋转到90度
+    _animation = new Tween(begin: 0.0, end: 90.0).animate(_animationController);
+  }
+
+  @override
+  dispose() {
+    this._animationController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     // print(MediaQuery.of(context).size.height);
+    _animationController.reverse();
+    if (widget.isShow) {
+      _animationController.forward();
+    }
+    Widget listmenu = widget.listMenu(context, widget.index);
     return Container(
       color: widget.color ?? Color(0xffffffff),
       child: Column(
@@ -64,42 +87,52 @@ class _AccordionListItemState extends State<AccordionListItem> {
                 setState(() {
                   widget.setSelectIndex(null); // 通过为空或者非空变换打开状态
                   this._menuHeight = 0.0;
+                  _animationController.reverse();
                 });
               } else {
                 setState(() {
                   widget.setSelectIndex(widget.index); // 通过为空或者非空变换打开状态
-                  this._menuHeight = widget.itemHeight * widget.listMenu.length;
+                  this._menuHeight = widget.itemHeight;
+                  _animationController.forward();
                 });
               }
             },
             child: Builder(
               builder: (BuildContext context) {
-                return Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: widget.listTitle(context, widget.index),
-                    ),
-                    Offstage(
-                      offstage: widget.listMenu == null,
-                      child: Center(
-                        child: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: Transform(
-                            child: Icon(
-                              Icons.chevron_right,
-                              color: Color(0xff000000),
-                              size: 20,
-                            ),
-                            alignment: Alignment.center,
-                            transform: new Matrix4.identity()
-                              ..rotateZ(90 * 3.1415927 / 180),
+                return Container(
+                  padding: widget.itemPadding,
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: widget.listTitle(context, widget.index),
+                      ),
+                      Offstage(
+                        offstage: widget.itemHeight == 0.0,
+                        child: Center(
+                          child: AnimatedBuilder(
+                            animation: _animationController,
+                            builder: (BuildContext context, Widget child) {
+                              return Container(
+                                width: 20,
+                                height: 20,
+                                child: Transform(
+                                  child: Icon(
+                                    Icons.chevron_right,
+                                    color: Color(0xff000000),
+                                    size: 20,
+                                  ),
+                                  alignment: Alignment.center,
+                                  transform: Matrix4.identity()
+                                    ..rotateZ(_animation.value * Math.pi / 180),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 );
               },
             ),
@@ -108,16 +141,7 @@ class _AccordionListItemState extends State<AccordionListItem> {
             height: widget.isShow ? _menuHeight : 0.0, // 防止多个同时打开
             duration: widget.duration ?? Duration(milliseconds: 300),
             curve: widget.curve ?? Curves.fastOutSlowIn,
-            child: Builder(
-              builder: (BuildContext context) {
-                // var bounds = WidgetUtil.getWidgetBounds(context);
-                // print(bounds.height);
-                return ListView(
-                  physics: NeverScrollableScrollPhysics(),
-                  children: widget.listMenu,
-                );
-              },
-            ),
+            child: listmenu,
           ),
         ],
       ),
