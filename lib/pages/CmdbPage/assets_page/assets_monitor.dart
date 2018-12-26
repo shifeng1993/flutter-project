@@ -9,6 +9,9 @@ import '../../../utils/mock.dart';
 import '../../drawerPage/assets_right_drawer.dart';
 import '../../../widgets/pull_push_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
+import '../../../widgets/page_route_Builder/index.dart';
+
+import './assets_monitor_details.dart';
 
 class CMDBAssetsMonitorPage extends StatefulWidget {
   CMDBAssetsMonitorPage({Key key, this.title}) : super(key: key);
@@ -266,7 +269,12 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
       padding: EdgeInsets.only(left: 10, top: 15, right: 10, bottom: 15),
       actions: actions,
       onPressed: () {
-        cardOnPress(row);
+        Navigator.push(
+          context,
+          RouteBuilder.iosPage(
+            CMDBAssetsMonitorDetalisPage(row: row),
+          ),
+        );
       },
       child: Row(
         children: <Widget>[
@@ -377,10 +385,6 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
         ],
       ),
     );
-  }
-
-  void cardOnPress(row) {
-    print(row.toString());
   }
 
   Widget _getAssetStatusImage(int status) {

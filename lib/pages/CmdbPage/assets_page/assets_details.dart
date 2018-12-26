@@ -29,12 +29,12 @@ class _CMDBAssetsDetalisPageState extends State<CMDBAssetsDetalisPage> {
     assetsDetalisMapKeys = assetsDetalisMap.keys.toList();
   }
 
-  List<Map<String, dynamic>> _getListRow() {
+  List<Map<String, dynamic>> _getListRow(String typeStr) {
     int length = Random().nextInt(10);
     List<Map<String, dynamic>> list = List.generate(length, (i) {
       Map<String, dynamic> row = new Map();
-      row['key'] = '属性${(i + 1).toString()}';
-      row['val'] = 'dsaqfa';
+      row['key'] = '${typeStr.toString()}${(i + 1).toString()}';
+      row['val'] = '${typeStr.toString()}的值';
       return row;
     });
     return list;
@@ -42,12 +42,12 @@ class _CMDBAssetsDetalisPageState extends State<CMDBAssetsDetalisPage> {
 
   Map<String, dynamic> _getAssetsDetalisMap() {
     Map<String, dynamic> data = new Map();
-    data['universalAttr'] = _getListRow();
-    data['specialAttr'] = _getListRow();
-    data['assetsAccount'] = _getListRow();
-    data['protocolSet'] = _getListRow();
-    data['docs'] = _getListRow();
-    data['life'] = _getListRow();
+    data['通用属性'] = _getListRow('通用属性');
+    data['特殊属性'] = _getListRow('特殊属性');
+    data['资产账户'] = _getListRow('资产账户');
+    data['协议设置'] = _getListRow('协议设置');
+    data['文档'] = _getListRow('文档');
+    data['生命周期'] = _getListRow('生命周期');
     return data;
   }
 
@@ -96,54 +96,114 @@ class _CMDBAssetsDetalisPageState extends State<CMDBAssetsDetalisPage> {
   }
 
   Widget _body() {
-    double itemHeight = 40.0;
-    return AccordionList(
-      listTitle: (BuildContext context, int index) {
-        return Container(
-          height: 50.0,
-          color: Color(0x00000000), // 占满宽度
-          alignment: Alignment.centerLeft,
-          child: Text(
-            assetsDetalisMapKeys[index],
-            overflow: TextOverflow.ellipsis,
+    double itemHeight = 50.0;
+    BorderSide itemBorderWidth = BorderSide(
+      color: BaseStyle.lineColor[0],
+      width: 1.0 / MediaQuery.of(context).devicePixelRatio,
+    );
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          top: itemBorderWidth,
+        ),
+      ),
+      child: AccordionList(
+        listTitlePadding: EdgeInsets.only(left: 15, right: 10),
+        rightIconColor: Color(0xff000000),
+        rightIconSize: 20.0,
+        listTitleDecoration: BoxDecoration(
+          color: Color(0xffffffff),
+          border: Border(
+            bottom: itemBorderWidth,
           ),
-        );
-      },
-      listMenu: (BuildContext context, int index) {
-        return ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              height: itemHeight,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      '12312321',
-                      overflow: TextOverflow.ellipsis,
+        ),
+        listTitle: (BuildContext context, int index) {
+          return Container(
+            height: 50.0,
+            color: Color(0x00000000), // 占满宽度
+            alignment: Alignment.centerLeft,
+            child: Text(
+              assetsDetalisMapKeys[index],
+              style: TextStyle(
+                  fontSize: BaseStyle.fontSize[1],
+                  color: BaseStyle.textColor[0]),
+              overflow: TextOverflow.ellipsis,
+            ),
+          );
+        },
+        listMenu: (BuildContext context, int titleIndex) {
+          return ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (BuildContext context, int menuIndex) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: Color(0xffF5F7FA),
+                  border: Border(
+                    bottom: itemBorderWidth,
+                  ),
+                ),
+                height: itemHeight,
+                child: Material(
+                  child: InkWell(
+                    highlightColor: Color.fromRGBO(0, 0, 0, 0.04),
+                    splashColor: Color.fromRGBO(0, 0, 0, 0.02),
+                    onTap: () {
+                      print(123);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                assetsDetalisMap[
+                                        assetsDetalisMapKeys[titleIndex]]
+                                    [menuIndex]['key'],
+                                style: TextStyle(
+                                  fontSize: BaseStyle.fontSize[2],
+                                  color: BaseStyle.textColor[2],
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                assetsDetalisMap[
+                                        assetsDetalisMapKeys[titleIndex]]
+                                    [menuIndex]['val'],
+                                style: TextStyle(
+                                  fontSize: BaseStyle.fontSize[2],
+                                  color: BaseStyle.textColor[2],
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      'fdsafdsafdsafddsafdsafdsakjfglhdsjkalhjkgldhsaklj',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-          itemCount: assetsDetalisMap[assetsDetalisMapKeys[index]].length ?? 0,
-        );
-      },
-      itemHeight: (BuildContext context, int index) {
-        int length = assetsDetalisMap[assetsDetalisMapKeys[index]].length;
-        return length.toDouble() * itemHeight;
-      },
-      itemCount: assetsDetalisMapKeys.length ?? 0,
-      // controller: new AnimationController(),
+                ),
+              );
+            },
+            itemCount:
+                assetsDetalisMap[assetsDetalisMapKeys[titleIndex]].length ?? 0,
+          );
+        },
+        itemHeight: (BuildContext context, int index) {
+          int length = assetsDetalisMap[assetsDetalisMapKeys[index]].length;
+          return itemHeight * length.toDouble();
+        },
+        itemCount: assetsDetalisMapKeys.length ?? 0,
+        // controller: new AnimationController(),
+      ),
     );
   }
 

@@ -26,8 +26,12 @@ class AccordionListItem extends StatefulWidget {
     this.setSelectIndex,
     this.duration,
     this.curve,
-    this.color,
-    this.itemPadding
+    this.listTitlePadding,
+    this.listTitleDecoration,
+    this.rightIconColor,
+    this.rightIconSize,
+    this.rightIcon,
+    this.showRigtIcon,
   }) : super(key: key);
 
   final int index;
@@ -38,8 +42,12 @@ class AccordionListItem extends StatefulWidget {
   final double itemHeight;
   final Function setSelectIndex;
   final Curve curve;
-  final Color color;
-  final EdgeInsets itemPadding;
+  final EdgeInsets listTitlePadding;
+  final BoxDecoration listTitleDecoration;
+  final Color rightIconColor;
+  final double rightIconSize;
+  final Widget rightIcon;
+  final bool showRigtIcon;
 
   @override
   _AccordionListItemState createState() => new _AccordionListItemState();
@@ -78,7 +86,6 @@ class _AccordionListItemState extends State<AccordionListItem>
     }
     Widget listmenu = widget.listMenu(context, widget.index);
     return Container(
-      color: widget.color ?? Color(0xffffffff),
       child: Column(
         children: <Widget>[
           GestureDetector(
@@ -100,7 +107,8 @@ class _AccordionListItemState extends State<AccordionListItem>
             child: Builder(
               builder: (BuildContext context) {
                 return Container(
-                  padding: widget.itemPadding,
+                  decoration: widget.listTitleDecoration,
+                  padding: widget.listTitlePadding,
                   child: Row(
                     children: <Widget>[
                       Expanded(
@@ -108,24 +116,26 @@ class _AccordionListItemState extends State<AccordionListItem>
                         child: widget.listTitle(context, widget.index),
                       ),
                       Offstage(
-                        offstage: widget.itemHeight == 0.0,
+                        offstage: !widget.showRigtIcon,
                         child: Center(
                           child: AnimatedBuilder(
                             animation: _animationController,
                             builder: (BuildContext context, Widget child) {
-                              return Container(
-                                width: 20,
-                                height: 20,
-                                child: Transform(
-                                  child: Icon(
-                                    Icons.chevron_right,
-                                    color: Color(0xff000000),
-                                    size: 20,
-                                  ),
-                                  alignment: Alignment.center,
-                                  transform: Matrix4.identity()
-                                    ..rotateZ(_animation.value * Math.pi / 180),
-                                ),
+                              return Transform(
+                                child: widget.rightIcon ??
+                                    Icon(
+                                      Icons.chevron_right,
+                                      color: widget.rightIconColor ??
+                                          Color(0xff000000),
+                                      size: widget.rightIconSize ?? 20.0,
+                                    ),
+                                alignment: Alignment.center,
+                                transform: Matrix4.identity()
+                                  ..rotateZ((widget.itemHeight == 0.0
+                                          ? 0.0
+                                          : _animation.value) *
+                                      Math.pi /
+                                      180),
                               );
                             },
                           ),

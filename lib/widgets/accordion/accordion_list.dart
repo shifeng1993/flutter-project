@@ -23,10 +23,15 @@ class AccordionList extends StatefulWidget {
     @required this.itemCount,
     @required this.listMenu,
     @required this.itemHeight,
-    this.itemPadding,
+    this.listTitlePadding,
+    this.listTitleDecoration,
     this.padding,
     this.controller,
     this.physics,
+    this.rightIconColor,
+    this.rightIconSize,
+    this.rightIcon,
+    this.showRigtIcon = true,
   }) : super(key: key);
 
   final Function listTitle; // 子列表
@@ -36,7 +41,12 @@ class AccordionList extends StatefulWidget {
   final EdgeInsets padding;
   final int controller; // 控制器
   final ScrollPhysics physics;
-  final EdgeInsets itemPadding;
+  final EdgeInsets listTitlePadding;
+  final BoxDecoration listTitleDecoration;
+  final Color rightIconColor;
+  final double rightIconSize;
+  final Widget rightIcon;
+  final bool showRigtIcon;
 
   @override
   _AccordionListState createState() => new _AccordionListState();
@@ -76,7 +86,12 @@ class _AccordionListState extends State<AccordionList> {
             listMenu: widget.listMenu,
             itemHeight: widget.itemHeight(context, i),
             setSelectIndex: this.setSelectIndex,
-            itemPadding: widget.itemPadding ?? EdgeInsets.zero,
+            listTitlePadding: widget.listTitlePadding ?? EdgeInsets.zero,
+            listTitleDecoration: widget.listTitleDecoration,
+            rightIconColor: widget.rightIconColor,
+            rightIconSize: widget.rightIconSize,
+            rightIcon: widget.rightIcon,
+            showRigtIcon: widget.showRigtIcon,
             index: i,
             isShow: isShow,
           );
@@ -84,7 +99,7 @@ class _AccordionListState extends State<AccordionList> {
       );
     });
     return ListView(
-      padding: widget.padding ?? EdgeInsets.only(top: 10),
+      padding: widget.padding ?? EdgeInsets.zero,
       children: children,
       physics: widget.physics ?? BouncingScrollPhysics(),
     );
