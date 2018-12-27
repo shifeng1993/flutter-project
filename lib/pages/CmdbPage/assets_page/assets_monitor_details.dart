@@ -1,5 +1,6 @@
 // cmdb资产/监控 -> 监控 -> 监控详情
 import 'dart:math';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../common/baseStyle.dart';
@@ -22,14 +23,47 @@ class CMDBAssetsMonitorDetalisPage extends StatefulWidget {
 class _CMDBAssetsMonitorDetalisPageState
     extends State<CMDBAssetsMonitorDetalisPage> {
   BuildContext context;
-  Map<String, dynamic> assetsDetalisMap;
-  List<String> assetsDetalisMapKeys;
+  Map<String, dynamic> monitorDetalisMap;
+  List<String> monitorDetalisMapKeys;
+
+  Duration _duration = Duration(milliseconds: 300);
+  Curve _curve = Curves.fastOutSlowIn;
+
+  double _opacity1;
+  double _opacity2;
+  double _opacity3;
+
+  Timer _timer;
+  Timer _timerChild;
+  Timer _timerOpacity1;
+  Timer _timerOpacity2;
+  Timer _timerOpacity3;
 
   @override
   void initState() {
     super.initState();
-    assetsDetalisMap = _getAssetsDetalisMap();
-    assetsDetalisMapKeys = assetsDetalisMap.keys.toList();
+    monitorDetalisMap = _getMonitorDetalisMap();
+    monitorDetalisMapKeys = monitorDetalisMap.keys.toList();
+    _opacity1 = 0.0;
+    _opacity2 = 0.0;
+    _opacity3 = 0.0;
+    this._timer = Timer.periodic(Duration(milliseconds: 1800), (Timer timer) {
+      this._opacityTo1();
+      this._timerChild = Timer(const Duration(milliseconds: 1000), () {
+        this._opacityTo0();
+      });
+    });
+  }
+
+  @override
+  dispose() {
+    _timer?.cancel();
+    _timerChild?.cancel();
+    _timerOpacity1?.cancel();
+    _timerOpacity2?.cancel();
+    _timerOpacity3?.cancel();
+
+    super.dispose();
   }
 
   List<Map<String, dynamic>> _getListRow(String typeStr) {
@@ -43,14 +77,12 @@ class _CMDBAssetsMonitorDetalisPageState
     return list;
   }
 
-  Map<String, dynamic> _getAssetsDetalisMap() {
+  Map<String, dynamic> _getMonitorDetalisMap() {
     Map<String, dynamic> data = new Map();
-    data['通用属性'] = _getListRow('通用属性');
-    data['特殊属性'] = _getListRow('特殊属性');
-    data['资产账户'] = _getListRow('资产账户');
-    data['协议设置'] = _getListRow('协议设置');
-    data['文档'] = _getListRow('文档');
-    data['生命周期'] = _getListRow('生命周期');
+    data['基本监控'] = _getListRow('基本监控');
+    data['地址'] = _getListRow('地址');
+    data['接口'] = _getListRow('接口');
+    data['处理器'] = _getListRow('处理器');
     return data;
   }
 
@@ -64,6 +96,42 @@ class _CMDBAssetsMonitorDetalisPageState
       ),
       onWillPop: _goback,
     );
+  }
+
+  void _opacityTo1() {
+    _timerOpacity1 = Timer(const Duration(milliseconds: 300), () {
+      setState(() {
+        _opacity1 = 1.0;
+      });
+      _timerOpacity2 = Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          _opacity2 = 0.7;
+        });
+        _timerOpacity3 = Timer(const Duration(milliseconds: 300), () {
+          setState(() {
+            _opacity3 = 0.4;
+          });
+        });
+      });
+    });
+  }
+
+  void _opacityTo0() async {
+    _timerOpacity1 = Timer(const Duration(milliseconds: 200), () {
+      setState(() {
+        _opacity1 = 0.0;
+      });
+      _timerOpacity2 = Timer(const Duration(milliseconds: 200), () {
+        setState(() {
+          _opacity2 = 0.0;
+        });
+        _timerOpacity3 = Timer(const Duration(milliseconds: 200), () {
+          setState(() {
+            _opacity3 = 0.0;
+          });
+        });
+      });
+    });
   }
 
   Widget _appbar() {
@@ -110,7 +178,7 @@ class _CMDBAssetsMonitorDetalisPageState
   Widget _body() {
     List<Widget> children = new List<Widget>();
     children.add(_headerCard());
-    // children.add(_infoCard());
+    children.add(_infoCard());
     return PullList(
       onRefresh: _onRefresh,
       child: ListView(
@@ -125,14 +193,329 @@ class _CMDBAssetsMonitorDetalisPageState
   Widget _headerCard() {
     return ShadowCard(
       margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
-      padding: EdgeInsets.only(left: 10, top: 15, right: 10, bottom: 15),
+      padding: EdgeInsets.all(15),
       colors: [Color(0xff599FFE), Color(0xff355FE3)],
       child: Container(
         child: Column(
           children: <Widget>[
-            Text('上'),
-            Text('中'),
-            Text('下'),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: Image.asset('assets/icons/assets_icon_w.png'),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          child: Text(
+                            widget.row['name'],
+                            style: TextStyle(
+                              color: Color(0xffffffff),
+                              fontSize: BaseStyle.fontSize[2],
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 5),
+                          child: Text(
+                            '(ip：${widget.row['ip']})',
+                            style: TextStyle(
+                              color: Color.fromRGBO(255, 255, 255, 0.6),
+                              fontSize: BaseStyle.fontSize[4],
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 15),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(30 / 2)),
+                    child: Container(
+                      width: 65,
+                      height: 30,
+                      color: Color(0xffffffff),
+                      child: Center(
+                        child: Text(
+                          Mock.getAssetStatus(widget.row['status']),
+                          style: TextStyle(
+                              fontSize: BaseStyle.fontSize[3],
+                              color: Color(0xff3C6CE8)),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 10, bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  AnimatedOpacity(
+                    duration: _duration,
+                    curve: _curve,
+                    opacity: _opacity3,
+                    child: Container(
+                      width: 8,
+                      height: 41,
+                      child: Transform(
+                        child: Image.asset(
+                          'assets/images/monitor_details_card_center_3.png',
+                          fit: BoxFit.contain,
+                        ),
+                        alignment: Alignment.center,
+                        transform: Matrix4.identity()..rotateZ(0.0 * pi / 180),
+                      ),
+                    ),
+                  ),
+                  AnimatedOpacity(
+                    duration: _duration,
+                    curve: _curve,
+                    opacity: _opacity2,
+                    child: Container(
+                      width: 6,
+                      height: 30,
+                      margin: EdgeInsets.only(left: 6),
+                      child: Transform(
+                        child: Image.asset(
+                          'assets/images/monitor_details_card_center_2.png',
+                          fit: BoxFit.contain,
+                        ),
+                        alignment: Alignment.center,
+                        transform: Matrix4.identity()..rotateZ(0.0 * pi / 180),
+                      ),
+                    ),
+                  ),
+                  AnimatedOpacity(
+                    duration: _duration,
+                    curve: _curve,
+                    opacity: _opacity1,
+                    child: Container(
+                      width: 5,
+                      height: 19,
+                      margin: EdgeInsets.only(left: 8),
+                      child: Transform(
+                        child: Image.asset(
+                          'assets/images/monitor_details_card_center_1.png',
+                          fit: BoxFit.contain,
+                        ),
+                        alignment: Alignment.center,
+                        transform: Matrix4.identity()..rotateZ(0.0 * pi / 180),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 72,
+                    height: 66,
+                    margin: EdgeInsets.only(left: 13, right: 13),
+                    child: Transform(
+                      child: Image.asset(
+                        'assets/images/monitor_details_card_center.png',
+                        fit: BoxFit.contain,
+                      ),
+                      alignment: Alignment.center,
+                      transform: Matrix4.identity()..rotateZ(0.0 * pi / 180),
+                    ),
+                  ),
+                  AnimatedOpacity(
+                    duration: _duration,
+                    curve: _curve,
+                    opacity: _opacity1,
+                    child: Container(
+                      width: 5,
+                      height: 19,
+                      margin: EdgeInsets.only(right: 8),
+                      child: Transform(
+                        child: Image.asset(
+                          'assets/images/monitor_details_card_center_1.png',
+                          fit: BoxFit.contain,
+                        ),
+                        alignment: Alignment.center,
+                        transform: Matrix4.identity()
+                          ..rotateZ(180.0 * pi / 180),
+                      ),
+                    ),
+                  ),
+                  AnimatedOpacity(
+                    duration: _duration,
+                    curve: _curve,
+                    opacity: _opacity2,
+                    child: Container(
+                      width: 6,
+                      height: 30,
+                      margin: EdgeInsets.only(right: 6),
+                      child: Transform(
+                        child: Image.asset(
+                          'assets/images/monitor_details_card_center_2.png',
+                          fit: BoxFit.contain,
+                        ),
+                        alignment: Alignment.center,
+                        transform: Matrix4.identity()
+                          ..rotateZ(180.0 * pi / 180),
+                      ),
+                    ),
+                  ),
+                  AnimatedOpacity(
+                    duration: _duration,
+                    curve: _curve,
+                    opacity: _opacity3,
+                    child: Container(
+                      child: Transform(
+                        child: Image.asset(
+                          'assets/images/monitor_details_card_center_3.png',
+                          fit: BoxFit.contain,
+                        ),
+                        alignment: Alignment.center,
+                        transform: Matrix4.identity()
+                          ..rotateZ(180.0 * pi / 180),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(30 / 2)),
+                    child: Container(
+                      height: 25,
+                      padding: EdgeInsets.only(left: 20, right: 20),
+                      color: Color.fromRGBO(255, 255, 255, 0.2),
+                      child: Center(
+                        child: Text(
+                          '连续运行 1天12小时25分钟12秒',
+                          style: TextStyle(
+                            fontSize: BaseStyle.fontSize[3],
+                            color: Color(0xffffffff),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          'PING检测状态',
+                          style: TextStyle(
+                            color: Color.fromRGBO(255, 255, 255, 0.6),
+                            fontSize: BaseStyle.fontSize[3],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Text(
+                            'PING正常',
+                            style: TextStyle(
+                              fontSize: BaseStyle.fontSize[3],
+                              color: Color(0xffffffff),
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        left: BorderSide(
+                          color: Color.fromRGBO(255, 255, 255, 0.2),
+                          width: 1.0 / MediaQuery.of(context).devicePixelRatio,
+                        ),
+                      ),
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          'PING响应时间',
+                          style: TextStyle(
+                            color: Color.fromRGBO(255, 255, 255, 0.6),
+                            fontSize: BaseStyle.fontSize[3],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Text(
+                            '0.00ms',
+                            style: TextStyle(
+                              fontSize: BaseStyle.fontSize[3],
+                              color: Color(0xffffffff),
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        left: BorderSide(
+                          color: Color.fromRGBO(255, 255, 255, 0.2),
+                          width: 1.0 / MediaQuery.of(context).devicePixelRatio,
+                        ),
+                      ),
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          '监控频率',
+                          style: TextStyle(
+                            color: Color.fromRGBO(255, 255, 255, 0.6),
+                            fontSize: BaseStyle.fontSize[3],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Text(
+                            '180ms',
+                            style: TextStyle(
+                              fontSize: BaseStyle.fontSize[3],
+                              color: Color(0xffffffff),
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -147,110 +530,115 @@ class _CMDBAssetsMonitorDetalisPageState
       width: 1.0 / MediaQuery.of(context).devicePixelRatio,
     );
     return ShadowCard(
-      colors: [Color(0xff599FFE), Color(0xff355FE3)],
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: itemBorderWidth,
-          ),
-        ),
-        child: AccordionList(
-          listTitlePadding: EdgeInsets.only(left: 15, right: 10),
-          rightIconColor: Color(0xff000000),
-          rightIconSize: 20.0,
-          listTitleDecoration: BoxDecoration(
-            color: Color(0xffffffff),
+      margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        child: Container(
+          height: 300,
+          decoration: BoxDecoration(
             border: Border(
-              bottom: itemBorderWidth,
+              top: itemBorderWidth,
             ),
           ),
-          listTitle: (BuildContext context, int index) {
-            return Container(
-              height: 50.0,
-              color: Color(0x00000000), // 占满宽度
-              alignment: Alignment.centerLeft,
-              child: Text(
-                assetsDetalisMapKeys[index],
-                style: TextStyle(
-                    fontSize: BaseStyle.fontSize[1],
-                    color: BaseStyle.textColor[0]),
-                overflow: TextOverflow.ellipsis,
+          child: AccordionList(
+            listTitlePadding: EdgeInsets.only(left: 15, right: 10),
+            rightIconColor: Color(0xff000000),
+            rightIconSize: 20.0,
+            listTitleDecoration: BoxDecoration(
+              color: Color(0xffffffff),
+              border: Border(
+                bottom: itemBorderWidth,
               ),
-            );
-          },
-          listMenu: (BuildContext context, int titleIndex) {
-            return ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (BuildContext context, int menuIndex) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xffF5F7FA),
-                    border: Border(
-                      bottom: itemBorderWidth,
+            ),
+            listTitle: (BuildContext context, int index) {
+              return Container(
+                height: 50.0,
+                color: Color(0x00000000), // 占满宽度
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  monitorDetalisMapKeys[index],
+                  style: TextStyle(
+                      fontSize: BaseStyle.fontSize[1],
+                      color: BaseStyle.textColor[0]),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              );
+            },
+            listMenu: (BuildContext context, int titleIndex) {
+              return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (BuildContext context, int menuIndex) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xffF5F7FA),
+                      border: Border(
+                        bottom: itemBorderWidth,
+                      ),
                     ),
-                  ),
-                  height: itemHeight,
-                  child: Material(
-                    child: InkWell(
-                      highlightColor: Color.fromRGBO(0, 0, 0, 0.04),
-                      splashColor: Color.fromRGBO(0, 0, 0, 0.02),
-                      onTap: () {
-                        print(123);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 1,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  assetsDetalisMap[
-                                          assetsDetalisMapKeys[titleIndex]]
-                                      [menuIndex]['key'],
-                                  style: TextStyle(
-                                    fontSize: BaseStyle.fontSize[2],
-                                    color: BaseStyle.textColor[2],
+                    height: itemHeight,
+                    child: Material(
+                      child: InkWell(
+                        highlightColor: Color.fromRGBO(0, 0, 0, 0.04),
+                        splashColor: Color.fromRGBO(0, 0, 0, 0.02),
+                        onTap: () {
+                          print(123);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 1,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    monitorDetalisMap[
+                                            monitorDetalisMapKeys[titleIndex]]
+                                        [menuIndex]['key'],
+                                    style: TextStyle(
+                                      fontSize: BaseStyle.fontSize[2],
+                                      color: BaseStyle.textColor[2],
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  assetsDetalisMap[
-                                          assetsDetalisMapKeys[titleIndex]]
-                                      [menuIndex]['val'],
-                                  style: TextStyle(
-                                    fontSize: BaseStyle.fontSize[2],
-                                    color: BaseStyle.textColor[2],
+                              Expanded(
+                                flex: 1,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    monitorDetalisMap[
+                                            monitorDetalisMapKeys[titleIndex]]
+                                        [menuIndex]['val'],
+                                    style: TextStyle(
+                                      fontSize: BaseStyle.fontSize[2],
+                                      color: BaseStyle.textColor[2],
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
-              itemCount:
-                  assetsDetalisMap[assetsDetalisMapKeys[titleIndex]].length ??
-                      0,
-            );
-          },
-          itemHeight: (BuildContext context, int index) {
-            int length = assetsDetalisMap[assetsDetalisMapKeys[index]].length;
-            return itemHeight * length.toDouble();
-          },
-          itemCount: assetsDetalisMapKeys.length ?? 0,
-          // controller: new AnimationController(),
+                  );
+                },
+                itemCount: monitorDetalisMap[monitorDetalisMapKeys[titleIndex]]
+                        .length ??
+                    0,
+              );
+            },
+            itemHeight: (BuildContext context, int index) {
+              int length =
+                  monitorDetalisMap[monitorDetalisMapKeys[index]].length;
+              return itemHeight * length.toDouble();
+            },
+            itemCount: monitorDetalisMapKeys.length ?? 0,
+            // controller: new AnimationController(),
+          ),
         ),
       ),
     );
