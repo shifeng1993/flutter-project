@@ -4,11 +4,8 @@ import 'package:flutter/cupertino.dart';
 import '../../common/baseStyle.dart';
 
 class ShadowCardTitle extends StatelessWidget {
-  ShadowCardTitle(
-      {Key key, this.title, this.onPressed, this.rightButton = true})
-      : super(key: key);
+  ShadowCardTitle({Key key, this.title, this.onPressed}) : super(key: key);
 
-  final rightButton;
   final Function onPressed;
   final String title;
 
@@ -28,7 +25,7 @@ class ShadowCardTitle extends StatelessWidget {
             ),
           ),
         ),
-        rightButton
+        onPressed != null
             ? Positioned(
                 right: 5,
                 child: ClipRRect(

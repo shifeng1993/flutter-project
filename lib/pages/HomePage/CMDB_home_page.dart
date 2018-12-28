@@ -6,7 +6,7 @@ import '../../common/BaseStyle.dart';
 // 引入下面三个tab页面
 import '../CmdbPage/index_page/index_page.dart';
 import '../CmdbPage/assets_page/assets_page.dart';
-import '../CmdbPage/event_page.dart';
+import '../CmdbPage/event_page/event_page.dart';
 
 // 引入左侧抽屉
 import '../drawerPage/home_page_left_drawer.dart';

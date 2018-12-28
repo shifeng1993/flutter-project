@@ -187,10 +187,9 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
   Widget _cardTitle(String title, [bool rightButton = true]) {
     return ShadowCardTitle(
       title: title,
-      rightButton: rightButton,
-      onPressed: () {
+      onPressed: rightButton ? () {
         print(title);
-      },
+      } : null,
     );
   }
 
