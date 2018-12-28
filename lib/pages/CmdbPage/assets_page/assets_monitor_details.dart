@@ -533,112 +533,103 @@ class _CMDBAssetsMonitorDetalisPageState
       margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(10)),
-        child: Container(
-          height: 300,
-          decoration: BoxDecoration(
+        child: AccordionList(
+          listTitlePadding: EdgeInsets.only(left: 15, right: 10),
+          rightIconColor: Color(0xff000000),
+          rightIconSize: 20.0,
+          listTitleDecoration: BoxDecoration(
+            color: Color(0xffffffff),
             border: Border(
-              top: itemBorderWidth,
+              bottom: itemBorderWidth,
             ),
           ),
-          child: AccordionList(
-            listTitlePadding: EdgeInsets.only(left: 15, right: 10),
-            rightIconColor: Color(0xff000000),
-            rightIconSize: 20.0,
-            listTitleDecoration: BoxDecoration(
-              color: Color(0xffffffff),
-              border: Border(
-                bottom: itemBorderWidth,
+          listTitle: (BuildContext context, int index) {
+            return Container(
+              height: 50.0,
+              color: Color(0x00000000), // 占满宽度
+              alignment: Alignment.centerLeft,
+              child: Text(
+                monitorDetalisMapKeys[index],
+                style: TextStyle(
+                    fontSize: BaseStyle.fontSize[1],
+                    color: BaseStyle.textColor[0]),
+                overflow: TextOverflow.ellipsis,
               ),
-            ),
-            listTitle: (BuildContext context, int index) {
-              return Container(
-                height: 50.0,
-                color: Color(0x00000000), // 占满宽度
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  monitorDetalisMapKeys[index],
-                  style: TextStyle(
-                      fontSize: BaseStyle.fontSize[1],
-                      color: BaseStyle.textColor[0]),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              );
-            },
-            listMenu: (BuildContext context, int titleIndex) {
-              return ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (BuildContext context, int menuIndex) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xffF5F7FA),
-                      border: Border(
-                        bottom: itemBorderWidth,
-                      ),
+            );
+          },
+          listMenu: (BuildContext context, int titleIndex) {
+            return ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (BuildContext context, int menuIndex) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xffF5F7FA),
+                    border: Border(
+                      bottom: itemBorderWidth,
                     ),
-                    height: itemHeight,
-                    child: Material(
-                      child: InkWell(
-                        highlightColor: Color.fromRGBO(0, 0, 0, 0.04),
-                        splashColor: Color.fromRGBO(0, 0, 0, 0.02),
-                        onTap: () {
-                          print(123);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(left: 15, right: 15),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 1,
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    monitorDetalisMap[
-                                            monitorDetalisMapKeys[titleIndex]]
-                                        [menuIndex]['key'],
-                                    style: TextStyle(
-                                      fontSize: BaseStyle.fontSize[2],
-                                      color: BaseStyle.textColor[2],
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
+                  ),
+                  height: itemHeight,
+                  child: Material(
+                    child: InkWell(
+                      highlightColor: Color.fromRGBO(0, 0, 0, 0.04),
+                      splashColor: Color.fromRGBO(0, 0, 0, 0.02),
+                      onTap: () {
+                        print(123);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(left: 15, right: 15),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  monitorDetalisMap[
+                                          monitorDetalisMapKeys[titleIndex]]
+                                      [menuIndex]['key'],
+                                  style: TextStyle(
+                                    fontSize: BaseStyle.fontSize[2],
+                                    color: BaseStyle.textColor[2],
                                   ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              Expanded(
-                                flex: 1,
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    monitorDetalisMap[
-                                            monitorDetalisMapKeys[titleIndex]]
-                                        [menuIndex]['val'],
-                                    style: TextStyle(
-                                      fontSize: BaseStyle.fontSize[2],
-                                      color: BaseStyle.textColor[2],
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  monitorDetalisMap[
+                                          monitorDetalisMapKeys[titleIndex]]
+                                      [menuIndex]['val'],
+                                  style: TextStyle(
+                                    fontSize: BaseStyle.fontSize[2],
+                                    color: BaseStyle.textColor[2],
                                   ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  );
-                },
-                itemCount: monitorDetalisMap[monitorDetalisMapKeys[titleIndex]]
-                        .length ??
-                    0,
-              );
-            },
-            itemHeight: (BuildContext context, int index) {
-              int length =
-                  monitorDetalisMap[monitorDetalisMapKeys[index]].length;
-              return itemHeight * length.toDouble();
-            },
-            itemCount: monitorDetalisMapKeys.length ?? 0,
-            // controller: new AnimationController(),
-          ),
+                  ),
+                );
+              },
+              itemCount:
+                  monitorDetalisMap[monitorDetalisMapKeys[titleIndex]].length ??
+                      0,
+            );
+          },
+          itemHeight: (BuildContext context, int index) {
+            int length = monitorDetalisMap[monitorDetalisMapKeys[index]].length;
+            return itemHeight * length.toDouble();
+          },
+          itemCount: monitorDetalisMapKeys.length ?? 0,
+          // controller: new AnimationController(),
         ),
       ),
     );

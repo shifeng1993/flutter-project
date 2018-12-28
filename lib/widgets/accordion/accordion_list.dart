@@ -25,9 +25,7 @@ class AccordionList extends StatefulWidget {
     @required this.itemHeight,
     this.listTitlePadding,
     this.listTitleDecoration,
-    this.padding,
     this.controller,
-    this.physics,
     this.rightIconColor,
     this.rightIconSize,
     this.rightIcon,
@@ -38,9 +36,7 @@ class AccordionList extends StatefulWidget {
   final Function listMenu;
   final int itemCount; // 数量
   final Function itemHeight; // menuitem高度
-  final EdgeInsets padding;
   final int controller; // 控制器
-  final ScrollPhysics physics;
   final EdgeInsets listTitlePadding;
   final BoxDecoration listTitleDecoration;
   final Color rightIconColor;
@@ -98,10 +94,8 @@ class _AccordionListState extends State<AccordionList> {
         },
       );
     });
-    return ListView(
-      padding: widget.padding ?? EdgeInsets.zero,
+    return Column(
       children: children,
-      physics: widget.physics ?? BouncingScrollPhysics(),
     );
   }
 }

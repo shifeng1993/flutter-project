@@ -107,102 +107,109 @@ class _CMDBAssetsDetalisPageState extends State<CMDBAssetsDetalisPage> {
           top: itemBorderWidth,
         ),
       ),
-      child: AccordionList(
-        listTitlePadding: EdgeInsets.only(left: 15, right: 10),
-        rightIconColor: Color(0xff000000),
-        rightIconSize: 20.0,
-        listTitleDecoration: BoxDecoration(
-          color: Color(0xffffffff),
-          border: Border(
-            bottom: itemBorderWidth,
-          ),
-        ),
-        listTitle: (BuildContext context, int index) {
-          return Container(
-            height: 50.0,
-            color: Color(0x00000000), // 占满宽度
-            alignment: Alignment.centerLeft,
-            child: Text(
-              assetsDetalisMapKeys[index],
-              style: TextStyle(
-                  fontSize: BaseStyle.fontSize[1],
-                  color: BaseStyle.textColor[0]),
-              overflow: TextOverflow.ellipsis,
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          AccordionList(
+            listTitlePadding: EdgeInsets.only(left: 15, right: 10),
+            rightIconColor: Color(0xff000000),
+            rightIconSize: 20.0,
+            listTitleDecoration: BoxDecoration(
+              color: Color(0xffffffff),
+              border: Border(
+                bottom: itemBorderWidth,
+              ),
             ),
-          );
-        },
-        listMenu: (BuildContext context, int titleIndex) {
-          return ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (BuildContext context, int menuIndex) {
+            listTitle: (BuildContext context, int index) {
               return Container(
-                decoration: BoxDecoration(
-                  color: Color(0xffF5F7FA),
-                  border: Border(
-                    bottom: itemBorderWidth,
-                  ),
-                ),
-                height: itemHeight,
-                child: Material(
-                  child: InkWell(
-                    highlightColor: Color.fromRGBO(0, 0, 0, 0.04),
-                    splashColor: Color.fromRGBO(0, 0, 0, 0.02),
-                    onTap: () {
-                      print(123);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.only(left: 15, right: 15),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                assetsDetalisMap[
-                                        assetsDetalisMapKeys[titleIndex]]
-                                    [menuIndex]['key'],
-                                style: TextStyle(
-                                  fontSize: BaseStyle.fontSize[2],
-                                  color: BaseStyle.textColor[2],
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                assetsDetalisMap[
-                                        assetsDetalisMapKeys[titleIndex]]
-                                    [menuIndex]['val'],
-                                style: TextStyle(
-                                  fontSize: BaseStyle.fontSize[2],
-                                  color: BaseStyle.textColor[2],
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                height: 50.0,
+                color: Color(0x00000000), // 占满宽度
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  assetsDetalisMapKeys[index],
+                  style: TextStyle(
+                      fontSize: BaseStyle.fontSize[1],
+                      color: BaseStyle.textColor[0]),
+                  overflow: TextOverflow.ellipsis,
                 ),
               );
             },
-            itemCount:
-                assetsDetalisMap[assetsDetalisMapKeys[titleIndex]].length ?? 0,
-          );
-        },
-        itemHeight: (BuildContext context, int index) {
-          int length = assetsDetalisMap[assetsDetalisMapKeys[index]].length;
-          return itemHeight * length.toDouble();
-        },
-        itemCount: assetsDetalisMapKeys.length ?? 0,
-        // controller: new AnimationController(),
+            listMenu: (BuildContext context, int titleIndex) {
+              return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (BuildContext context, int menuIndex) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xffF5F7FA),
+                      border: Border(
+                        bottom: itemBorderWidth,
+                      ),
+                    ),
+                    height: itemHeight,
+                    child: Material(
+                      child: InkWell(
+                        highlightColor: Color.fromRGBO(0, 0, 0, 0.04),
+                        splashColor: Color.fromRGBO(0, 0, 0, 0.02),
+                        onTap: () {
+                          print(123);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 1,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    assetsDetalisMap[
+                                            assetsDetalisMapKeys[titleIndex]]
+                                        [menuIndex]['key'],
+                                    style: TextStyle(
+                                      fontSize: BaseStyle.fontSize[2],
+                                      color: BaseStyle.textColor[2],
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    assetsDetalisMap[
+                                            assetsDetalisMapKeys[titleIndex]]
+                                        [menuIndex]['val'],
+                                    style: TextStyle(
+                                      fontSize: BaseStyle.fontSize[2],
+                                      color: BaseStyle.textColor[2],
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                itemCount:
+                    assetsDetalisMap[assetsDetalisMapKeys[titleIndex]].length ??
+                        0,
+              );
+            },
+            itemHeight: (BuildContext context, int index) {
+              int length = assetsDetalisMap[assetsDetalisMapKeys[index]].length;
+              return itemHeight * length.toDouble();
+            },
+            itemCount: assetsDetalisMapKeys.length ?? 0,
+            // controller: new AnimationController(),
+          ),
+        ],
+        physics: BouncingScrollPhysics(),
       ),
     );
   }
