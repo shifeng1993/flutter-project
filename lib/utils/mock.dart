@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
+import '../common/baseStyle.dart';
 
 abstract class Mock {
   List<String> system = ['windows', 'centos', 'ubuntu', 'macos'];
@@ -13,9 +15,9 @@ abstract class Mock {
     return system[Random().nextInt(4)];
   }
 
-  // 获取资产状态
-  static int getStatus() {
-    int status = Random().nextInt(3);
+  // 获取状态
+  static int getStatus({int max: 3}) {
+    int status = Random().nextInt(max);
     return status;
   }
 

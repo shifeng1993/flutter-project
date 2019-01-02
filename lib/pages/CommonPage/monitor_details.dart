@@ -3,25 +3,23 @@ import 'dart:math';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../../../common/baseStyle.dart';
-import '../../../utils/mock.dart';
+import '../../common/baseStyle.dart';
+import '../../utils/mock.dart';
 
-import '../../../widgets/shadow_card/index.dart';
-import '../../../widgets/pull_list/index.dart';
-import '../../../widgets/accordion/accordion_list.dart';
-import '../../../widgets/accordion/accordion_list_item.dart';
+import '../../widgets/shadow_card/index.dart';
+import '../../widgets/pull_list/index.dart';
+import '../../widgets/accordion/accordion_list.dart';
+import '../../widgets/accordion/accordion_list_item.dart';
 
-class CMDBAssetsMonitorDetalisPage extends StatefulWidget {
-  CMDBAssetsMonitorDetalisPage({Key key, this.row}) : super(key: key);
+class MonitorDetalisPage extends StatefulWidget {
+  MonitorDetalisPage({Key key, this.row}) : super(key: key);
 
   final Map<String, dynamic> row;
   @override
-  _CMDBAssetsMonitorDetalisPageState createState() =>
-      new _CMDBAssetsMonitorDetalisPageState();
+  _MonitorDetalisPageState createState() => new _MonitorDetalisPageState();
 }
 
-class _CMDBAssetsMonitorDetalisPageState
-    extends State<CMDBAssetsMonitorDetalisPage> {
+class _MonitorDetalisPageState extends State<MonitorDetalisPage> {
   BuildContext context;
   Map<String, dynamic> monitorDetalisMap;
   List<String> monitorDetalisMapKeys;

@@ -1,4 +1,4 @@
-// cmdb资产/监控 -> 监控
+// cmdb资产 -> 资产管理
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,24 +6,22 @@ import 'package:unicorndial/unicorndial.dart';
 import '../../../common/baseStyle.dart';
 import '../../../utils/mock.dart';
 
-import '../../drawerPage/assets_right_drawer.dart';
+import '../../drawerPage/event_right_drawer.dart';
 import '../../../widgets/pull_push_list/index.dart';
 import '../../../widgets/shadow_card/index.dart';
 import '../../../widgets/page_route_Builder/index.dart';
 
-import '../../CommonPage/monitor_details.dart';
-
-class CMDBAssetsMonitorPage extends StatefulWidget {
-  CMDBAssetsMonitorPage({Key key, this.title}) : super(key: key);
+class CMDBEventListPage extends StatefulWidget {
+  CMDBEventListPage({Key key, this.title, this.type}) : super(key: key);
 
   final String title;
+  final int type;
 
   @override
-  _CMDBAssetsMonitorPageState createState() =>
-      new _CMDBAssetsMonitorPageState();
+  _CMDBEventListPageState createState() => new _CMDBEventListPageState();
 }
 
-class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
+class _CMDBEventListPageState extends State<CMDBEventListPage> {
   BuildContext context;
   List<Map<String, dynamic>> monitorList;
   ScrollController _scrollController;
@@ -77,7 +75,8 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
           '${(i + (currentPage - 1) * pageSize).toString()}这是标题，我来展示，这是标题，我来展示这是标题，我来展示，这是标题，我来展示';
       row['ip'] = Mock.getIP();
       row['type'] = Mock.getCiType();
-      row['status'] = currentStatus == null ? Mock.getStatus() : currentStatus;
+      row['status'] =
+          currentStatus == null ? Mock.getStatus(max: 7) : currentStatus;
       return row;
     });
     return data;
@@ -90,7 +89,7 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
       child: Scaffold(
           appBar: _appbar(),
           body: _body(),
-          endDrawer: AssetsRightDrawer(),
+          endDrawer: EventRightDrawer(),
           floatingActionButton: _floatActionButton() //,
           ),
       onWillPop: _goback,
@@ -105,7 +104,7 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
             EdgeInsets.only(left: iconSize + 20), // 给marginleft补齐量，使title在屏幕中央
         child: Center(
           child: Text(
-            '资产监控',
+            widget.title,
             style: TextStyle(fontSize: BaseStyle.fontSize[0]),
             textAlign: TextAlign.center,
           ),
@@ -176,29 +175,93 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
       childButtons: <UnicornButton>[
         UnicornButton(
           currentButton: FloatingActionButton(
-            backgroundColor: BaseStyle.statusColor[0],
-            heroTag: 'error',
-            child: _getAssetStatusImage(0),
+            backgroundColor: Color(0xffF57171),
+            heroTag: '严重',
+            child: Text(
+              '严重',
+              style: TextStyle(
+                  fontSize: BaseStyle.fontSize[4], color: Color(0xffffffff)),
+            ),
             mini: true,
-            onPressed: () => _setStatusList(0),
+            onPressed: () => _setStatusList(6),
           ),
         ),
         UnicornButton(
           currentButton: FloatingActionButton(
-            backgroundColor: BaseStyle.statusColor[1],
-            heroTag: 'normal',
-            child: _getAssetStatusImage(1),
+            backgroundColor: Color(0xffE38DB6),
+            heroTag: '主要',
+            child: Text(
+              '主要',
+              style: TextStyle(
+                  fontSize: BaseStyle.fontSize[4], color: Color(0xffffffff)),
+            ),
+            mini: true,
+            onPressed: () => _setStatusList(5),
+          ),
+        ),
+        UnicornButton(
+          currentButton: FloatingActionButton(
+            backgroundColor: Color(0xffE6C73D),
+            heroTag: '次要',
+            child: Text(
+              '次要',
+              style: TextStyle(
+                  fontSize: BaseStyle.fontSize[4], color: Color(0xffffffff)),
+            ),
+            mini: true,
+            onPressed: () => _setStatusList(4),
+          ),
+        ),
+        UnicornButton(
+          currentButton: FloatingActionButton(
+            backgroundColor: Color(0xffE6A23D),
+            heroTag: '告警',
+            child: Text(
+              '告警',
+              style: TextStyle(
+                  fontSize: BaseStyle.fontSize[4], color: Color(0xffffffff)),
+            ),
+            mini: true,
+            onPressed: () => _setStatusList(3),
+          ),
+        ),
+        UnicornButton(
+          currentButton: FloatingActionButton(
+            backgroundColor: Color(0xff4AA4FF),
+            heroTag: '提示',
+            child: Text(
+              '提示',
+              style: TextStyle(
+                  fontSize: BaseStyle.fontSize[4], color: Color(0xffffffff)),
+            ),
+            mini: true,
+            onPressed: () => _setStatusList(2),
+          ),
+        ),
+        UnicornButton(
+          currentButton: FloatingActionButton(
+            backgroundColor: Color(0xff7ECB5A),
+            heroTag: '正常',
+            child: Text(
+              '正常',
+              style: TextStyle(
+                  fontSize: BaseStyle.fontSize[4], color: Color(0xffffffff)),
+            ),
             mini: true,
             onPressed: () => _setStatusList(1),
           ),
         ),
         UnicornButton(
           currentButton: FloatingActionButton(
-            backgroundColor: BaseStyle.statusColor[2],
-            heroTag: 'warning',
-            child: _getAssetStatusImage(2),
+            backgroundColor: Color(0xff909399),
+            heroTag: '未知',
+            child: Text(
+              '未知',
+              style: TextStyle(
+                  fontSize: BaseStyle.fontSize[4], color: Color(0xffffffff)),
+            ),
             mini: true,
-            onPressed: () => _setStatusList(2),
+            onPressed: () => _setStatusList(0),
           ),
         ),
         UnicornButton(
@@ -236,7 +299,7 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
   }
 
   Widget _listCard(BuildContext context, Map<String, dynamic> row, int index) {
-    List<int> flex = [1, 1, 1];
+    List<int> flex = [3, 3, 5];
 
     List<Action> actions = [
       Action(
@@ -269,12 +332,12 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
       padding: EdgeInsets.only(left: 10, top: 15, right: 10, bottom: 15),
       actions: actions,
       onPressed: () {
-        Navigator.push(
-          context,
-          RouteBuilder.iosPage(
-            MonitorDetalisPage(row: row),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   RouteBuilder.iosPage(
+        //     CMDBAssetsMonitorDetalisPage(row: row),
+        //   ),
+        // );
       },
       child: Row(
         children: <Widget>[
@@ -287,10 +350,7 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
                     alignment: Alignment.centerLeft,
                     child: Row(
                       children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: _getAssetStatusImage(row['status']),
-                        ),
+                        _getEventStatusTag(row['status']),
                         Expanded(
                           flex: 1,
                           child: Text(
@@ -315,12 +375,12 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
                                   child: Center(
-                                    child: Text('IP地址', style: flexTextKey),
+                                    child: Text('事件类型', style: flexTextKey),
                                   ),
                                 ),
                                 Center(
                                   child: Text(
-                                    row['ip'],
+                                    widget.title,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: flexTextVal,
@@ -338,12 +398,12 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
                                   child: Center(
-                                    child: Text('资产类型', style: flexTextKey),
+                                    child: Text('进入流程状态', style: flexTextKey),
                                   ),
                                 ),
                                 Center(
                                   child: Text(
-                                    row['type'],
+                                    Random().nextInt(2) == 0 ? '未进入' : '已进入',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: flexTextVal,
@@ -361,12 +421,12 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
                                   child: Center(
-                                    child: Text('资产状态', style: flexTextKey),
+                                    child: Text('产生时间', style: flexTextKey),
                                   ),
                                 ),
                                 Center(
                                   child: Text(
-                                      Mock.getAssetStatus(row['status']),
+                                      Mock.getDateTime(),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: flexTextVal),
@@ -387,34 +447,61 @@ class _CMDBAssetsMonitorPageState extends State<CMDBAssetsMonitorPage> {
     );
   }
 
-  Widget _getAssetStatusImage(int status) {
-    double size = 20.0;
-    Widget img;
+  Widget _getEventStatusTag(int status) {
+    EdgeInsets padding = EdgeInsets.only(left: 8, top: 1, right: 8, bottom: 1);
+    double radius = 5.0;
+    TextStyle textStyle = TextStyle(
+      fontSize: BaseStyle.fontSize[4],
+      color: Color(0xffffffff),
+    );
+    Color color;
+    String text;
+
     switch (status) {
       case 0:
-        img = Image.asset(
-          'assets/icons/assets_status_error.png',
-          width: size,
-          height: size,
-        );
+        color = Color(0xff909399);
+        text = '未知';
         break;
       case 1:
-        img = Image.asset(
-          'assets/icons/assets_status_normal.png',
-          width: size,
-          height: size,
-        );
+        color = Color(0xff7ECB5A);
+        text = '正常';
         break;
       case 2:
-        img = Image.asset(
-          'assets/icons/assets_status_warning.png',
-          width: size,
-          height: size,
-        );
+        color = Color(0xff4AA4FF);
+        text = '提示';
+        break;
+      case 3:
+        color = Color(0xffE6A23D);
+        text = '告警';
+        break;
+      case 4:
+        color = Color(0xffE6C73D);
+        text = '次要';
+        break;
+      case 5:
+        color = Color(0xffE38DB6);
+        text = '主要';
+        break;
+      case 6:
+        color = Color(0xffF57171);
+        text = '严重';
         break;
       default:
-        img = null;
+        break;
     }
-    return img;
+    return Container(
+      margin: EdgeInsets.only(right: 5),
+      padding: padding,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(radius)),
+        color: color,
+      ),
+      child: Center(
+        child: Text(
+          text,
+          style: textStyle,
+        ),
+      ),
+    );
   }
 }

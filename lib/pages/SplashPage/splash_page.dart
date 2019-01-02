@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../HomePage/CMDB_home_page.dart';
-// import '../HomePage/DevOps_home_page.dart';
+import '../HomePage/DevOps_home_page.dart';
 // import '../HomePage/ITIL_home_page.dart';
 
 import '../../widgets/page_route_Builder/index.dart';
@@ -32,9 +32,10 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     animation = new Tween(begin: 1.0, end: 1.0).animate(controller);
     animationStateListener = (status) {
       if (status == AnimationStatus.completed) {
+        // 这里可以跳转
         Navigator.pushReplacement(
           context,
-          RouteBuilder.fadePage(CMDBHomePage()),
+          RouteBuilder.fadePage(DevOpsHomePage()),
         );
       }
     };

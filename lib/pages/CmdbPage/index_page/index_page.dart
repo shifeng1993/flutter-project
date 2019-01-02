@@ -114,10 +114,39 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
           );
         },
         itemCount: 3,
-        pagination: new SwiperPagination(
-          alignment: Alignment.bottomCenter,
-          margin: const EdgeInsets.all(5.0),
-          builder: SwiperPagination.dots,
+        pagination: SwiperCustomPagination(
+          builder: (BuildContext context, SwiperPluginConfig config) {
+            List<Widget> list = [];
+
+            int itemCount = config.itemCount;
+            int activeIndex = config.activeIndex;
+
+            for (int i = 0; i < itemCount; ++i) {
+              bool active = i == activeIndex;
+              list.add(
+                Container(
+                  key: Key("pagination_$i"),
+                  margin: EdgeInsets.only(left: 2, right: 2, bottom: 5),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(3)),
+                    child: Container(
+                      width: active ? 15 : 6,
+                      height: 6,
+                      color: active ? Color(0xffFFBC63) : Color(0xffD6D7D9),
+                    ),
+                  ),
+                ),
+              );
+            }
+
+            return Align(
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: list,
+              ),
+            );
+          },
         ),
         onTap: (int index) {
           print(index);
@@ -187,9 +216,11 @@ class _CMDBIndexPageState extends State<CMDBIndexPage> {
   Widget _cardTitle(String title, [bool rightButton = true]) {
     return ShadowCardTitle(
       title: title,
-      onPressed: rightButton ? () {
-        print(title);
-      } : null,
+      onPressed: rightButton
+          ? () {
+              print(title);
+            }
+          : null,
     );
   }
 

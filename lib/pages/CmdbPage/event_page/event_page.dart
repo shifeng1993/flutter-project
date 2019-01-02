@@ -11,7 +11,7 @@ import '../../../widgets/shadow_card/index.dart';
 import '../../../widgets/shadow_card/card_title.dart';
 import '../../../widgets/page_route_Builder/index.dart';
 
-// tab页面需要导航的页面
+import './event_list.dart';
 
 class CMDBEventPage extends StatefulWidget {
   CMDBEventPage({Key key, this.title}) : super(key: key);
@@ -38,32 +38,80 @@ class _CMDBEventPageState extends State<CMDBEventPage> {
         'imgPath': 'assets/icons/cmdb_event_monitor.png',
         'title': '监控事件',
         'onPressed': () {
-          // Navigator.push(context, RouteBuilder.iosPage(CMDBAssetsManagePage()));
+          Navigator.push(
+            context,
+            RouteBuilder.iosPage(
+              CMDBEventListPage(
+                type: 1,
+                title: '监控事件',
+              ),
+            ),
+          );
         }
       },
       {
         'flex': 1,
         'imgPath': 'assets/icons/cmdb_event_ope.png',
         'title': '运维事件',
-        'onPressed': () {}
+        'onPressed': () {
+          Navigator.push(
+            context,
+            RouteBuilder.iosPage(
+              CMDBEventListPage(
+                type: 2,
+                title: '运维事件',
+              ),
+            ),
+          );
+        }
       },
       {
         'flex': 1,
         'imgPath': 'assets/icons/cmdb_event_db.png',
         'title': '数据库事件',
-        'onPressed': () {}
+        'onPressed': () {
+          Navigator.push(
+            context,
+            RouteBuilder.iosPage(
+              CMDBEventListPage(
+                type: 3,
+                title: '数据库事件',
+              ),
+            ),
+          );
+        }
       },
       {
         'flex': 1,
         'imgPath': 'assets/icons/cmdb_event_business.png',
         'title': '业务事件',
-        'onPressed': () {}
+        'onPressed': () {
+          Navigator.push(
+            context,
+            RouteBuilder.iosPage(
+              CMDBEventListPage(
+                type: 4,
+                title: '数据库事件',
+              ),
+            ),
+          );
+        }
       },
       {
         'flex': 1,
         'imgPath': 'assets/icons/cmdb_event_log.png',
         'title': '日志事件',
-        'onPressed': () {}
+        'onPressed': () {
+          Navigator.push(
+            context,
+            RouteBuilder.iosPage(
+              CMDBEventListPage(
+                type: 5,
+                title: '日志事件',
+              ),
+            ),
+          );
+        }
       },
     ];
     _chart1List = _getChart1List();
