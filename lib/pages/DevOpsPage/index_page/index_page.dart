@@ -224,192 +224,195 @@ class _DevOpsIndexPageState extends State<DevOpsIndexPage> {
         fontSize: BaseStyle.fontSize[4],
         color: Color.fromRGBO(255, 255, 255, 1.0));
     return Container(
-      height: 124.0,
-      padding: EdgeInsets.only(top: 10.0),
-      child: Swiper(
-        itemBuilder: (BuildContext context, int index) {
-          Color color;
-          List<Color> colors;
-          switch (index) {
-            case 0:
-              color = Color(0xff2D4DD5);
-              colors = [const Color(0xff43CAFF), const Color(0xff2D4DD5)];
-              break;
-            case 1:
-              color = Color(0xff41AA4C);
-              colors = [const Color(0xff56C7CA), const Color(0xff41AA4C)];
-              break;
-            case 2:
-              color = Color(0xff4C5572);
-              colors = [const Color(0xff74859D), const Color(0xff4C5572)];
-              break;
-            default:
-          }
-          return ShadowCard(
-            margin: EdgeInsets.only(bottom: 16),
-            padding: EdgeInsets.all(10.0),
-            colors: colors,
-            child: Container(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(bottom: 15),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 4,
-                          child: Container(
-                            child: Text(
-                              '申请人：clairelee',
-                              style: TextStyle(
-                                  fontSize: BaseStyle.fontSize[1],
-                                  color: Color(0xffffffff),
-                                  fontWeight: FontWeight.w500),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+        height: 125.0,
+        padding: EdgeInsets.only(top: 10.0),
+        child: Center(
+          child: Swiper(
+            itemBuilder: (BuildContext context, int index) {
+              Color color;
+              List<Color> colors;
+              switch (index) {
+                case 0:
+                  color = Color(0xff2D4DD5);
+                  colors = [const Color(0xff43CAFF), const Color(0xff2D4DD5)];
+                  break;
+                case 1:
+                  color = Color(0xff41AA4C);
+                  colors = [const Color(0xff56C7CA), const Color(0xff41AA4C)];
+                  break;
+                case 2:
+                  color = Color(0xff4C5572);
+                  colors = [const Color(0xff74859D), const Color(0xff4C5572)];
+                  break;
+                default:
+              }
+              return ShadowCard(
+                margin: EdgeInsets.only(bottom: 16),
+                padding: EdgeInsets.all(10.0),
+                colors: colors,
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(bottom: 15),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 4,
+                              child: Container(
+                                child: Text(
+                                  '申请人：clairelee',
+                                  style: TextStyle(
+                                      fontSize: BaseStyle.fontSize[1],
+                                      color: Color(0xffffffff),
+                                      fontWeight: FontWeight.w500),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(
-                              top: 2, bottom: 2, left: 8, right: 8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            color: Color(0xffffffff),
-                          ),
-                          child: Text(
-                            '命令复核',
-                            style: TextStyle(
-                                fontSize: BaseStyle.fontSize[4], color: color),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 3,
-                          child: Container(
-                            child: Column(
-                              children: <Widget>[
-                                Text(
-                                  '运维号',
-                                  style: keyStyle,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: 5),
-                                  child: Text(
-                                    '1232143211342fdsafdsafsad13',
-                                    style: valStyle,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
+                            Container(
+                              padding: EdgeInsets.only(
+                                  top: 2, bottom: 2, left: 8, right: 8),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5)),
+                                color: Color(0xffffffff),
+                              ),
+                              child: Text(
+                                '命令复核',
+                                style: TextStyle(
+                                    fontSize: BaseStyle.fontSize[4],
+                                    color: color),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                        Expanded(
-                          flex: 3,
-                          child: Container(
-                            child: Column(
-                              children: <Widget>[
-                                Text(
-                                  '运维类型',
-                                  style: keyStyle,
+                      ),
+                      Container(
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 3,
+                              child: Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      '运维号',
+                                      style: keyStyle,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        '1232143211342fdsafdsafsad13',
+                                        style: valStyle,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: 5),
-                                  child: Text(
-                                    '故障处理',
-                                    style: valStyle,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            child: Column(
-                              children: <Widget>[
-                                Text(
-                                  '时间',
-                                  style: keyStyle,
+                            Expanded(
+                              flex: 3,
+                              child: Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      '运维类型',
+                                      style: keyStyle,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        '故障处理',
+                                        style: valStyle,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: 5),
-                                  child: Text(
-                                    '2018-12-19 12:31:11',
-                                    style: valStyle,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
+                            Expanded(
+                              flex: 5,
+                              child: Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      '时间',
+                                      style: keyStyle,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        '2018-12-19 12:31:11',
+                                        style: valStyle,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-        itemCount: 3,
-        pagination: SwiperCustomPagination(
-          builder: (BuildContext context, SwiperPluginConfig config) {
-            List<Widget> list = [];
-
-            int itemCount = config.itemCount;
-            int activeIndex = config.activeIndex;
-
-            for (int i = 0; i < itemCount; ++i) {
-              bool active = i == activeIndex;
-              list.add(
-                Container(
-                  key: Key("pagination_$i"),
-                  margin: EdgeInsets.only(left: 2, right: 2),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(3)),
-                    child: Container(
-                      width: active ? 15 : 6,
-                      height: 6,
-                      color: active ? Color(0xffFFBC63) : Color(0xffD6D7D9),
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               );
-            }
+            },
+            itemCount: 3,
+            pagination: SwiperCustomPagination(
+              builder: (BuildContext context, SwiperPluginConfig config) {
+                List<Widget> list = [];
 
-            return Align(
-              alignment: Alignment.bottomCenter,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: list,
-              ),
-            );
-          },
-        ),
-        onTap: (int index) {
-          print(index);
-        },
-        duration: 1000, // 动画时长
-        index: 0, // 初始
-        viewportFraction: 0.9, // 视口宽度
-        scale: 0.92, // 缩放
-        autoplay: true, //自动播放
-        autoplayDelay: 6000, // 自动播放毫秒数
-        autoplayDisableOnInteraction: true, // 如果设置为true，autoplay则在使用滑动时禁用。
-      ),
-    );
+                int itemCount = config.itemCount;
+                int activeIndex = config.activeIndex;
+
+                for (int i = 0; i < itemCount; ++i) {
+                  bool active = i == activeIndex;
+                  list.add(
+                    Container(
+                      key: Key("pagination_$i"),
+                      margin: EdgeInsets.only(left: 2, right: 2),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(3)),
+                        child: Container(
+                          width: active ? 15 : 6,
+                          height: 6,
+                          color: active ? Color(0xffFFBC63) : Color(0xffD6D7D9),
+                        ),
+                      ),
+                    ),
+                  );
+                }
+
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: list,
+                  ),
+                );
+              },
+            ),
+            onTap: (int index) {
+              print(index);
+            },
+            duration: 1000, // 动画时长
+            index: 0, // 初始
+            viewportFraction: 0.9, // 视口宽度
+            scale: 0.92, // 缩放
+            autoplay: true, //自动播放
+            autoplayDelay: 6000, // 自动播放毫秒数
+            autoplayDisableOnInteraction: true, // 如果设置为true，autoplay则在使用滑动时禁用。
+          ),
+        ));
   }
 
   // 首页下方快捷动作
