@@ -91,7 +91,7 @@ class _CMDBEventPageState extends State<CMDBEventPage> {
             RouteBuilder.iosPage(
               CMDBEventListPage(
                 type: 4,
-                title: '数据库事件',
+                title: '业务事件',
               ),
             ),
           );
