@@ -153,6 +153,27 @@ class _DevOpsOpsPageState extends State<DevOpsOpsPage> {
                             style: flexTextTitle,
                           ),
                         ),
+                        Offstage(
+                          offstage: row['watch'] == 0,
+                          child: Container(
+                            margin: EdgeInsets.only(left: 5),
+                            padding: EdgeInsets.only(
+                                left: 7, right: 7, top: 2, bottom: 2),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                              color: BaseStyle.statusColor[1],
+                            ),
+                            child: Text(
+                              '已关注',
+                              style: TextStyle(
+                                  fontSize: BaseStyle.fontSize[4],
+                                  color: Color(0xffffffff)),
+                              maxLines: 1,
+                              overflow: TextOverflow.clip,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
