@@ -54,8 +54,10 @@ class _DevOpsHomePageState extends State<DevOpsHomePage> {
         body: _body(context, _selectedIndex),
         bottomNavigationBar: _bottomNavBar(context),
         drawer: HomePageLeftDrawer(),
-        endDrawer: _selectedIndex == 1 ? AssetsRightDrawer() : null,
-        floatingActionButton: _selectedIndex == 1 ? _floatActionButton() : null,
+        endDrawer: _selectedIndex != 0 ? AssetsRightDrawer() : null,
+        floatingActionButton: _selectedIndex == 1
+            ? _floatActionButton1()
+            : (_selectedIndex == 2 ? _floatActionButton2() : null),
       ),
       onWillPop: _goback,
     );
@@ -70,6 +72,9 @@ class _DevOpsHomePageState extends State<DevOpsHomePage> {
   Widget _appbar(BuildContext context, int _selectedIndex) {
     var titleText;
     var actions;
+    var titleMargin;
+    bool centerTitle;
+
     final iconSize = 22.0;
     switch (_selectedIndex) {
       case 0:
@@ -82,6 +87,8 @@ class _DevOpsHomePageState extends State<DevOpsHomePage> {
             ),
           ),
         ];
+        titleMargin = EdgeInsets.only(left: 0);
+        centerTitle = true;
         break;
       case 1:
         titleText = '监控'; // 监控
@@ -107,28 +114,41 @@ class _DevOpsHomePageState extends State<DevOpsHomePage> {
             );
           }),
         ];
+        titleMargin = EdgeInsets.only(left: iconSize + 20);
+        centerTitle = false;
         break;
       case 2:
         titleText = '运维'; // 运维
         actions = <Widget>[
-          Center(
-            child: IconButton(
+          IconButton(
+            icon: ImageIcon(
+              AssetImage("assets/icons/search_w.png"),
+              size: iconSize,
+            ),
+            onPressed: () {
+              print('搜索');
+            },
+          ),
+          Builder(builder: (BuildContext context) {
+            return IconButton(
               icon: ImageIcon(
-                AssetImage("assets/icons/scan_w.png"),
+                AssetImage("assets/icons/filter.png"),
                 size: iconSize,
               ),
               onPressed: () {
-                print('搜索');
+                Scaffold.of(context).openEndDrawer();
               },
-            ),
-          ),
+            );
+          }),
         ];
+        titleMargin = EdgeInsets.only(left: iconSize + 20);
+        centerTitle = false;
         break;
       default:
     }
     return AppBar(
       title: Container(
-        margin: EdgeInsets.only(left: _selectedIndex == 1 ? iconSize + 20 : 0),
+        margin: titleMargin,
         child: Center(
           child: Text(
             titleText,
@@ -149,8 +169,7 @@ class _DevOpsHomePageState extends State<DevOpsHomePage> {
         );
       }),
       actions: actions,
-      centerTitle:
-          _selectedIndex == 1 ? false : true, // 消除 android 与 ios 页面title布局差异
+      centerTitle: centerTitle, // 消除 android 与 ios 页面title布局差异
       elevation: 0.0, // 去掉appbar下面的阴影
     );
   }
@@ -205,11 +224,11 @@ class _DevOpsHomePageState extends State<DevOpsHomePage> {
         ),
         BottomNavigationBarItem(
           activeIcon: ImageIcon(
-            AssetImage("assets/icons/tabbar_event_on.png"),
+            AssetImage("assets/icons/tabbar_ops_on.png"),
             size: bottomNavBarIconSize,
           ),
           icon: ImageIcon(
-            AssetImage("assets/icons/tabbar_event.png"),
+            AssetImage("assets/icons/tabbar_ops.png"),
             size: bottomNavBarIconSize,
           ),
           title: Text(
@@ -225,7 +244,7 @@ class _DevOpsHomePageState extends State<DevOpsHomePage> {
     );
   }
 
-  Widget _floatActionButton() {
+  Widget _floatActionButton1() {
     return UnicornDialer(
       orientation: UnicornOrientation.VERTICAL,
       backgroundColor: Theme.of(context).accentColor,
@@ -271,6 +290,28 @@ class _DevOpsHomePageState extends State<DevOpsHomePage> {
             ),
             mini: true,
             onPressed: () => setStatusList(null),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _floatActionButton2() {
+    return UnicornDialer(
+      orientation: UnicornOrientation.VERTICAL,
+      backgroundColor: Theme.of(context).accentColor,
+      parentButton: Icon(Icons.add),
+      hasBackground: false, // mask
+      childButtons: <UnicornButton>[
+        UnicornButton(
+          currentButton: FloatingActionButton(
+            backgroundColor: Theme.of(context).primaryColor,
+            heroTag: 'scanner',
+            child: Image.asset('assets/icons/scan_w.png'),
+            mini: true,
+            onPressed: () {
+              print('gotor qrcode scanner');
+            },
           ),
         ),
       ],
