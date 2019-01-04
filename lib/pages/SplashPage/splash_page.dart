@@ -35,7 +35,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
         // 这里可以跳转
         Navigator.pushReplacement(
           context,
-          RouteBuilder.fadePage(ITILHomePage()),
+          RouteBuilder.fadePage(CMDBHomePage()),
         );
       }
     };
