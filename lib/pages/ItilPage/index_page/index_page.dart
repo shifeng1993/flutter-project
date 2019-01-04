@@ -11,6 +11,7 @@ import '../../../widgets/shadow_card/index.dart';
 import '../../../widgets/page_route_Builder/index.dart';
 
 import '../../CommonPage/message.dart';
+import './itil_my_workorder.dart'; // 我的报单
 
 class ITILIndexPage extends StatefulWidget {
   ITILIndexPage({Key key, this.title}) : super(key: key);
@@ -23,43 +24,65 @@ class ITILIndexPage extends StatefulWidget {
 
 class _ITILIndexPageState extends State<ITILIndexPage> {
   BuildContext context;
-  List<Map<String, dynamic>> watchList;
-  Map<String, int> chartData;
+  List<List<Map<String, dynamic>>> actionsCardList;
 
   @override
   void initState() {
     super.initState();
-    watchList = _getWatchList();
-    chartData = _getChartData();
-  }
-
-  Map<String, int> _getChartData() {
-    Map<String, int> chartData = new Map();
-    chartData['normal'] = Random().nextInt(100);
-    chartData['error'] = Random().nextInt(100);
-    chartData['warning'] = Random().nextInt(100);
-    return chartData;
-  }
-
-  List<Map<String, dynamic>> _getWatchList() {
-    List<Map<String, dynamic>> data = new List.generate(10, (i) {
-      i++;
-      Map<String, dynamic> row = new Map();
-      row['name'] = '${i.toString()}这是标题，我来展示，这是标题，我来展示这是标题，我来展示，这是标题，我来展示';
-      row['ip'] = Mock.getIP();
-      row['type'] = Mock.getCiType();
-      row['status'] = Mock.getStatus();
-      return row;
-    });
-    return data;
+    actionsCardList = [
+      [
+        {
+          'title': '我的报单',
+          'iconPath': 'assets/icons/wdbd.png',
+          'onPressed': () {
+            Navigator.push(
+                context, RouteBuilder.iosPage(ITILMyWorkorderPage()));
+          }
+        },
+        {
+          'title': '我的待办',
+          'iconPath': 'assets/icons/wddb.png',
+          'onPressed': () {
+            print('我的待办');
+          }
+        },
+        {
+          'title': '我的审批',
+          'iconPath': 'assets/icons/myshenpi.png',
+          'onPressed': () {
+            print('我的审批');
+          }
+        },
+      ],
+      [
+        {
+          'title': '报表中心',
+          'iconPath': 'assets/icons/bbzx.png',
+          'onPressed': () {
+            print('我的报单');
+          }
+        },
+        {
+          'title': '我的关注',
+          'iconPath': 'assets/icons/myfocus.png',
+          'onPressed': () {
+            print('我的关注');
+          }
+        },
+        {
+          'title': '服务台',
+          'iconPath': 'assets/icons/fwt.png',
+          'onPressed': () {
+            print('服务台');
+          }
+        },
+      ]
+    ];
   }
 
   void _onRefresh(dynamic refreshController, bool up) {
     new Future.delayed(const Duration(milliseconds: 500)).then((val) {
-      setState(() {
-        watchList = _getWatchList();
-        chartData = _getChartData();
-      });
+      setState(() {});
       refreshController.sendBack(true, RefreshStatus.completed);
     });
   }
@@ -198,55 +221,6 @@ class _ITILIndexPageState extends State<ITILIndexPage> {
       ),
     );
   }
-
-  List<List<Map<String, dynamic>>> actionsCardList = [
-    [
-      {
-        'title': '我的报单',
-        'iconPath': 'assets/icons/wdbd.png',
-        'onPressed': () {
-          print('我的报单');
-        }
-      },
-      {
-        'title': '我的待办',
-        'iconPath': 'assets/icons/wddb.png',
-        'onPressed': () {
-          print('我的待办');
-        }
-      },
-      {
-        'title': '我的审批',
-        'iconPath': 'assets/icons/myshenpi.png',
-        'onPressed': () {
-          print('我的审批');
-        }
-      },
-    ],
-    [
-      {
-        'title': '报表中心',
-        'iconPath': 'assets/icons/bbzx.png',
-        'onPressed': () {
-          print('我的报单');
-        }
-      },
-      {
-        'title': '我的关注',
-        'iconPath': 'assets/icons/myfocus.png',
-        'onPressed': () {
-          print('我的关注');
-        }
-      },
-      {
-        'title': '服务台',
-        'iconPath': 'assets/icons/fwt.png',
-        'onPressed': () {
-          print('服务台');
-        }
-      },
-    ]
-  ];
 
   // 首页快捷按钮卡片
   Widget _actionsCard() {
