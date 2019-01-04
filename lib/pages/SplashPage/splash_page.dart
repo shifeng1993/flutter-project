@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../HomePage/CMDB_home_page.dart';
 import '../HomePage/DevOps_home_page.dart';
-// import '../HomePage/ITIL_home_page.dart';
+import '../HomePage/ITIL_home_page.dart';
 
 import '../../widgets/page_route_Builder/index.dart';
 
@@ -35,7 +35,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
         // 这里可以跳转
         Navigator.pushReplacement(
           context,
-          RouteBuilder.fadePage(DevOpsHomePage()),
+          RouteBuilder.fadePage(ITILHomePage()),
         );
       }
     };

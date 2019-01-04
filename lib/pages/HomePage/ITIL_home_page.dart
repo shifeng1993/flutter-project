@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import '../../common/BaseStyle.dart';
 
 // 引入下面三个tab页面
-import '../ItilPage/index_page.dart';
+import '../ItilPage/index_page/index_page.dart';
 import '../ItilPage/Gtasks_page.dart';
 import '../ItilPage/approval_page.dart';
 
@@ -75,14 +75,9 @@ class _ITILHomePageState extends State<ITILHomePage> {
         titleText = '待办'; // ITIL 待办
         actions = <Widget>[
           Center(
-            child: IconButton(
-              icon: ImageIcon(
-                AssetImage("assets/icons/scan_w.png"),
-                size: iconSize,
-              ),
-              onPressed: () {
-                print('搜索');
-              },
+            child: Container(
+              width: iconSize + 26, // 加26是为了补齐偏差
+              height: iconSize + 26, // 加26是为了补齐偏差
             ),
           ),
         ];
@@ -91,14 +86,9 @@ class _ITILHomePageState extends State<ITILHomePage> {
         titleText = '审批'; // ITIL 事件
         actions = <Widget>[
           Center(
-            child: IconButton(
-              icon: ImageIcon(
-                AssetImage("assets/icons/scan_w.png"),
-                size: iconSize,
-              ),
-              onPressed: () {
-                print('搜索');
-              },
+            child: Container(
+              width: iconSize + 26, // 加26是为了补齐偏差
+              height: iconSize + 26, // 加26是为了补齐偏差
             ),
           ),
         ];

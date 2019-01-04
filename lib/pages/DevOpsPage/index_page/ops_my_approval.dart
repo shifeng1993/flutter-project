@@ -1,4 +1,4 @@
-// devops -> 我的申请
+// devops -> 我的审批
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,17 +10,17 @@ import '../../../widgets/shadow_card/index.dart';
 import '../../../widgets/page_route_Builder/index.dart';
 import '../../../widgets/triangle/index.dart';
 
-class DevOpsMyApplicationPage extends StatefulWidget {
-  DevOpsMyApplicationPage({Key key, this.title}) : super(key: key);
+class DevOpsMyApprovalPage extends StatefulWidget {
+  DevOpsMyApprovalPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _DevOpsMyApplicationPageState createState() =>
-      new _DevOpsMyApplicationPageState();
+  _DevOpsMyApprovalPageState createState() =>
+      new _DevOpsMyApprovalPageState();
 }
 
-class _DevOpsMyApplicationPageState extends State<DevOpsMyApplicationPage> {
+class _DevOpsMyApprovalPageState extends State<DevOpsMyApprovalPage> {
   BuildContext context;
   List<Map<String, dynamic>> applicationList;
   int currentPage = 1;
@@ -96,7 +96,7 @@ class _DevOpsMyApplicationPageState extends State<DevOpsMyApplicationPage> {
       title: Container(
         child: Center(
           child: Text(
-            '我的申请',
+            '我的审批',
             style: TextStyle(fontSize: BaseStyle.fontSize[0]),
             textAlign: TextAlign.center,
           ),

@@ -15,6 +15,8 @@ import '../../CommonPage/message.dart';
 
 import './ops_new_application.dart'; // 新建申请
 import './ops_my_application.dart'; // 我的申请
+import './ops_my_approval.dart'; // 我的审批
+import './ops_my_attention.dart'; // 我的关注
 
 class DevOpsIndexPage extends StatefulWidget {
   DevOpsIndexPage({Key key, this.title}) : super(key: key);
@@ -82,7 +84,7 @@ class _DevOpsIndexPageState extends State<DevOpsIndexPage> {
     List headList = [
       {
         'title': '新建申请',
-        'iconPath': 'assets/icons/ops_new.png',
+        'iconPath': 'assets/icons/new.png',
         'onPressed': () {
           Navigator.push(
               context, RouteBuilder.iosPage(DevOpsNewApplicationPage()));
@@ -90,7 +92,7 @@ class _DevOpsIndexPageState extends State<DevOpsIndexPage> {
       },
       {
         'title': '我的申请',
-        'iconPath': 'assets/icons/ops_myshenqing.png',
+        'iconPath': 'assets/icons/myshenqing.png',
         'onPressed': () {
           Navigator.push(
               context, RouteBuilder.iosPage(DevOpsMyApplicationPage()));
@@ -98,16 +100,17 @@ class _DevOpsIndexPageState extends State<DevOpsIndexPage> {
       },
       {
         'title': '我的审批',
-        'iconPath': 'assets/icons/ops_myshenpi.png',
+        'iconPath': 'assets/icons/myshenpi.png',
         'onPressed': () {
-          // Navigator.push(context, RouteBuilder.iosPage());
+          Navigator.push(context, RouteBuilder.iosPage(DevOpsMyApprovalPage()));
         }
       },
       {
         'title': '我的关注',
-        'iconPath': 'assets/icons/ops_myfocus.png',
+        'iconPath': 'assets/icons/myfocus.png',
         'onPressed': () {
-          // Navigator.push(context, RouteBuilder.iosPage());
+          Navigator.push(
+              context, RouteBuilder.iosPage(DevOpsMyAttentionPage()));
         }
       }
     ];

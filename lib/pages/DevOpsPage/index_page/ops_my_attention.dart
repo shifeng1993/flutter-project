@@ -1,4 +1,4 @@
-// devops -> 我的申请
+// devops -> 我的审批
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,33 +10,35 @@ import '../../../widgets/shadow_card/index.dart';
 import '../../../widgets/page_route_Builder/index.dart';
 import '../../../widgets/triangle/index.dart';
 
-class DevOpsMyApplicationPage extends StatefulWidget {
-  DevOpsMyApplicationPage({Key key, this.title}) : super(key: key);
+class DevOpsMyAttentionPage extends StatefulWidget {
+  DevOpsMyAttentionPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _DevOpsMyApplicationPageState createState() =>
-      new _DevOpsMyApplicationPageState();
+  _DevOpsMyAttentionPageState createState() =>
+      new _DevOpsMyAttentionPageState();
 }
 
-class _DevOpsMyApplicationPageState extends State<DevOpsMyApplicationPage> {
+class _DevOpsMyAttentionPageState extends State<DevOpsMyAttentionPage> {
   BuildContext context;
-  List<Map<String, dynamic>> applicationList;
+  List<Map<String, dynamic>> attentionList;
+  var currentStatus;
   int currentPage = 1;
   int pageSize = 15;
 
   @override
   void initState() {
     super.initState();
-    applicationList = _getApplicationList(1, pageSize);
+    currentStatus = null;
+    attentionList = _getManageList(1, pageSize);
   }
 
   void _onRefresh(dynamic controller) {
     new Future.delayed(const Duration(milliseconds: 200)).then((val) {
       currentPage = 1;
       setState(() {
-        applicationList = _getApplicationList(currentPage, pageSize);
+        attentionList = _getManageList(currentPage, pageSize);
       });
       controller.sendBack(true, RefreshStatus.completed);
     });
@@ -46,27 +48,23 @@ class _DevOpsMyApplicationPageState extends State<DevOpsMyApplicationPage> {
     new Future.delayed(const Duration(milliseconds: 200)).then((val) {
       currentPage++;
       setState(() {
-        applicationList.addAll(_getApplicationList(currentPage, pageSize));
+        attentionList.addAll(_getManageList(currentPage, pageSize));
       });
       controller.sendBack(false, RefreshStatus.completed);
       controller.sendBack(false, RefreshStatus.idle);
     });
   }
 
-  List<Map<String, dynamic>> _getApplicationList(
-      int currentPage, int pageSize) {
-    List<String> typeList = ['系统变更', '密码更改', '稽核', '改密'];
+  List<Map<String, dynamic>> _getManageList(int currentPage, int pageSize) {
     List<Map<String, dynamic>> data = new List.generate(pageSize, (i) {
       i++;
       Map<String, dynamic> row = new Map();
       row['name'] =
-          '${(i + (currentPage - 1) * pageSize).toString()}这是运维申请，纯展示用，这是运维申请，纯展示用';
-      row['opsNumber'] =
-          '2018062600${(i + (currentPage - 1) * pageSize).toString()}';
-      row['type'] = typeList[Random().nextInt(4)];
-      row['status'] = Random().nextInt(2);
-      row['startTime'] = Mock.getDateTime();
-      row['endTime'] = Mock.getDateTime();
+          '${(i + (currentPage - 1) * pageSize).toString()}这是标题，我来展示，这是标题，我来展示这是标题，我来展示，这是标题，我来展示';
+      row['ip'] = Mock.getIP();
+      row['status'] = currentStatus == null ? Mock.getStatus() : currentStatus;
+      row['protocolName'] = 'SSH';
+      row['accountName'] = 'ROOT';
       return row;
     });
     return data;
@@ -96,7 +94,7 @@ class _DevOpsMyApplicationPageState extends State<DevOpsMyApplicationPage> {
       title: Container(
         child: Center(
           child: Text(
-            '我的申请',
+            '我的关注',
             style: TextStyle(fontSize: BaseStyle.fontSize[0]),
             textAlign: TextAlign.center,
           ),
@@ -134,17 +132,18 @@ class _DevOpsMyApplicationPageState extends State<DevOpsMyApplicationPage> {
       onLoad: _onLoad,
       onRefresh: _onRefresh,
       child: ListView.builder(
+        padding: EdgeInsets.only(top: 10),
         itemBuilder: (BuildContext context, int index) {
-          return _listCard(context, applicationList[index], index);
+          return _listCard(context, attentionList[index], index);
         },
         physics: BouncingScrollPhysics(),
-        itemCount: applicationList.length ?? 0,
+        itemCount: attentionList.length ?? 0,
       ),
     );
   }
 
   Widget _listCard(BuildContext context, Map<String, dynamic> row, int index) {
-    List<int> flex = [1, 1];
+    List<int> flex = [1, 1, 1];
 
     List<Action> actions = [
       Action(
@@ -173,12 +172,16 @@ class _DevOpsMyApplicationPageState extends State<DevOpsMyApplicationPage> {
         fontWeight: FontWeight.w500);
 
     return ShadowCard(
-      margin: EdgeInsets.only(
-          bottom: 10, left: 15, right: 15, top: index == 0 ? 10 : 0),
-      padding: EdgeInsets.only(left: 10, top: 15, bottom: 15),
+      margin: EdgeInsets.only(bottom: 10, left: 15, right: 15, top: 0),
+      padding: EdgeInsets.only(left: 10, top: 15, right: 10, bottom: 15),
       actions: actions,
       onPressed: () {
-        // Navigator.push(context, RouteBuilder.iosPage(CMDBAssetsDetalisPage()));
+        // Navigator.push(
+        //   context,
+        //   RouteBuilder.iosPage(
+        //     MonitorDetalisPage(row: row),
+        //   ),
+        // );
       },
       child: Row(
         children: <Widget>[
@@ -193,11 +196,7 @@ class _DevOpsMyApplicationPageState extends State<DevOpsMyApplicationPage> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(right: 5),
-                          child: Image.asset(
-                            'assets/icons/ops_my_application.png',
-                            width: 20,
-                            height: 20,
-                          ),
+                          child: _getAssetStatusImage(row['status']),
                         ),
                         Expanded(
                           flex: 1,
@@ -208,55 +207,6 @@ class _DevOpsMyApplicationPageState extends State<DevOpsMyApplicationPage> {
                             style: flexTextTitle,
                           ),
                         ),
-                        row['status'] == 0
-                            ? Container(
-                                margin: EdgeInsets.only(left: 5, right: 10),
-                                decoration: BoxDecoration(
-                                  color: Color(0xffFCF6ED),
-                                  border: Border.all(
-                                    width: 1.0 /
-                                        MediaQuery.of(context).devicePixelRatio,
-                                    color: Color(0xffF8EAD5),
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(3)),
-                                ),
-                                padding: EdgeInsets.only(
-                                    left: 10, right: 10, top: 1, bottom: 1),
-                                child: Center(
-                                  child: Text(
-                                    '审批中',
-                                    style: TextStyle(
-                                      fontSize: BaseStyle.fontSize[4],
-                                      color: Color(0xffE7A647),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                margin: EdgeInsets.only(left: 5, right: 10),
-                                decoration: BoxDecoration(
-                                  color: Color(0xffFCF6ED),
-                                  border: Border.all(
-                                    width: 1.0 /
-                                        MediaQuery.of(context).devicePixelRatio,
-                                    color: Color(0xffF8EAD5),
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(3)),
-                                ),
-                                padding: EdgeInsets.only(
-                                    left: 10, right: 10, top: 1, bottom: 1),
-                                child: Center(
-                                  child: Text(
-                                    '通过',
-                                    style: TextStyle(
-                                      fontSize: BaseStyle.fontSize[4],
-                                      color: BaseStyle.statusColor[1],
-                                    ),
-                                  ),
-                                ),
-                              ),
                       ],
                     ),
                   ),
@@ -272,12 +222,12 @@ class _DevOpsMyApplicationPageState extends State<DevOpsMyApplicationPage> {
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
                                   child: Center(
-                                    child: Text('运维类型', style: flexTextKey),
+                                    child: Text('客户端IP地址', style: flexTextKey),
                                   ),
                                 ),
                                 Center(
                                   child: Text(
-                                    row['type'],
+                                    row['ip'],
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: flexTextVal,
@@ -295,12 +245,12 @@ class _DevOpsMyApplicationPageState extends State<DevOpsMyApplicationPage> {
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
                                   child: Center(
-                                    child: Text('运维号', style: flexTextKey),
+                                    child: Text('协议名', style: flexTextKey),
                                   ),
                                 ),
                                 Center(
                                   child: Text(
-                                    row['opsNumber'],
+                                    row['protocolName'],
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: flexTextVal,
@@ -310,38 +260,23 @@ class _DevOpsMyApplicationPageState extends State<DevOpsMyApplicationPage> {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(left: 15),
-                          padding: EdgeInsets.only(
-                              top: 3, bottom: 3, left: 20, right: 17),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(30),
-                              topLeft: Radius.circular(30),
-                            ),
-                            color: Color(0xffF4F4F4),
-                          ),
-                          child: Container(
+                        Expanded(
+                          flex: flex[2],
+                          child: Center(
                             child: Column(
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 5),
                                   child: Center(
-                                    child: Text(
-                                      '开始 ${row['startTime']}',
-                                      style: TextStyle(
-                                          fontSize: BaseStyle.fontSize[4],
-                                          color: BaseStyle.textColor[0]),
-                                    ),
+                                    child: Text('账号名', style: flexTextKey),
                                   ),
                                 ),
                                 Center(
                                   child: Text(
-                                    '结束 ${row['endTime']}',
-                                    style: TextStyle(
-                                        fontSize: BaseStyle.fontSize[4],
-                                        color: BaseStyle.textColor[0]),
-                                  ),
+                                      row['accountName'],
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: flexTextVal),
                                 ),
                               ],
                             ),
@@ -357,5 +292,36 @@ class _DevOpsMyApplicationPageState extends State<DevOpsMyApplicationPage> {
         ],
       ),
     );
+  }
+
+  Widget _getAssetStatusImage(int status) {
+    double size = 20.0;
+    Widget img;
+    switch (status) {
+      case 0:
+        img = Image.asset(
+          'assets/icons/assets_status_error.png',
+          width: size,
+          height: size,
+        );
+        break;
+      case 1:
+        img = Image.asset(
+          'assets/icons/assets_status_normal.png',
+          width: size,
+          height: size,
+        );
+        break;
+      case 2:
+        img = Image.asset(
+          'assets/icons/assets_status_warning.png',
+          width: size,
+          height: size,
+        );
+        break;
+      default:
+        img = null;
+    }
+    return img;
   }
 }
