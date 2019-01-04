@@ -13,7 +13,8 @@ import '../../../widgets/page_route_Builder/index.dart';
 
 import '../../CommonPage/message.dart';
 
-import './ops_new.dart'; // 新建申请
+import './ops_new_application.dart'; // 新建申请
+import './ops_my_application.dart'; // 我的申请
 
 class DevOpsIndexPage extends StatefulWidget {
   DevOpsIndexPage({Key key, this.title}) : super(key: key);
@@ -91,7 +92,8 @@ class _DevOpsIndexPageState extends State<DevOpsIndexPage> {
         'title': '我的申请',
         'iconPath': 'assets/icons/ops_myshenqing.png',
         'onPressed': () {
-          // Navigator.push(context, RouteBuilder.iosPage());
+          Navigator.push(
+              context, RouteBuilder.iosPage(DevOpsMyApplicationPage()));
         }
       },
       {
